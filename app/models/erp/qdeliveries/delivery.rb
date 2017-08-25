@@ -1,6 +1,6 @@
 module Erp::Qdeliveries
   class Delivery < ApplicationRecord
-    validates :code, :date, :contact_id, :supplier_id, :employee_id, :creator_id, :presence => true
+    validates :code, :date, :customer_id, :supplier_id, :employee_id, :creator_id, :presence => true
     
     belongs_to :employee, class_name: "Erp::User"
     belongs_to :creator, class_name: "Erp::User"
@@ -27,11 +27,11 @@ module Erp::Qdeliveries
     end
     
     if Erp::Core.available?("contacts")
-      belongs_to :contact, class_name: "Erp::Contacts::Contact"
+      belongs_to :customer, class_name: "Erp::Contacts::Contact"
       belongs_to :supplier, class_name: "Erp::Contacts::Contact"
       
       def customer_name
-        contact.present? ? contact.contact_name : ''
+        customer.present? ? customer.contact_name : ''
       end
       def supplier_name
         supplier.present? ? supplier.contact_name : ''

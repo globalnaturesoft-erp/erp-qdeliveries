@@ -23,27 +23,27 @@
                         }) %>
                         <% if Erp::Core.available?("contacts") %>
                             <%= erp_form_control("dataselect", {
-                                name: 'delivery[contact_id]',
-                                value: delivery.contact_id,
+                                name: 'delivery[customer_id]',
+                                value: delivery.customer_id,
                                 text: delivery.customer_name,
-                                placeholder: t('.choose_contact'),
-                                label: t('.contact'),
+                                placeholder: t('.choose_customer'),
+                                label: t('.customer'),
                                 url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
                                 create: {
                                     url: erp_contacts.new_backend_contact_path,
-                                    title: t('.create_contact'),
+                                    title: t('.create_customer'),
                                     container_selector: '.new_contact',
                                     input_selector: 'input[name="contact[name]"]',
                                     modal_size: "full"
                                 },
                                 edit: {
                                     url: erp_contacts.edit_backend_contact_path(id: ':value'),
-                                    title: t('.edit_contact'),
+                                    title: t('.edit_customer'),
                                     container_selector: '.edit_contact',
                                     modal_size: "full"
                                 },
                                 required: true,
-                                errors: delivery.errors.full_messages_for(:contact_id)
+                                errors: delivery.errors.full_messages_for(:customer_id)
                             }) %>
                         <% end %>
                     </div>

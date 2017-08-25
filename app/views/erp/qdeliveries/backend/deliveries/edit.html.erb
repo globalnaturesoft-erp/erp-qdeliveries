@@ -1,0 +1,40 @@
+<% content_for :title do %>
+    <%= @delivery.code %>
+<% end %>
+
+<% content_for :page_title do %>    
+    <a href="<%= erp_qdeliveries.backend_deliveries_path %>">
+    <i class="fa fa-file-text-o"></i> <%= t('.deliveries') %>
+    </a> / <%= @delivery.code %>
+<% end %>
+
+<% content_for :page_toolbar do %>
+    <%= erp_component('button/create', {
+        text: t('.warehouse_export'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT)
+    }) %>
+    <%= erp_component('button/create', {
+        text: t('.warehouse_import'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT)
+    }) %>
+    <%= erp_component('button/create', {
+        text: t('.customer_import'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT)
+    }) %>
+    <%= erp_component('button/create', {
+        text: t('.manufacturer_export'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT)
+    }) %>
+<% end %>
+
+<div class="row">
+    <div class="col-md-12">
+        <% if @delivery.errors.any? %>
+            <%= erp_form_control("form_error_message") %>
+        <% end %>
+        
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <%= render 'form', delivery: @delivery %>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>

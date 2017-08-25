@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  quantity: 1
+  order: one
+  state: one
+  product: one
+  note: MyText
+  warehouse: one
+
+two:
+  quantity: 1
+  order: two
+  state: two
+  product: two
+  note: MyText
+  warehouse: two

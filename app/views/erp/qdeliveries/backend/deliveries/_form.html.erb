@@ -1,0 +1,123 @@
+<%= form_for([erp_qdeliveries, :backend, delivery], html: {multipart: true}) do |f| %>
+    <input type="hidden" name="delivery[delivery_type]" value="<%= delivery.delivery_type %>">
+    <div class="form-body">        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <%= erp_form_control("text", {
+                            name: 'delivery[code]',
+                            value: delivery.code,                   
+                            label: t('.code'),
+                            placeholder: t('.enter_code'),
+                            required: true,
+                            errors: delivery.errors.full_messages_for(:code)
+                        }) %>
+                        <%= erp_form_control('date', {
+                            name: 'delivery[date]',
+                            value: delivery.date,
+                            placeholder: t('.choose_date'),
+                            label: t('.date'),
+                            required: true,
+                            errors: delivery.errors.full_messages_for(:date)
+                        }) %>
+                        <% if Erp::Core.available?("contacts") %>
+                            <%= erp_form_control("dataselect", {
+                                name: 'delivery[contact_id]',
+                                value: delivery.contact_id,
+                                text: delivery.customer_name,
+                                placeholder: t('.choose_contact'),
+                                label: t('.contact'),
+                                url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
+                                create: {
+                                    url: erp_contacts.new_backend_contact_path,
+                                    title: t('.create_contact'),
+                                    container_selector: '.new_contact',
+                                    input_selector: 'input[name="contact[name]"]',
+                                    modal_size: "full"
+                                },
+                                edit: {
+                                    url: erp_contacts.edit_backend_contact_path(id: ':value'),
+                                    title: t('.edit_contact'),
+                                    container_selector: '.edit_contact',
+                                    modal_size: "full"
+                                },
+                                required: true,
+                                errors: delivery.errors.full_messages_for(:contact_id)
+                            }) %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <% if Erp::Core.available?("contacts") %>
+                            <%= erp_form_control("dataselect", {
+                                name: 'delivery[supplier_id]',
+                                value: delivery.supplier_id,
+                                text: delivery.supplier_name,
+                                placeholder: t('.choose_supplier'),
+                                label: t('.supplier'),
+                                url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
+                                create: {
+                                    url: erp_contacts.new_backend_contact_path,
+                                    title: t('.create_supplier'),
+                                    container_selector: '.new_contact',
+                                    input_selector: 'input[name="contact[name]"]',
+                                    modal_size: "full"
+                                },
+                                edit: {
+                                    url: erp_contacts.edit_backend_contact_path(id: ':value'),
+                                    title: t('.edit_supplier'),
+                                    container_selector: '.edit_contact',
+                                    modal_size: "full"
+                                },
+                                required: true,
+                                errors: delivery.errors.full_messages_for(:supplier_id)
+                            }) %>
+                        <% end %>
+                        <%= erp_form_control("dataselect", {
+                            name: 'delivery[employee_id]',
+                            value: delivery.employee_id,
+                            text: delivery.employee_name,
+                            placeholder: t('.choose_employee'),
+                            label: t('.employee'),
+                            url: erp.dataselect_backend_users_path(format: 'json'),
+                            required: true,
+                            errors: delivery.errors.full_messages_for(:employee_id)
+                        }) %>
+                        <%= erp_form_control("textarea", {
+                            name: 'delivery[note]',
+                            value: delivery.note,                   
+                            label: t('.note'),
+                            placeholder: t('.enter_note')
+                        }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-custom ">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab_5_1" data-toggle="tab" aria-expanded="true"><%= t('.delivery_details') %></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane addableform-table active" id="tab_5_1">                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <%= erp_component('button/save', {
+        text: t('submit')
+    }) %>
+    <%= erp_component('button/cancel', {
+        text: t('cancel'),
+        href: erp_qdeliveries.backend_deliveries_path
+    }) %>
+<% end %>

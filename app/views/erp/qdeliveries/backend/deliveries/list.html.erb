@@ -1,0 +1,96 @@
+<table class="table table-advance table-hover table-striped table-checkable order-column">
+    <thead>
+        <tr>
+            <th width='1%'>
+                <%= erp_datalist_check_all %>
+            </th>
+            <% if get_columns(params).include?("code") %>
+                <th><%= t('.code') %></th>
+            <% end %>
+            <% if get_columns(params).include?("customer") %>
+                <th width="20%"><%= t('.customer') %></th>
+            <% end %>
+            <% if get_columns(params).include?("employee") %>
+                <th><%= t('.employee') %></th>
+            <% end %>
+            <% if get_columns(params).include?("delivery_date") %>
+                <th><%= t('.delivery_date') %></th>
+            <% end %>
+            <% if get_columns(params).include?("delivery_type") %>
+                <th><%= t('.delivery_type') %></th>
+            <% end %>
+            <% if get_columns(params).include?("status") %>
+                <th><%= t('status') %></th>
+            <% end %>
+            <% if get_columns(params).include?("creator") %>
+                <th><%= t('creator') %></th>
+            <% end %>
+            <% if get_columns(params).include?("created_at") %>
+                <th><%= t('created_at') %></th>
+            <% end %>
+            <th width="7%"><%= t('actions') %></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if @deliveries.each do |delivery| %>
+            <tr class="odd gradeX has-child-table" data-url="<%=  %>">
+                <td>
+                    <%= erp_datalist_check_row(id: delivery.id) %>
+                </td>
+                <% if get_columns(params).include?("code") %>
+                    <td>
+                        <i class="fa fa-plus expand tr-expand-button"></i>
+                        <%= link_to delivery.code, erp_qdeliveries.edit_backend_delivery_path(delivery) %>
+                    </td>
+                <% end %>
+                <% if get_columns(params).include?("customer") %>
+                <td width="20%"><%= delivery.customer_name %></td>
+                <% end %>
+                <% if get_columns(params).include?("employee") %>
+                    <td>
+                        <%= erp_component('avatar', {
+                            user: delivery.employee
+                        }) %>
+                    </td>
+                <% end %>
+                <% if get_columns(params).include?("delivery_date") %>
+                <td><%= delivery.date.strftime("%d/%m/%Y") %></td>
+                <% end %>
+                <% if get_columns(params).include?("delivery_type") %>
+                <td><%= t('.'+delivery.delivery_type) %></td>
+                <% end %>
+                <% if get_columns(params).include?("status") %>
+                <td>
+                    <% if delivery.status == Erp::Qdeliveries::Delivery::STATUS_DELIVERED %>
+                        <%= erp_component('label/success', {
+                            text: t('.'+delivery.status)
+                        }) %>
+                    <% end %>
+                    <% if delivery.status == Erp::Qdeliveries::Delivery::STATUS_DELETED %>
+                        <%= erp_component('label/default', {
+                            text: t('.'+delivery.status)
+                        }) %>
+                    <% end %>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("creator") %>
+                    <td>
+                        <%= erp_component('avatar', {
+                            user: delivery.creator
+                        }) %>
+                    </td>
+                <% end %>
+                <% if get_columns(params).include?("created_at") %>
+                    <td><%= delivery.created_at.strftime("%d/%m/%Y") %></td>
+                <% end %>
+                <td><%= qdelivery_dropdown_actions(delivery) %></td>
+            </tr>
+        <% end.empty? %>
+            <tr>
+                <td colspan="7"><%= t('.no_matching_records_found') %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+        
+<%= erp_datalist_pagination(@deliveries) %>

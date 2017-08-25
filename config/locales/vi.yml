@@ -1,0 +1,110 @@
+vi:
+  erp:
+    qdeliveries:
+      backend:
+        deliveries:
+          create:
+            success: "Thêm xuất/nhập kho thành công."
+          update:
+            success: "Cập nhật xuất/nhập kho thành công."
+          destroy:
+            success: "Xóa xuất/nhập kho thành công."
+          archive:
+            success: "Ẩn xuất/nhập kho thành công."
+          unarchive:
+            success: "Hiện xuất/nhập kho thành công."
+          delete_all:
+            success: "Xóa xuất/nhập kho được chọn thành công."
+          archive_all:
+            success: "Ẩn xuất/nhập kho được chọn thành công."
+          unarchive_all:
+            success: "Hiện xuất/nhập kho được chọn thành công."
+          status_delivered:
+            success: "Phiếu đã được giao thành công."
+          status_deleted:
+            success: "Phiếu đã được hủy."
+          status_delivered_all:
+            success: "Phiếu được chọn đã giao thành công."
+          status_deleted_all:
+            success: "Phiếu được chọn đã hủy thành công."
+          index:
+            warehouse_export: "Xuất kho - Bán hàng"
+            warehouse_import: "Nhập kho - Mua hàng"
+            customer_import: "Khách hàng trả hàng"
+            manufacturer_export: "Trả hàng NCC"
+            deliveries: "Xuất/Nhập kho"
+            is_delivered: "Đã xác nhận"
+            is_deleted: "Đã xóa"
+            code: "Mã xuất/nhập kho"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivery_date: "Ngày đặt hàng"
+            delivery_type: "Loại phiếu"
+            change_delivered: "Xác nhận toàn bộ"
+            change_deleted: "Xóa toàn bộ"
+            change_deleted_confirm: "Bạn có chắc muốn xóa toàn bộ phiếu được chọn?"
+          list:
+            code: "Mã xuất/nhập kho"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivery_date: "Ngày tạo phiếu"
+            delivery_type: "Loại phiếu"
+            delivered: "Đã xác nhận"
+            deleted: "Đã xóa"
+            edit: "Cập nhật thông tin"
+            action_deleted: "Xóa phiếu"
+            no_matching_records_found: "Danh sách phiếu nhập/xuất hiện đang trống"
+            warehouse_export: "Xuất kho - Bán hàng"
+            warehouse_import: "Nhập kho - Mua hàng"
+            customer_import: "Khách hàng trả hàng"
+            manufacturer_export: "Trả hàng NCC"
+          new:
+            warehouse_export: "Xuất kho - Bán hàng"
+            warehouse_import: "Nhập kho - Mua hàng"
+            customer_import: "Khách hàng trả hàng"
+            manufacturer_export: "Trả hàng NCC"
+            deliveries: "Xuất/Nhập kho"
+          edit:
+            warehouse_export: "Xuất kho - Bán hàng"
+            warehouse_import: "Nhập kho - Mua hàng"
+            customer_import: "Khách hàng trả hàng"
+            manufacturer_export: "Trả hàng NCC"
+            deliveries: "Xuất/Nhập kho"
+          form:
+            code: "Mã phiếu"
+            enter_code: "Nhập mã phiếu..."
+            date: "Ngày tạo phiếu"
+            choose_date: "Chọn ngày tạo phiếu"
+            contact: "Khách hàng"
+            choose_contact: "Chọn khách hàng"
+            new_contact: "Thêm thông tin khách hàng"
+            edit_contact: "Cập nhật thông tin khách hàng"
+            supplier: "Đơn vị cung cấp"
+            choose_supplier: "Chọn đơn vị cung cấp"
+            employee: "Nhân viên phụ trách"
+            choose_employee: "Chọn nhân viên phụ trách"
+            delivery_details: "Chi tiết phiếu"
+            note: "Ghi chú"
+            enter_note: "Nhập ghi chú"
+  activerecord:
+    errors:
+      models:
+        erp/qdeliveries/delivery:
+          attributes:
+            code:
+              blank: "không được để trống"
+            date:
+              blank: "không được để trống"
+            contact_id:
+              blank: "không được để trống"
+            supplier_id:
+              blank: "không được để trống"
+            employee_id:
+              blank:  "không được để trống"
+    attributes:
+      erp/qdeliveries/delivery:
+        code: "Mã phiếu"
+        date: "Ngày tạo phiếu"
+        contact_id: "Khách hàng"
+        supplier_id: "Đơn vị cung cấp"
+        employee_id: "Nhân viên phụ trách"        

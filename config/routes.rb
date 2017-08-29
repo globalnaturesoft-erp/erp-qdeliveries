@@ -15,8 +15,15 @@ Erp::Qdeliveries::Engine.routes.draw do
 					put 'archive_all'
 					put 'unarchive_all'
 					get 'delivery_details'
-				end
+				end				
 			end
+			get 'sales_orders' => 'sales#sales_orders', as: :sales_orders
+			post 'sales_orders_listing' => 'sales#sales_orders_listing', as: :sales_orders_listing
+			get 'sales_order_details' => 'sales#sales_order_details', as: :sales_order_details
+			
+			get 'purchases_orders' => 'purchases#purchases_orders', as: :purchases_orders
+			post 'purchases_orders_listing' => 'purchases#purchases_orders_listing', as: :purchases_orders_listing
+			get 'purchases_order_details' => 'purchases#purchases_order_details', as: :purchases_order_details
 		end
 	end
 end

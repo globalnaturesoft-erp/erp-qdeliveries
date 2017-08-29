@@ -1,0 +1,84 @@
+<div class="col-md-12">
+    <div class="tabbable-custom ">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#tab_5_1" data-toggle="tab">
+                    <i class="fa fa-navicon"></i>
+                    <%= t('.purchases_order_details') %>
+                </a>
+            </li>
+            <li>
+                <a href="#tab_5_2" data-toggle="tab">
+                    <i class="fa fa-navicon"></i>
+                    <%= t('.deliveries_order_details') %>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_5_1">
+            <div class="portlet grey-cascade box">
+                <div class="portlet-body custom-tab-detail">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped flip-content">
+                            <thead class="flip-content">
+                                <tr>
+                                    <th width="15%" class="bg-yellow bg-font-yellow text-center"><%= t('.product_code') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_name') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_type') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.ordered_quantity') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.deliveried_quantity') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.remain_quantity') %></th>
+                                    <th class="bg-yellow bg-font-yellow text-right"><%= t('status') %></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @order.order_details.each do |order_detail| %>
+                                    <tr>
+                                        <td class="text-center"><strong><%= order_detail.product_code %></strong></td>
+                                        <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name %></td>
+                                        <td class="text-left"><%= order_detail.product_category_name %></td>
+                                        <td class="numeric text-center"><%= format_number(order_detail.quantity) %></td>
+                                        <td class="numeric text-center"></td>
+                                        <td class="numeric text-center"></td>
+                                        <th class="text-right"></th>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab_5_2">
+            <div class="portlet grey-cascade box">
+                <div class="portlet-body">                    
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped flip-content">
+                                <thead class="flip-content">                            
+                                    <tr>
+                                        <th width="15%" class="bg-yellow bg-font-yellow text-center">Mã xuất kho</th>
+                                        <th class="bg-yellow bg-font-yellow text-nowrap">Nhân viên phụ trách</th>
+                                        <th class="bg-yellow bg-font-yellow text-nowrap">Kho xuất</th>
+                                        <th class="bg-yellow bg-font-yellow text-nowrap">Ngày xuất kho</th>
+                                        <th class="bg-yellow bg-font-yellow text-nowrap">Người nhận</th>
+                                        <th class="bg-yellow bg-font-yellow text-nowrap">Trạng thái</th>
+                                        <th class="bg-yellow bg-font-yellow text-right">Thao tác</th>
+                                    </tr>                           
+                                </thead>
+                                <tbody>
+                                    <td class="text-center"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <th class="text-right"></th>
+                                </tbody>
+                            </table>
+                        </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

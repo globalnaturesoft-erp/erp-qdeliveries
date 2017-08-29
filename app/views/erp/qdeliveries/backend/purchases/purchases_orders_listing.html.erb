@@ -1,0 +1,92 @@
+<table class="table table-advance table-hover table-striped table-checkable order-column">
+    <thead>
+        <tr>
+            <th width='1%'>
+                <%= erp_datalist_check_all %>
+            </th>
+            <% if get_columns(params).include?("order_code") %>
+                <th width='11%'>
+                    <%= t('.order_code') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("order_date") %>
+                <th>
+                    <%= t('.order_date') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("customer") %>
+                <th>
+                    <%= t('.customer') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("delivered_ordered") %>
+                <th>
+                    <%= t('.delivered_ordered') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("status") %>
+                <th>
+                    <%= t('status') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("creator") %>
+                <th class="text-center">
+                    <%= t('creator') %>
+                </th>
+            <% end %>
+            <% if get_columns(params).include?("created_at") %>
+                <th class="sortable" sort-by='erp_orders_orders.created_at'>
+                    <%= t('created_at') %>
+                </th>
+            <% end %>
+            <th width="7%" class="text-right"><%= t('actions') %></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @orders.each do |order| %>
+            <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_purchases_order_details_path(id: order.id) %>">
+                <td>
+                    <%= erp_datalist_check_row(id: order.id) %>
+                </td>
+                <% if get_columns(params).include?("order_code") %>
+                <td>
+                    <i class="fa fa-plus expand tr-expand-button"></i>
+                    <strong><%= order.code %></strong>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("order_date") %>
+                <td><%= format_date(order.order_date) %></td>
+                <% end %>
+                <% if get_columns(params).include?("customer") %>
+                <td><%= order.customer_name %></td>
+                <% end %>
+                <% if get_columns(params).include?("delivered_ordered") %>
+                <td class="text-center"></td>
+                <% end %>
+                <% if get_columns(params).include?("status") %>
+                <td>
+                    <%= status_label(order.status) %>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("creator") %>
+                <td>
+                    <%= erp_component('avatar', {
+                        user: order.creator
+                    }) %>
+                </td>
+                <% end %>
+                <% if get_columns(params).include?("created_at") %>
+                <td><%= order.created_at.strftime("%d/%m/%Y") %></td>
+                <% end %>
+                <td>
+                    <%= order_dropdown_actions(order) %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+<% if @orders.empty? %>
+    <div class="datalist-empty-line"><%= t('.no_matching_records_found') %></div>
+<% end %>
+
+<%= erp_datalist_pagination(@orders) %>

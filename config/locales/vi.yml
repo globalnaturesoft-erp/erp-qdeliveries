@@ -2,6 +2,72 @@ vi:
   erp:
     qdeliveries:
       backend:
+        sales:
+          sales_orders:
+            sales_orders: "Kiếm tra xuất nhập kho - Bán hàng"
+            order_from_date: "Ngày đặt hàng"
+            select_from_date: "Từ ngày"
+            order_to_date: "Ngày đặt hàng"
+            select_to_date: "Đến ngày"
+            draft: "Phiếu tạm"
+            confirmed: "Đã xác nhận"
+            deleted: "Đã bị hủy"
+            order_code: "Mã đơn hàng"
+            order_date: "Ngày đặt hàng"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivered_ordered: "Số lượng đã giao"            
+          sales_orders_listing:
+            order_code: "Mã đơn hàng"
+            order_date: "Ngày đặt hàng"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivered_ordered: "Số lượng đã giao"
+            draft: "Phiếu tạm"
+            confirmed: "Đã xác nhận"
+            deleted: "Đã bị hủy"
+          sales_order_details:
+            sales_order_details: "Chi tiết mua hàng"
+            deliveries_order_details: "Chi tiết giao hàng"
+            product_code: "Mã sản phẩm"
+            product_name: "Tên sản phẩm"
+            product_type: "Loại sản phẩm"
+            ordered_quantity: "Số lượng đặt"
+            deliveried_quantity: "Số lượng đã giao"
+            remain_quantity: "Số lượng còn lại"
+        purchases:
+          purchases_orders:
+            purchases_orders: "Kiếm tra xuất nhập kho - Mua hàng"
+            order_from_date: "Ngày đặt hàng"
+            select_from_date: "Từ ngày"
+            order_to_date: "Ngày đặt hàng"
+            select_to_date: "Đến ngày"
+            draft: "Phiếu tạm"
+            confirmed: "Đã xác nhận"
+            deleted: "Đã bị hủy"
+            order_code: "Mã đơn hàng"
+            order_date: "Ngày đặt hàng"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivered_ordered: "Số lượng đã giao"
+          purchases_order_details:
+            purchases_order_details: "Chi tiết mua hàng"
+            deliveries_order_details: "Chi tiết giao hàng"
+            product_code: "Mã sản phẩm"
+            product_name: "Tên sản phẩm"
+            product_type: "Loại sản phẩm"
+            ordered_quantity: "Số lượng đặt"
+            deliveried_quantity: "Số lượng đã giao"
+            remain_quantity: "Số lượng còn lại"
+          purchases_orders_listing:
+            order_code: "Mã đơn hàng"
+            order_date: "Ngày đặt hàng"
+            customer: "Khách hàng"
+            employee: "Nhân viên phụ trách"
+            delivered_ordered: "Số lượng đã giao"
+            draft: "Phiếu tạm"
+            confirmed: "Đã xác nhận"
+            deleted: "Đã bị hủy"
         deliveries:
           create:
             success: "Thêm xuất/nhập kho thành công."

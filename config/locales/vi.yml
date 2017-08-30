@@ -108,6 +108,7 @@ vi:
             delivery_type: "Loại phiếu"
             change_delivered: "Xác nhận toàn bộ"
             change_deleted: "Xóa toàn bộ"
+            quantity: "SL Giao/Đặt"
             change_deleted_confirm: "Bạn có chắc muốn xóa toàn bộ phiếu được chọn?"
           list:
             code: "Mã xuất/nhập kho"
@@ -119,6 +120,7 @@ vi:
             deleted: "Đã xóa"
             edit: "Cập nhật thông tin"
             action_deleted: "Xóa phiếu"
+            quantity: "SL Giao/Đặt"
             no_matching_records_found: "Danh sách phiếu nhập/xuất hiện đang trống"
             warehouse_export: "Xuất kho - Bán hàng"
             warehouse_import: "Nhập kho - Mua hàng"
@@ -152,6 +154,10 @@ vi:
             delivery_details: "Chi tiết phiếu"
             note: "Ghi chú"
             enter_note: "Nhập ghi chú"
+          delivery_details:
+            deliveried: "Hoàn thành"
+            not_delivery: "Chưa giao xong"
+            over_deliveried: "Giao dư"
   activerecord:
     errors:
       models:

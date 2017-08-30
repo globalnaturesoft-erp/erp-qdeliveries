@@ -19,6 +19,9 @@
             <% if get_columns(params).include?("delivery_type") %>
                 <th><%= t('.delivery_type') %></th>
             <% end %>
+            <% if get_columns(params).include?("quantity") %>
+                <th class="text-center"><%= t('.quantity') %></th>
+            <% end %>
             <% if get_columns(params).include?("status") %>
                 <th><%= t('status') %></th>
             <% end %>
@@ -40,7 +43,7 @@
                 <% if get_columns(params).include?("code") %>
                     <td>
                         <i class="fa fa-plus expand tr-expand-button"></i>
-                        <%= link_to delivery.code, erp_qdeliveries.edit_backend_delivery_path(delivery) %>
+                        <%= link_to delivery.code, erp_qdeliveries.edit_backend_delivery_path(delivery), class: "font-yellow-gold sbold" %>
                     </td>
                 <% end %>
                 <% if get_columns(params).include?("customer") %>
@@ -58,6 +61,9 @@
                 <% end %>
                 <% if get_columns(params).include?("delivery_type") %>
                 <td><%= t('.'+delivery.delivery_type) %></td>
+                <% end %>
+                <% if get_columns(params).include?("quantity") %>
+                <td class="text-center"><%=  %></td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>

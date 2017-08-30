@@ -158,6 +158,18 @@ vi:
             deliveried: "Hoàn thành"
             not_delivery: "Chưa giao xong"
             over_deliveried: "Giao dư"
+          form_details:
+            delivery_details: "Danh sách hàng nhập"
+        delivery_details:
+          form_detail:
+            choose_order: "Chọn đơn hàng"
+            choose_product_code: "Mã hàng"
+            choose_product: "Hàng hóa"
+            choose_product_diameter: "Đường kính"
+            choose_quantity: "Số lượng"
+            choose_warehouse: "Kho hàng"
+            choose_category: "Loại"
+            choose_sate: "Tình trạng"
   activerecord:
     errors:
       models:

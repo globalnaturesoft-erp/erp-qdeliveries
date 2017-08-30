@@ -1,13 +1,13 @@
 <%= form_for([erp_qdeliveries, :backend, delivery], html: {multipart: true}) do |f| %>
     <input type="hidden" name="delivery[delivery_type]" value="<%= delivery.delivery_type %>">
-    <div class="form-body">        
+    <div class="form-body">
         <div class="row">
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
                         <%= erp_form_control("text", {
                             name: 'delivery[code]',
-                            value: delivery.code,                   
+                            value: delivery.code,
                             label: t('.code'),
                             placeholder: t('.enter_code'),
                             required: true,
@@ -89,7 +89,7 @@
                         }) %>
                         <%= erp_form_control("textarea", {
                             name: 'delivery[note]',
-                            value: delivery.note,                   
+                            value: delivery.note,
                             label: t('.note'),
                             placeholder: t('.enter_note')
                         }) %>
@@ -106,12 +106,13 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane addableform-table active" id="tab_5_1">                                                    
+                        <div class="tab-pane addableform-table active" id="tab_5_1">
+                            <%= render "erp/qdeliveries/backend/deliveries/form_details", delivery: delivery %>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
     <%= erp_component('button/save', {
         text: t('submit')

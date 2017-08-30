@@ -33,7 +33,7 @@
     </thead>
     <tbody>
         <% if @deliveries.each do |delivery| %>
-            <tr class="odd gradeX has-child-table" data-url="<%=  %>">
+            <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.delivery_details_backend_deliveries_path(id: delivery.id) %>">
                 <td>
                     <%= erp_datalist_check_row(id: delivery.id) %>
                 </td>

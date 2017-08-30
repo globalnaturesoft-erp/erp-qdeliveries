@@ -2,7 +2,7 @@ module Erp
   module Qdeliveries
     module Backend
       class DeliveriesController < Erp::Backend::BackendController
-        before_action :set_delivery, only: [:archive, :unarchive, :status_delivered, :status_deleted, :show, :edit, :update, :destroy]
+        before_action :set_delivery, only: [:delivery_details, :archive, :unarchive, :status_delivered, :status_deleted, :show, :edit, :update, :destroy]
         before_action :set_deliveries, only: [:status_delivered_all, :status_deleted_all, :archive_all, :unarchive_all]
         
         # GET /deliveries

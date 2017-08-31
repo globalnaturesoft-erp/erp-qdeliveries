@@ -162,11 +162,14 @@ module Erp::Qdeliveries
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
 
-    def fill_details(details)
+    def fill_details(details, force=false)
+      return if !details.present?
+
       details.each do |row|
         data = row[1]
-        if !data["id"].present?
+        if !data["id"].present? or force
           self.delivery_details.build(
+            id: data["id"],
             order_detail_id: data["order_detail_id"],
             quantity: data["quantity"],
             state_id: data["state_id"],
@@ -178,6 +181,8 @@ module Erp::Qdeliveries
     end
 
     def update_details(details)
+      return if !details.present?
+
       details.each do |row|
         data = row[1]
         if data["id"].present?
@@ -193,6 +198,8 @@ module Erp::Qdeliveries
     end
 
     def destroy_details(details)
+      return if !details.present?
+      
       ids = []
       details.each do |row|
         data = row[1]

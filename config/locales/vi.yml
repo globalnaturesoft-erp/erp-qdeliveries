@@ -94,8 +94,8 @@ vi:
           status_deleted_all:
             success: "Phiếu được chọn đã hủy thành công."
           index:
-            warehouse_export: "Xuất kho - Bán hàng"
-            warehouse_import: "Nhập kho - Mua hàng"
+            warehouse_export: "Xuất bán hàng"
+            warehouse_import: "Nhập hàng từ NCC"
             customer_import: "Khách hàng trả hàng"
             manufacturer_export: "Trả hàng NCC"
             deliveries: "Xuất/Nhập kho"

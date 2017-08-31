@@ -13,13 +13,13 @@
         class: 'btn-noborder'
     }) %>
     <%= erp_component('button/create', {
-        text: t('.warehouse_import'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT),
+        text: t('.customer_import'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT),
         class: 'btn-noborder'
     }) %>
     <%= erp_component('button/create', {
-        text: t('.customer_import'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT),
+        text: t('.warehouse_import'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT),
         class: 'btn-noborder'
     }) %>
     <%= erp_component('button/create', {
@@ -44,13 +44,13 @@
             }
         }
     ],
-    actions: [       
+    actions: [
         {
             text: '<i class="fa fa-trash"></i> '+t('.change_deleted'),
             url: erp_qdeliveries.status_deleted_all_backend_deliveries_path,
             data_method: 'PUT',
             data_confirm: t('.change_deleted_confirm')
-        }        
+        }
     ],
     filters: [
         {

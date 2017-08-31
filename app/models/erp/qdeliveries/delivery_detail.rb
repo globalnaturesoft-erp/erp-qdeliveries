@@ -8,6 +8,10 @@ module Erp::Qdeliveries
     STATUS_OVER_DELIVERED = 'over_deliveried'
     STATUS_NO_ORDER = 'no_order'
 
+    def get_max_quantity
+      order_detail.remain_quantity
+    end
+
     if Erp::Core.available?("orders")
       belongs_to :order_detail, class_name: "Erp::Orders::OrderDetail", optional: true
 

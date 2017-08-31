@@ -17,6 +17,9 @@ module Erp
             @delivery_detail.warehouse = Erp::Warehouses::Warehouse.new
             @delivery_detail.state = Erp::Products::State.first
             @delivery_detail.quantity = 1
+
+            # Tmp Delivery
+            @delivery_detail.delivery = Erp::Qdeliveries::Delivery.new(delivery_type: @delivery_type)
           end
 
           @delivery_detail.order_detail.order_id = @params[:order_id] if @params[:order_id].present?
@@ -35,7 +38,7 @@ module Erp
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?
             @delivery_detail.order_detail = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product.id).first
-            @delivery_detail.quantity = @delivery_detail.order_detail.remain_quantity if !@params[:quantity].present?
+            @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
           end
 
 

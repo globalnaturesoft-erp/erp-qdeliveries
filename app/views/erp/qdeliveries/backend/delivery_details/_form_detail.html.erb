@@ -1,56 +1,78 @@
+<% index = rand(0..900000) %>
 <div class="row autolist-line">
     <div class="col-md-2 order-box">
+        <input type="hidden" name="index" value="<%= index %>" />
+        <input type="hidden" name="details[<%= index %>][order_detail_id]" value="<%= delivery_detail.order_detail.id %>" />
+        <input type="hidden" name="details[<%= index %>][id]" value="<%= delivery_detail.id %>" />
+        <input type="hidden" class="destroy_input" name="details[<%= index %>][_destroy]" value="" />
         <%= erp_form_control("dataselect", {
-            name: 'details[order_id]',
-            value: @delivery_detail.order_detail.order_id,
-            text: @delivery_detail.order_detail.order.code,
+            name: "details[#{index}][order_id]",
+            value: delivery_detail.order_detail.order_id,
+            text: delivery_detail.order_detail.order_id.to_s == '-1' ? '-Không chứng từ-' : delivery_detail.order_detail.order.get_name,
             placeholder: t('.choose_order'),
             url: erp_orders.dataselect_backend_orders_path(format: 'json',
-                product_id: @delivery_detail.order_detail.product.id,
+                product_id: delivery_detail.order_detail.product.id,
                 include_na: '-Không chứng từ-',
+                delivery_type: delivery_type
             ),
             required: true
         }) %>
     </div>
     <div class="col-md-3">
         <%= erp_form_control("dataselect", {
-            name: 'details[product_id]',
-            value: @delivery_detail.order_detail.product.id,
-            text: @delivery_detail.order_detail.product.name,
+            name: "details[#{index}][product_id]",
+            value: delivery_detail.order_detail.product.id,
+            text: delivery_detail.order_detail.product.name,
             placeholder: t('.choose_product'),
-            url: erp_products.dataselect_backend_products_path(format: 'json'),
+            url: erp_products.dataselect_backend_products_path(
+                format: 'json',
+                order_id: delivery_detail.order_detail.order_id.to_i > 0 ? delivery_detail.order_detail.order_id : nil
+            ),
             required: true
         }) %>
     </div>
-    <div class="col-md-2">
-        <%= erp_form_control("select", {
-            name: 'details[quantity]',
-            value: @delivery_detail.quantity,
-            placeholder: t('.choose_quantity'),
-            options: (1..10).map{|number| {value: number, text: number} },
-            required: true
-        }) %>
-    </div>
-    <div class="col-md-2">
-        <%= erp_form_control("dataselect", {
-            name: 'details[state_id]',
-            value: @delivery_detail.state.id,
-            text: @delivery_detail.state.name,
-            placeholder: t('.choose_sate'),
-            url: erp_products.dataselect_backend_states_path(format: 'json'),
-            required: true
-        }) %>
-    </div>
-    <div class="col-md-2">
-        <%= erp_form_control("dataselect", {
-            name: 'details[warehouse_id]',
-            value: @delivery_detail.warehouse.id,
-            text: @delivery_detail.warehouse.name,
-            placeholder: t('.choose_warehouse'),
-            url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json'),
-            required: true
-        }) %>
-    </div>
+    <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
+        <div class="col-md-2">
+            <% if !delivery_detail.order_detail.id.nil? %>
+                <%= erp_form_control("select", {
+                    name: "details[#{index}][quantity]",
+                    value: delivery_detail.quantity,
+                    placeholder: t('.choose_quantity'),
+                    options: (1..delivery_detail.order_detail.remain_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.order_detail.remain_quantity}"} },
+                    required: true
+                }) %>
+            <% elsif delivery_detail.order_detail.order_id.to_s == '-1' %>
+                <%= erp_form_control("number", {
+                    name: "details[#{index}][quantity]",
+                    value: delivery_detail.quantity,
+                    placeholder: t('.choose_quantity'),
+                    required: true
+                }) %>
+            <% end %>
+        </div>
+        <div class="col-md-2">
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][state_id]",
+                value: delivery_detail.state.id,
+                text: delivery_detail.state.name,
+                placeholder: t('.choose_sate'),
+                url: erp_products.dataselect_backend_states_path(format: 'json'),
+                required: true
+            }) %>
+        </div>
+        <div class="col-md-2">
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][warehouse_id]",
+                value: delivery_detail.warehouse.id,
+                text: delivery_detail.warehouse.name,
+                placeholder: t('.choose_warehouse'),
+                url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json'),
+                required: true
+            }) %>
+        </div>
+    <% else %>
+        <div class="col-md-6"></div>
+    <% end %>
     <div class="col-md-1">
         <a href="#remove" class="btn btn-danger remove-line">
             <i class="fa fa-close"></i>

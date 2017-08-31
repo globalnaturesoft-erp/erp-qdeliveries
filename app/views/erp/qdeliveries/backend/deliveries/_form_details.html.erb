@@ -1,9 +1,28 @@
 <h4 class="mt-0"><%= t('.delivery_details') %></h4>
 <hr>
-<div class="autolist" data-line-url="<%= erp_qdeliveries.form_detail_backend_delivery_details_path(delivery) %>">
+<div class="row">
+    <div class="col-md-2">Chứng từ</div>
+    <div class="col-md-3">Mã - Đường kính - Loại hàng</div>
+    <div class="col-md-2">Số lượng</div>
+    <div class="col-md-2">Tình trạng</div>
+    <div class="col-md-2">Kho</div>
+    <div class="col-md-1"></div>
+</div>
+<hr class="mt-5">
+<div class="autolist" data-line-url="<%= erp_qdeliveries.form_detail_backend_delivery_details_path(delivery_type: delivery.delivery_type) %>">
     <div class="autolist-container">
-
+        <% delivery.delivery_details.order(:created_at).each do |dd| %>
+            <% dd.order_detail = Erp::Orders::OrderDetail.new if !dd.order_detail.present? %>
+            <% dd.order_detail.order = Erp::Orders::Order.new(id: -1) if !dd.order_detail.order.present? %>
+            <% dd.order_detail.product = dd.product if !dd.order_detail.product.present? %>
+            <% dd.warehouse = Erp::Warehouses::Warehouse.new if !dd.warehouse.present? %>
+            <%= render "erp/qdeliveries/backend/delivery_details/form_detail",
+                delivery_detail: dd,
+                delivery_type: delivery.delivery_type
+            %>
+        <% end %>
     </div>
+
     <a href="#add" class="btn btn-primary add-line">
         <i class="fa fa-plus"></i>
     </a>

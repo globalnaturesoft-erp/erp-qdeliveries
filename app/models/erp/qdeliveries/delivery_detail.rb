@@ -5,11 +5,11 @@ module Erp::Qdeliveries
 
     STATUS_DELIVERED = 'deliveried'
     STATUS_NOT_DELIVERY = 'not_delivery'
-    STATUS_OVER_DELIVERIED = 'over_deliveried'
+    STATUS_OVER_DELIVERED = 'over_deliveried'
+    STATUS_NO_ORDER = 'no_order'
 
     if Erp::Core.available?("orders")
-      validates :order_detail, presence: true
-      belongs_to :order_detail, class_name: "Erp::Orders::OrderDetail"
+      belongs_to :order_detail, class_name: "Erp::Orders::OrderDetail", optional: true
 
       def get_order_code
         order_detail.present? ? order_detail.order.code : ''
@@ -24,21 +24,30 @@ module Erp::Qdeliveries
       end
 
       def product_code
-        order_detail.present? ? order_detail.product_code : ''
+        if order_detail.present?
+          order_detail.product_code
+        else product.present?
+          product.code
+        end
       end
 
       def product_name
-        order_detail.present? ? order_detail.product_name : ''
+        if order_detail.present?
+          order_detail.product_name
+        else product.present?
+          product.name
+        end
       end
 
       def ordered_quantity
-        order_detail.present? ? order_detail.quantity : ''
+        order_detail.present? ? order_detail.quantity : 0
       end
 
     end
 
     if Erp::Core.available?("products")
       belongs_to :state, class_name: "Erp::Products::State", optional: true
+      belongs_to :product, class_name: "Erp::Products::Product", optional: true
 
       def state_name
         state.present? ? state.name : ''

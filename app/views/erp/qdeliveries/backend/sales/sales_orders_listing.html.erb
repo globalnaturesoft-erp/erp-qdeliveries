@@ -65,7 +65,14 @@
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>
-                    <%= status_label(order.status) %>
+                    <%= status_label(order.status) %><br>
+                    <% if order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_NOT_DELIVERY %>
+                        <span class="label label-sm label-not-delivery"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% elsif order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_DELIVERED %>
+                        <span class="label label-sm label-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% else %>
+                        <span class="label label-sm label-over-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% end %>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("creator") %>

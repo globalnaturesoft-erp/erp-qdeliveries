@@ -1,86 +1,51 @@
-<div class="col-md-12">
-    <div class="tabbable-custom ">
-        <ul class="nav nav-tabs ">
-            <li class="active">
-                <a href="#tab_5_1" data-toggle="tab">
-                    <i class="fa fa-navicon"></i>
-                    <%= t('.sales_order_details') %>
-                </a>
-            </li>
-            <li>
-                <a href="#tab_5_2" data-toggle="tab">
-                    <i class="fa fa-navicon"></i>
-                    <%= t('.deliveries_order_details') %>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="tab-content">
-        <div class="tab-pane active" id="tab_5_1">
-            <div class="portlet grey-cascade box">
-                <div class="portlet-body custom-tab-detail">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped flip-content">
-                            <thead class="flip-content">
-                                <tr>
-                                    <th width="15%" class="bg-yellow bg-font-yellow text-center"><%= t('.product_code') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_name') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_type') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.ordered_quantity') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.deliveried_quantity') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.remain_quantity') %></th>
-                                    <th class="bg-yellow bg-font-yellow text-right"><%= t('status') %></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% @order.order_details.each do |order_detail| %>
-                                    <tr>
-                                        <td class="text-center"><strong><%= order_detail.product_code %></strong></td>
-                                        <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name %></td>
-                                        <td class="text-left"><%= order_detail.product_category_name %></td>
-                                        <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
-                                        <td class="numeric text-center"></td>
-                                        <td class="numeric text-center"></td>
-                                        <th class="text-right"></th>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane" id="tab_5_2">
-            <div class="portlet grey-cascade box">
-                <div class="portlet-body custom-tab-detail">                    
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped flip-content">
-                                <thead class="flip-content">                            
-                                    <tr>
-                                        <th width="15%" class="bg-yellow bg-font-yellow text-center">Mã xuất kho</th>
-                                        <th class="bg-yellow bg-font-yellow text-nowrap">Nhân viên phụ trách</th>
-                                        <th class="bg-yellow bg-font-yellow text-nowrap">Kho xuất</th>
-                                        <th class="bg-yellow bg-font-yellow text-nowrap">Ngày xuất kho</th>
-                                        <th class="bg-yellow bg-font-yellow text-nowrap">Người nhận</th>
-                                        <th class="bg-yellow bg-font-yellow text-nowrap">Trạng thái</th>
-                                        <th class="bg-yellow bg-font-yellow text-right">Thao tác</th>
-                                    </tr>                           
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <th class="text-right"></th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<table class="table table-bordered table-striped flip-content">
+    <thead class="flip-content">
+        <tr>
+            <th width="15%" class="bg-yellow bg-font-yellow text-center"><%= t('.product_code') %></th>
+            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_name') %></th>
+            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_type') %></th>
+            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.ordered_quantity') %></th>
+            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.deliveried_quantity') %></th>
+            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.remain_quantity') %></th>
+            <th class="bg-yellow bg-font-yellow text-right"><%= t('status') %></th>
+            <th class="bg-yellow bg-font-yellow text-right"><%= t('.deliveries') %></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @order.order_details.each do |order_detail| %>
+            <% if order_detail.delivered_delivery.count > 0 %>
+                <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_deliveries_sales_path(id: order_detail.id) %>">
+            <% else %>
+                <tr>
+            <% end %>
+                <td class="text-center">
+                    <% if order_detail.delivered_delivery.count > 0 %>
+                        <i class="fa fa-plus expand tr-expand-button"></i>
+                    <% end %>
+                    <strong><%= order_detail.product_code %></strong>
+                </td>
+                <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name, class: "font-green-sharp sbold" %></td>
+                <td class="text-left"><%= order_detail.product_category_name %></td>
+                <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
+                <td class="numeric text-center"><strong><%= format_number(order_detail.delivered_quantity) %></strong></td>
+                <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivery_quantity) %></strong></td>
+                <th class="text-right">
+                    <% if order_detail.not_delivery_quantity > 0 %>
+                        <span class="font-yellow-gold bold">Chưa giao</span>
+                    <% elsif order_detail.not_delivery_quantity == 0 %>
+                        <span class="font-green-meadow bold">Giao xong</span>
+                    <% else %>
+                        <span class="font-red-thunderbird bold">Giao dư</span>
+                    <% end %>
+                </th>
+                <th class="text-right">
+                    <% if order_detail.get_delivered_deliveries.count > 0 %>
+                        <% order_detail.get_delivered_deliveries.each do |delivered_delivery| %>
+                            <%= link_to delivered_delivery.delivery.code, "", class: "font-blue sbold" %><br>
+                        <% end %>
+                    <% end %>
+                </th>
+            </tr>
+        <% end %>
+    </tbody>
+</table>                    

@@ -21,11 +21,12 @@ Erp::Qdeliveries::Engine.routes.draw do
 			get 'sales_orders' => 'sales#sales_orders', as: :sales_orders
 			post 'sales_orders_listing' => 'sales#sales_orders_listing', as: :sales_orders_listing
 			get 'sales_order_details' => 'sales#sales_order_details', as: :sales_order_details
+			get 'deliveries_sales' => 'sales#deliveries_sales', as: :deliveries_sales
 
 			get 'purchases_orders' => 'purchases#purchases_orders', as: :purchases_orders
 			post 'purchases_orders_listing' => 'purchases#purchases_orders_listing', as: :purchases_orders_listing
 			get 'purchases_order_details' => 'purchases#purchases_order_details', as: :purchases_order_details
-			get 'deliveries_purchases' => 'purchases#deliveries_purchases', as: :deliveries_purchases	
+			get 'deliveries_purchases' => 'purchases#deliveries_purchases', as: :deliveries_purchases			
 
 			resources :delivery_details do
 				collection do

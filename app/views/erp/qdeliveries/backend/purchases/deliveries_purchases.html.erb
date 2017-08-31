@@ -1,0 +1,36 @@
+<table class="table table-bordered table-striped flip-content">
+  <thead class="flip-content">
+      <tr>
+          <th width="15%" class="bg-yellow bg-font-yellow text-nowrap text-left">Phiếu giao hàng</th>
+          <th class="bg-yellow bg-font-yellow text-nowrap text-left">Chứng từ</th>
+          <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đặt</th>
+          <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng giao</th>
+          <th class="bg-yellow bg-font-yellow text-nowrap">Tình trạng</th>
+          <th class="bg-yellow bg-font-yellow text-nowrap">Kho</th>
+      </tr>
+  </thead>
+  <tbody>
+      <% @order_detail.delivered_delivery.each do |delivery_detail| %>
+          <tr>
+              <td><%= link_to delivery_detail.get_delivery_code, erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery), target: "_blank", title: delivery_detail.get_delivery_code, class: "font-green-steel sbold" %></td>
+              <td>
+                <% if delivery_detail.order_detail_id.nil? %>
+                    Không chứng từ
+                <% else %>
+                    <%= link_to delivery_detail.get_order_code, erp_orders.edit_backend_order_path(delivery_detail.get_order), target: "_blank", title: delivery_detail.get_order_code, class: "font-red-thunderbird sbold" %>
+                <% end %>
+              </td>
+              <td>
+                <% if delivery_detail.order_detail_id.nil? %>
+                    Không chứng từ
+                <% else %>
+                    <strong><%= delivery_detail.ordered_quantity %></strong>
+                <% end %>
+              </td>
+              <td><%= delivery_detail.quantity %></td>
+              <td><%= delivery_detail.state_name %></td>
+              <td><%= delivery_detail.warehouse_name %></td>
+          </tr>
+      <% end %>
+  </tbody>
+</table>

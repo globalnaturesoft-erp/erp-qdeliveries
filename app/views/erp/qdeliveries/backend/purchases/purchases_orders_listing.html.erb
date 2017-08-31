@@ -51,7 +51,7 @@
                 <% if get_columns(params).include?("order_code") %>
                 <td>
                     <i class="fa fa-plus expand tr-expand-button"></i>
-                    <strong><%= order.code %></strong>
+                    <strong><%= link_to order.code, erp_orders.edit_backend_order_path(order), class: "font-yellow-gold sbold", target: "_blank", title: order.code %></strong>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("order_date") %>
@@ -61,11 +61,18 @@
                 <td><%= order.customer_name %></td>
                 <% end %>
                 <% if get_columns(params).include?("delivered_ordered") %>
-                <td class="text-center"></td>
+                <td class="text-center"><strong><%= order.total_delivered_quantity %></strong> / <strong><%= order.total_ordered_quantity %></strong></td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>
-                    <%= status_label(order.status) %>
+                    <%= status_label(order.status) %><br>
+                    <% if order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_NOT_DELIVERY %>
+                        <span class="label label-sm label-not-delivery"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% elsif order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_DELIVERED %>
+                        <span class="label label-sm label-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% else %>
+                        <span class="label label-sm label-over-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
+                    <% end %>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("creator") %>

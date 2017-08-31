@@ -25,6 +25,7 @@ Erp::Qdeliveries::Engine.routes.draw do
 			get 'purchases_orders' => 'purchases#purchases_orders', as: :purchases_orders
 			post 'purchases_orders_listing' => 'purchases#purchases_orders_listing', as: :purchases_orders_listing
 			get 'purchases_order_details' => 'purchases#purchases_order_details', as: :purchases_order_details
+			get 'deliveries_purchases' => 'purchases#deliveries_purchases', as: :deliveries_purchases	
 
 			resources :delivery_details do
 				collection do

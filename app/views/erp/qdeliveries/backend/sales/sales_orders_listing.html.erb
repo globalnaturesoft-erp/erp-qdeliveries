@@ -51,7 +51,7 @@
                 <% if get_columns(params).include?("order_code") %>
                 <td>
                     <i class="fa fa-plus expand tr-expand-button"></i>
-                    <strong><%= order.code %></strong>
+                    <strong><%= link_to order.code, erp_orders.edit_backend_order_path(order), class: "font-yellow-gold sbold", target: "_blank", title: order.code %></strong>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("order_date") %>

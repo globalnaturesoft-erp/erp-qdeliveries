@@ -36,7 +36,7 @@ module Erp::Qdeliveries
       def supplier_name
         supplier.present? ? supplier.contact_name : ''
       end
-    end
+    end    
 
     # Filters
     def self.filter(query, params)

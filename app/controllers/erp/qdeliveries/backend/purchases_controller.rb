@@ -27,6 +27,12 @@ module Erp
           render layout: nil
         end
         
+        def deliveries_purchases
+          @order_detail = Erp::Orders::OrderDetail.find(params[:id])
+          
+          render layout: nil
+        end
+        
       end
     end
   end

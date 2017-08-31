@@ -50,6 +50,9 @@ vi:
             customer: "Khách hàng"
             employee: "Nhân viên phụ trách"
             delivered_ordered: "Số lượng đã giao"
+            not_delivery: "Chưa giao xong"
+            delivered: "Đã giao xong"
+            over_delivered: "Giao bị dư"
           purchases_order_details:
             purchases_order_details: "Chi tiết mua hàng"
             deliveries_order_details: "Chi tiết giao hàng"
@@ -59,6 +62,7 @@ vi:
             ordered_quantity: "Số lượng đặt"
             deliveried_quantity: "Số lượng đã giao"
             remain_quantity: "Số lượng còn lại"
+            deliveries: "Mã phiếu giao hàng"
           purchases_orders_listing:
             order_code: "Mã đơn hàng"
             order_date: "Ngày đặt hàng"
@@ -68,6 +72,9 @@ vi:
             draft: "Phiếu tạm"
             confirmed: "Đã xác nhận"
             deleted: "Đã bị hủy"
+            not_delivery: "Chưa giao xong"
+            delivered: "Đã giao xong"
+            over_delivered: "Giao bị dư"
         deliveries:
           create:
             success: "Thêm xuất/nhập kho thành công."

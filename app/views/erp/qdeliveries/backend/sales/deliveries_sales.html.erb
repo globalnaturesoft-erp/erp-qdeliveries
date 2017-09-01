@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped flip-content">
+<table class="table table-bordered table-striped flip-content table-child-content">
   <thead class="flip-content">
       <tr>
           <th width="15%" class="bg-yellow bg-font-yellow text-nowrap text-left">Phiếu giao hàng</th>
@@ -12,22 +12,30 @@
   <tbody>
       <% @order_detail.delivered_delivery.each do |delivery_detail| %>
           <tr>
-              <td><%= link_to delivery_detail.get_delivery_code, erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery), target: "_blank", title: delivery_detail.get_delivery_code, class: "font-green-steel sbold" %></td>
-              <td>
+              <td width="15%" class="text-left">
+                <%= link_to delivery_detail.get_delivery_code,
+                            erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
+                            target: "_blank", title: delivery_detail.get_delivery_code,
+                            class: "font-blue sbold" %>
+              </td>
+              <td class="text-left">
                 <% if delivery_detail.order_detail_id.nil? %>
                     Không chứng từ
                 <% else %>
-                    <%= link_to delivery_detail.get_order_code, erp_orders.edit_backend_order_path(delivery_detail.get_order), target: "_blank", title: delivery_detail.get_order_code, class: "font-red-thunderbird sbold" %>
+                    <%= link_to delivery_detail.get_order_code,
+                                erp_orders.edit_backend_order_path(delivery_detail.get_order),
+                                target: "_blank", title: delivery_detail.get_order_code,
+                                class: "font-red-thunderbird sbold" %>
                 <% end %>
               </td>
-              <td>
+              <td class="numeric text-center">
                 <% if delivery_detail.order_detail_id.nil? %>
                     Không chứng từ
                 <% else %>
                     <strong><%= delivery_detail.ordered_quantity %></strong>
                 <% end %>
               </td>
-              <td><%= delivery_detail.quantity %></td>
+              <td class="numeric text-center"><strong><%= delivery_detail.quantity %></strong></td>
               <td><%= delivery_detail.state_name %></td>
               <td><%= delivery_detail.warehouse_name %></td>
           </tr>

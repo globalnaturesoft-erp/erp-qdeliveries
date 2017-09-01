@@ -32,6 +32,7 @@ vi:
             not_delivery: "Chưa giao xong"
             delivered: "Đã giao xong"
             over_delivered: "Giao bị dư"
+            view: "Xem chi tiết"
           sales_order_details:
             sales_order_details: "Chi tiết mua hàng"
             deliveries_order_details: "Chi tiết giao hàng"
@@ -82,6 +83,7 @@ vi:
             not_delivery: "Chưa giao xong"
             delivered: "Đã giao xong"
             over_delivered: "Giao bị dư"
+            view: "Xem chi tiết"
         deliveries:
           create:
             success: "Thêm xuất/nhập kho thành công."

@@ -1,14 +1,14 @@
-<table class="table table-bordered table-striped flip-content">
+<table class="table table-bordered table-striped flip-content table-child-content">
     <thead class="flip-content">
         <tr>
-            <th width="15%" class="bg-yellow bg-font-yellow text-center"><%= t('.product_code') %></th>
-            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_name') %></th>
-            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.product_type') %></th>
-            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.ordered_quantity') %></th>
-            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.deliveried_quantity') %></th>
-            <th class="bg-yellow bg-font-yellow text-nowrap"><%= t('.remain_quantity') %></th>
-            <th class="bg-yellow bg-font-yellow text-right"><%= t('status') %></th>
-            <th class="bg-yellow bg-font-yellow text-right"><%= t('.deliveries') %></th>
+            <th width="15%" class="bg-green-jungle bg-font-green-jungle text-center"><%= t('.product_code') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.product_name') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.product_type') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.ordered_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.deliveried_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.remain_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('status') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('.deliveries') %></th>
         </tr>
     </thead>
     <tbody>
@@ -20,16 +20,16 @@
             <% end %>
                 <td class="text-center">
                     <% if order_detail.delivered_delivery.count > 0 %>
-                        <i class="fa fa-plus expand tr-expand-button"></i>
+                        <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
                     <% end %>
                     <strong><%= order_detail.product_code %></strong>
                 </td>
-                <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name, class: "font-green-sharp sbold" %></td>
+                <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name, class: "font-yellow-gold sbold" %></td>
                 <td class="text-left"><%= order_detail.product_category_name %></td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.delivered_quantity) %></strong></td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivery_quantity) %></strong></td>
-                <th class="text-right">
+                <td class="text-right">
                     <% if order_detail.not_delivery_quantity > 0 %>
                         <span class="font-yellow-gold bold">Chưa giao</span>
                     <% elsif order_detail.not_delivery_quantity == 0 %>
@@ -37,14 +37,16 @@
                     <% else %>
                         <span class="font-red-thunderbird bold">Giao dư</span>
                     <% end %>
-                </th>
-                <th class="text-right">
+                </td>
+                <td class="text-right">
                     <% if order_detail.get_delivered_deliveries.count > 0 %>
                         <% order_detail.get_delivered_deliveries.each do |delivered_delivery| %>
-                            <%= link_to delivered_delivery.delivery.code, "", class: "font-blue sbold" %><br>
+                            <%= link_to delivered_delivery.delivery.code,
+                                        erp_qdeliveries.edit_backend_delivery_path(delivered_delivery.delivery),
+                                        title: delivered_delivery.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
                         <% end %>
                     <% end %>
-                </th>
+                </td>
             </tr>
         <% end %>
     </tbody>

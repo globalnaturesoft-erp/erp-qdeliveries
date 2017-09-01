@@ -19,6 +19,19 @@ module Erp
           actions
         )
       end
+      
+      # Sales order dropdown actions
+      def sales_purchases_order_dropdown_actions(order)
+        actions = []
+        actions << {
+          text: '<i class="fa fa-file-text-o"></i> '+t('.view'),
+          url: erp_orders.backend_order_path(order)
+        }                      
+        erp_datalist_row_actions(
+          actions
+        )
+      end
+      
     end
   end
 end

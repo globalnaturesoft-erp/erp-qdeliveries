@@ -61,7 +61,7 @@
                 <td><%= order.customer_name %></td>
                 <% end %>
                 <% if get_columns(params).include?("delivered_ordered") %>
-                <td class="text-center"></td>
+                <td class="text-center"><strong><%= order.total_delivered_quantity %></strong> / <strong><%= order.total_ordered_quantity %></strong></td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>
@@ -86,7 +86,7 @@
                 <td><%= order.created_at.strftime("%d/%m/%Y") %></td>
                 <% end %>
                 <td>
-                    <%= order_dropdown_actions(order) %>
+                    <%= sales_purchases_order_dropdown_actions(order) %>
                 </td>
             </tr>
         <% end %>

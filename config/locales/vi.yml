@@ -4,6 +4,10 @@ vi:
       backend:
         sales:
           sales_orders:
+            filter_customer: "Khách hàng"
+            choose_customer: "Lọc theo khách hàng"
+            filter_warehouse: "Kho xuất bán"
+            choose_warehouse: "Lọc theo kho xuất bán"
             sales_orders: "Kiếm tra xuất nhập kho - Bán hàng"
             order_from_date: "Ngày đặt hàng"
             select_from_date: "Từ ngày"
@@ -16,16 +20,18 @@ vi:
             order_date: "Ngày đặt hàng"
             customer: "Khách hàng"
             employee: "Nhân viên phụ trách"
-            delivered_ordered: "Số lượng đã giao"
+            delivered_ordered: "Số lượng"
             not_delivery: "Chưa giao xong"
             delivered: "Đã giao xong"
             over_delivered: "Giao bị dư"
+            warehouse_export: "Xuất bán hàng"
+            customer_import: "Khách hàng trả hàng"
           sales_orders_listing:
             order_code: "Mã đơn hàng"
             order_date: "Ngày đặt hàng"
             customer: "Khách hàng"
             employee: "Nhân viên phụ trách"
-            delivered_ordered: "Số lượng đã giao"
+            delivered_ordered: "Số lượng"
             draft: "Phiếu tạm"
             confirmed: "Đã xác nhận"
             deleted: "Đã bị hủy"
@@ -45,6 +51,12 @@ vi:
             deliveries: "Mã phiếu giao hàng"
         purchases:
           purchases_orders:
+            filter_customer: "Khách hàng"
+            choose_customer: "Lọc theo khách hàng"
+            filter_warehouse: "Kho xuất bán"
+            choose_warehouse: "Lọc theo kho xuất bán"
+            warehouse_import: "Nhập hàng từ NCC"
+            manufacturer_export: "Trả hàng NCC"
             purchases_orders: "Kiếm tra xuất nhập kho - Mua hàng"
             order_from_date: "Ngày đặt hàng"
             select_from_date: "Từ ngày"

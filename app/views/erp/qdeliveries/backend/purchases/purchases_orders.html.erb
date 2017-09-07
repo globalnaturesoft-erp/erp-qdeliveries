@@ -7,10 +7,16 @@
 <% end %>
 
 <% content_for :page_toolbar do %>
-    <div class="btn-group">
-        <div class="clearfix">
-        </div>
-    </div>
+    <%= erp_component('button/create', {
+        text: t('.warehouse_import'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT),
+        class: 'btn-noborder'
+    }) %>
+    <%= erp_component('button/create', {
+        text: t('.manufacturer_export'),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT),
+        class: 'btn-noborder'
+    }) %>
 <% end %>
 
 <% content_for :global_filter do %>
@@ -27,6 +33,22 @@
                 label: t('.order_to_date'),
                 name: 'order_to_date',
                 placeholder: t('.select_to_date')
+            }) %>
+        </div>
+        <div class="col-md-3">
+            <%= erp_form_control("dataselect", {
+                name: 'customer',
+                label: t('.filter_customer'),
+                placeholder: t('.choose_customer'),
+                url: erp_contacts.dataselect_backend_contacts_path(format: 'json')
+            }) %>
+        </div>
+        <div class="col-md-3">
+            <%= erp_form_control("dataselect", {
+                name: 'warehouse',
+                label: t('.filter_warehouse'),
+                placeholder: t('.choose_warehouse'),
+                url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json')
             }) %>
         </div>
     </div>
@@ -54,27 +76,7 @@
         }
     ],
     actions: [
-        {
-            text: '<i class="fa fa-check"></i> '+t('.set_confirmed'),
-            url: erp_orders.set_confirmed_all_backend_orders_path,
-            data_method: 'PUT',
-            data_confirm: t('.set_confirmed_confirm')
-        },
-        {
-            text: '<i class="fa fa-ban"></i> '+t('.set_deleted'),
-            url: erp_orders.set_deleted_all_backend_orders_path,
-            data_method: 'PUT',
-            data_confirm: t('.set_deleted_confirm')
-        },
-        {
-            divider: true
-        },
-        {
-            text: '<i class="fa fa-trash"></i> '+t('.delete'),
-            url: erp_orders.delete_all_backend_orders_path,
-            data_method: 'DELETE',
-            data_confirm: t('.delete_confirm')
-        }
+        
     ],
     filters: [
         {
@@ -102,15 +104,18 @@
     columns: [
         {
             text: t('.order_code'), name: 'order_code', value: true, checked: true
-        },
-        {
-            text: t('.order_date'), name: 'order_date', value: true, checked: true
-        },
+        },    
         {
             text: t('.customer'), name: 'customer', value: true, checked: true
         },
         {
             text: t('.delivered_ordered'), name: 'delivered_ordered', value: true, checked: true
+        },
+        {
+            text: t('.order_date'), name: 'order_date', value: true, checked: true
+        },
+        {
+            text: t('.warehouse'), name: 'warehouse', value: true, checked: true
         },
         {
             text: t('status'), name: 'status', value: true, checked: true

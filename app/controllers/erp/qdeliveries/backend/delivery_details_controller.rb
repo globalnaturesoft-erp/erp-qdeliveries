@@ -35,16 +35,18 @@ module Erp
 
           #@diameter = (@params[:diameter].present? ? Erp::Products::PropertiesValue.find(@params[:diameter]) : Erp::Products::PropertiesValue.new)
 
+          @max_quantity = rand(1..3)
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?
             @delivery_detail.order_detail = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product.id).first
-            @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
+            @delivery_detail.quantity = @max_quantity if !@params[:quantity].present?
           end
 
 
           render partial: 'erp/qdeliveries/backend/delivery_details/form_detail', locals: {
             delivery_detail: @delivery_detail,
-            delivery_type: @delivery_type
+            delivery_type: @delivery_type,
+            max_quantity: @max_quantity
           }
         end
       end

@@ -55,7 +55,7 @@ module Erp::Qdeliveries
       
       # order update cache payment status
 			def order_update_cache_delivery_status
-				if order.present?
+				if order_detail.present?
 					order_detail.order.update_cache_delivery_status
 				end
 			end	

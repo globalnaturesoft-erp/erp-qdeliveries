@@ -14,7 +14,9 @@
                 <th><%= t('.employee') %></th>
             <% end %>
             <% if get_columns(params).include?("delivery_date") %>
-                <th><%= t('.delivery_date') %></th>
+                <th class="sortable" sort-by='erp_qdeliveries_deliveries.date'>
+                    <%= t('.delivery_date') %>
+                </th>
             <% end %>
             <% if get_columns(params).include?("delivery_type") %>
                 <th><%= t('.delivery_type') %></th>
@@ -63,7 +65,7 @@
                 <td><%= t('.'+delivery.delivery_type) %></td>
                 <% end %>
                 <% if get_columns(params).include?("quantity") %>
-                <td class="text-center"><%=  %></td>
+                <td class="text-center"><%= delivery.total_delivery_quantity %></td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>

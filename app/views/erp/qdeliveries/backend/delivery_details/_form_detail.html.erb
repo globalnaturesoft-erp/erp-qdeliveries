@@ -33,12 +33,12 @@
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
         <div class="col-md-2">
-            <% if !delivery_detail.order_detail.id.nil? %>
+            <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' %>
                 <%= erp_form_control("select", {
                     name: "details[#{index}][quantity]",
                     value: delivery_detail.quantity,
                     placeholder: t('.choose_quantity'),
-                    options: (1..max_quantity).map{|number| {value: number, text: "#{number} / #{max_quantity}"} },
+                    options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
                     required: true
                 }) %>
             <% elsif delivery_detail.order_detail.order_id.to_s == '-1' %>

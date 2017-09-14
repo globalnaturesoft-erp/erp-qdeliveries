@@ -6,7 +6,7 @@ module Erp
           @delivery_type = params.to_unsafe_hash[:delivery_type]
           @params = params.to_unsafe_hash[:details].present? ? params.to_unsafe_hash[:details][params.to_unsafe_hash[:index]] : {}
 
-          if @params[:id].present?
+          if @params[:id].present? and !@params[:order_id].present?
             @delivery_detail = Erp::Qdeliveries::DeliveryDetail.find(@params[:id])
           else
             @delivery_detail = Erp::Qdeliveries::DeliveryDetail.new
@@ -35,18 +35,15 @@ module Erp
 
           #@diameter = (@params[:diameter].present? ? Erp::Products::PropertiesValue.find(@params[:diameter]) : Erp::Products::PropertiesValue.new)
 
-          @max_quantity = rand(1..3)
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?
             @delivery_detail.order_detail = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product.id).first
-            @delivery_detail.quantity = @max_quantity if !@params[:quantity].present?
+            @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
           end
-
 
           render partial: 'erp/qdeliveries/backend/delivery_details/form_detail', locals: {
             delivery_detail: @delivery_detail,
-            delivery_type: @delivery_type,
-            max_quantity: @max_quantity
+            delivery_type: @delivery_type
           }
         end
       end

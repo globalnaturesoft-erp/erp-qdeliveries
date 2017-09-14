@@ -7,18 +7,18 @@ module Erp::Qdeliveries
     STATUS_NOT_DELIVERY = 'not_delivery'
     STATUS_OVER_DELIVERED = 'over_deliveried'
     STATUS_NO_ORDER = 'no_order'
-    
+
     def get_delivery_code
       delivery.present? ? delivery.code : ''
     end
 
     def get_max_quantity
-      order_detail.remain_quantity
+      self.id.nil? ? order_detail.remain_quantity : order_detail.remain_quantity + DeliveryDetail.find(self.id).quantity
     end
 
     if Erp::Core.available?("orders")
       after_save :order_update_cache_delivery_status
-      
+
       belongs_to :order_detail, class_name: "Erp::Orders::OrderDetail", optional: true
 
       def get_order_code
@@ -52,13 +52,13 @@ module Erp::Qdeliveries
       def ordered_quantity
         order_detail.present? ? order_detail.quantity : 0
       end
-      
+
       # order update cache payment status
 			def order_update_cache_delivery_status
 				if order_detail.present?
 					order_detail.order.update_cache_delivery_status
 				end
-			end	
+			end
 
     end
 

@@ -2,6 +2,7 @@ module Erp::Qdeliveries
   class DeliveryDetail < ApplicationRecord
     validates :delivery, presence: true
     belongs_to :delivery, inverse_of: :delivery_details, class_name: "Erp::Qdeliveries::Delivery"
+    belongs_to :product, class_name: "Erp::Products::Product"
 
     STATUS_DELIVERED = 'deliveried'
     STATUS_NOT_DELIVERY = 'not_delivery'
@@ -26,7 +27,7 @@ module Erp::Qdeliveries
       end
 
       def get_product
-        order_detail.present? ? order_detail.product : ''
+        order_detail.present? ? order_detail.product : self.product
       end
 
       def get_order

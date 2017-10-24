@@ -5,46 +5,79 @@
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
-                        <%= erp_form_control("text", {
-                            name: 'delivery[code]',
-                            value: delivery.code,
-                            label: t('.code'),
-                            placeholder: t('.enter_code'),
-                            required: true,
-                            errors: delivery.errors.full_messages_for(:code)
-                        }) %>
-                        <%= erp_form_control('date', {
-                            name: 'delivery[date]',
-                            value: delivery.date,
-                            placeholder: t('.choose_date'),
-                            label: t('.date'),
-                            required: true,
-                            errors: delivery.errors.full_messages_for(:date)
-                        }) %>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <%= erp_form_control("text", {
+                                    name: 'delivery[code]',
+                                    value: delivery.code,
+                                    label: t('.code'),
+                                    placeholder: t('.enter_code'),
+                                    required: true,
+                                    errors: delivery.errors.full_messages_for(:code)
+                                }) %>
+                            </div>
+                            <div class="col-md-6">
+                                <%= erp_form_control('date', {
+                                    name: 'delivery[date]',
+                                    value: delivery.date,
+                                    placeholder: t('.choose_date'),
+                                    label: t('.date'),
+                                    required: true,
+                                    errors: delivery.errors.full_messages_for(:date)
+                                }) %>
+                            </div>
+                        </div>
                         <% if Erp::Core.available?("contacts") %>
-                            <%= erp_form_control("dataselect", {
-                                name: 'delivery[customer_id]',
-                                value: delivery.customer_id,
-                                text: delivery.customer_name,
-                                placeholder: t('.choose_customer'),
-                                label: t('.customer'),
-                                url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
-                                create: {
-                                    url: erp_contacts.new_backend_contact_path,
-                                    title: t('.create_customer'),
-                                    container_selector: '.new_contact',
-                                    input_selector: 'input[name="contact[name]"]',
-                                    modal_size: "full"
-                                },
-                                edit: {
-                                    url: erp_contacts.edit_backend_contact_path(id: ':value'),
-                                    title: t('.edit_customer'),
-                                    container_selector: '.edit_contact',
-                                    modal_size: "full"
-                                },
-                                required: true,
-                                errors: delivery.errors.full_messages_for(:customer_id)
-                            }) %>
+                            <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT].include?(delivery.delivery_type) %>
+                                <%= erp_form_control("dataselect", {
+                                    name: 'delivery[customer_id]',
+                                    value: delivery.customer_id,
+                                    text: delivery.customer_name,
+                                    placeholder: t('.choose_customer'),
+                                    label: t('.customer'),
+                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
+                                    create: {
+                                        url: erp_contacts.new_backend_contact_path,
+                                        title: t('.create_customer'),
+                                        container_selector: '.new_contact',
+                                        input_selector: 'input[name="contact[name]"]',
+                                        modal_size: "full"
+                                    },
+                                    edit: {
+                                        url: erp_contacts.edit_backend_contact_path(id: ':value'),
+                                        title: t('.edit_customer'),
+                                        container_selector: '.edit_contact',
+                                        modal_size: "full"
+                                    },
+                                    required: true,
+                                    errors: delivery.errors.full_messages_for(:customer_id)
+                                }) %>
+                            <% end %>
+                            <% if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery.delivery_type) %>
+                                <%= erp_form_control("dataselect", {
+                                    name: 'delivery[supplier_id]',
+                                    value: delivery.supplier_id,
+                                    text: delivery.supplier_name,
+                                    placeholder: t('.choose_supplier'),
+                                    label: t('.supplier'),
+                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
+                                    create: {
+                                        url: erp_contacts.new_backend_contact_path,
+                                        title: t('.create_supplier'),
+                                        container_selector: '.new_contact',
+                                        input_selector: 'input[name="contact[name]"]',
+                                        modal_size: "full"
+                                    },
+                                    edit: {
+                                        url: erp_contacts.edit_backend_contact_path(id: ':value'),
+                                        title: t('.edit_supplier'),
+                                        container_selector: '.edit_contact',
+                                        modal_size: "full"
+                                    },
+                                    required: true,
+                                    errors: delivery.errors.full_messages_for(:supplier_id)
+                                }) %>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -52,31 +85,6 @@
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
-                        <% if Erp::Core.available?("contacts") %>
-                            <%= erp_form_control("dataselect", {
-                                name: 'delivery[supplier_id]',
-                                value: delivery.supplier_id,
-                                text: delivery.supplier_name,
-                                placeholder: t('.choose_supplier'),
-                                label: t('.supplier'),
-                                url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
-                                create: {
-                                    url: erp_contacts.new_backend_contact_path,
-                                    title: t('.create_supplier'),
-                                    container_selector: '.new_contact',
-                                    input_selector: 'input[name="contact[name]"]',
-                                    modal_size: "full"
-                                },
-                                edit: {
-                                    url: erp_contacts.edit_backend_contact_path(id: ':value'),
-                                    title: t('.edit_supplier'),
-                                    container_selector: '.edit_contact',
-                                    modal_size: "full"
-                                },
-                                required: true,
-                                errors: delivery.errors.full_messages_for(:supplier_id)
-                            }) %>
-                        <% end %>
                         <%= erp_form_control("dataselect", {
                             name: 'delivery[employee_id]',
                             value: delivery.employee_id,

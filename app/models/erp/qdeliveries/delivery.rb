@@ -1,6 +1,6 @@
 module Erp::Qdeliveries
   class Delivery < ApplicationRecord
-    validates :code, :date, :customer_id, :supplier_id, :employee_id, :creator_id, :presence => true
+    validates :code, :date, :employee_id, :creator_id, :presence => true
 
     belongs_to :employee, class_name: "Erp::User"
     belongs_to :creator, class_name: "Erp::User"
@@ -27,8 +27,8 @@ module Erp::Qdeliveries
     end
 
     if Erp::Core.available?("contacts")
-      belongs_to :customer, class_name: "Erp::Contacts::Contact"
-      belongs_to :supplier, class_name: "Erp::Contacts::Contact"
+      belongs_to :customer, class_name: "Erp::Contacts::Contact", optional: true
+      belongs_to :supplier, class_name: "Erp::Contacts::Contact", optional: true
 
       def customer_name
         customer.present? ? customer.contact_name : ''
@@ -37,7 +37,7 @@ module Erp::Qdeliveries
         supplier.present? ? supplier.contact_name : ''
       end
     end
-    
+
     def total_delivery_quantity
       delivery_details.sum(:quantity)
     end
@@ -203,7 +203,7 @@ module Erp::Qdeliveries
 
     def destroy_details(details)
       return if !details.present?
-      
+
       ids = []
       details.each do |row|
         data = row[1]

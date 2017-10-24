@@ -54,6 +54,7 @@ module Erp
               redirect_to erp_qdeliveries.edit_backend_delivery_path(@delivery), notice: t('.success')
             end
           else
+            logger.info(@delivery.errors.to_json)
             render :new
           end
         end

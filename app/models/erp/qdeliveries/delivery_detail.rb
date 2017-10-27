@@ -14,7 +14,7 @@ module Erp::Qdeliveries
     end
 
     def get_max_quantity
-      self.id.nil? ? order_detail.remain_quantity : order_detail.remain_quantity + DeliveryDetail.find(self.id).quantity
+      self.id.nil? ? order_detail.not_delivered_qty : order_detail.not_delivered_qty + DeliveryDetail.find(self.id).quantity
     end
 
     if Erp::Core.available?("orders")

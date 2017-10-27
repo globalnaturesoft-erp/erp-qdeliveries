@@ -13,13 +13,13 @@
     </thead>
     <tbody>
         <% @order.order_details.each do |order_detail| %>
-            <% if order_detail.delivered_delivery.count > 0 %>
+            <% if order_detail.delivered_delivery_details.count > 0 %>
                 <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_deliveries_purchases_path(id: order_detail.id) %>">
             <% else %>
                 <tr>
             <% end %>
                 <td class="text-center">
-                    <% if order_detail.delivered_delivery.count > 0 %>
+                    <% if order_detail.delivered_delivery_details.count > 0 %>
                         <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
                     <% end %>
                     <strong><%= order_detail.product_code %></strong>
@@ -28,22 +28,22 @@
                 <td class="text-left"><%= order_detail.product_category_name %></td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.delivered_quantity) %></strong></td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivery_quantity) %></strong></td>
+                <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivered_quantity) %></strong></td>
                 <td class="text-right">
-                    <% if order_detail.not_delivery_quantity > 0 %>
+                    <% if order_detail.not_delivered_quantity > 0 %>
                         <span class="font-yellow-gold bold">Chưa giao</span>
-                    <% elsif order_detail.not_delivery_quantity == 0 %>
+                    <% elsif order_detail.not_delivered_quantity == 0 %>
                         <span class="font-green-meadow bold">Giao xong</span>
                     <% else %>
                         <span class="font-red-thunderbird bold">Giao dư</span>
                     <% end %>
                 </td>
                 <td class="text-right">
-                    <% if order_detail.get_delivered_deliveries.count > 0 %>
-                        <% order_detail.get_delivered_deliveries.each do |delivered_delivery| %>
-                            <%= link_to delivered_delivery.delivery.code,
-                                        erp_qdeliveries.edit_backend_delivery_path(delivered_delivery.delivery),
-                                        title: delivered_delivery.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
+                    <% if order_detail.delivered_delivery_details.count > 0 %>
+                        <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
+                            <%= link_to delivery_detail.delivery.code,
+                                        erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
+                                        title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
                         <% end %>
                     <% end %>
                 </td>

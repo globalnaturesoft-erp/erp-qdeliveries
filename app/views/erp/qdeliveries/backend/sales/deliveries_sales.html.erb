@@ -10,7 +10,7 @@
       </tr>
   </thead>
   <tbody>
-      <% @order_detail.delivered_delivery.each do |delivery_detail| %>
+      <% @order_detail.delivered_delivery_details.each do |delivery_detail| %>
           <tr>
               <td width="15%" class="text-left">
                 <%= link_to delivery_detail.get_delivery_code,

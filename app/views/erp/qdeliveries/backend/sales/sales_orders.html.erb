@@ -76,7 +76,7 @@
         }
     ],
     actions: [
-        
+
     ],
     filters: [
         {
@@ -95,7 +95,7 @@
             text: t('.not_delivery'), name: 'cache_delivery_status', value: Erp::Orders::Order::DELIVERY_STATUS_NOT_DELIVERY, checked: true
         },
         {
-            text: t('.delivered'), name: 'cache_delivery_status', value: Erp::Orders::Order::DELIVERY_STATUS_DELIVERED, checked: false
+            text: t('.delivered'), name: 'cache_delivery_status', value: Erp::Orders::Order::DELIVERY_STATUS_DELIVERED, checked: true
         },
         {
             text: t('.over_delivered'), name: 'cache_delivery_status', value: Erp::Orders::Order::DELIVERY_STATUS_OVER_DELIVERED, checked: false
@@ -104,7 +104,7 @@
     columns: [
         {
             text: t('.order_code'), name: 'order_code', value: true, checked: true
-        },        
+        },
         {
             text: t('.customer'), name: 'customer', value: true, checked: true
         },

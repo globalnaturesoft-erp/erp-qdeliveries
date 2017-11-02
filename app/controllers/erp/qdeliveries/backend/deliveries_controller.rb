@@ -30,6 +30,23 @@ module Erp
           @delivery.date = Time.now
           @delivery.delivery_type = params[:delivery_type].to_s if params[:delivery_type].present?
           @delivery.employee_id = current_user.id
+
+          if params[:order_id].present?
+            @order = Erp::Orders::Order.find(params[:order_id])
+            @delivery.customer_id = @order.customer_id if @order.sales?
+            @delivery.supplier_id = @order.supplier_id if @order.purchase?
+
+            @order.order_details.each do |od|
+              if !od.is_delivered?
+                @delivery.delivery_details.build(
+                  order_detail_id: od.id,
+                  state_id: (Erp::Products::State.first.nil? ? nil : Erp::Products::State.first.id),
+                  warehouse_id: @order.warehouse_id,
+                  quantity: od.not_delivered_quantity,
+                )
+              end
+            end
+          end
         end
 
         # GET /deliveries/1/edit

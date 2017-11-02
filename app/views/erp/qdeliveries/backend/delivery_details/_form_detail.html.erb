@@ -54,8 +54,8 @@
         <div class="col-md-2">
             <%= erp_form_control("dataselect", {
                 name: "details[#{index}][state_id]",
-                value: delivery_detail.state.id,
-                text: delivery_detail.state.name,
+                value: delivery_detail.state_id,
+                text: delivery_detail.state_name,
                 placeholder: t('.choose_sate'),
                 url: erp_products.dataselect_backend_states_path(format: 'json'),
                 required: true

@@ -71,13 +71,15 @@
                 required: true
             }) %>
         </div>
-        <div class="col-md-2">
-            <%= erp_form_control("number", {
-                name: "details[#{index}][price]",
-                value: delivery_detail.price,
-                placeholder: 'Giá',
-            }) %>
-        </div>
+        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery_detail.delivery.delivery_type %>
+            <div class="col-md-2">
+                <%= erp_form_control("number", {
+                    name: "details[#{index}][price]",
+                    value: delivery_detail.price,
+                    placeholder: 'Giá',
+                }) %>
+            </div>
+        <% end %>
     <% else %>
         <div class="col-md-6"></div>
     <% end %>

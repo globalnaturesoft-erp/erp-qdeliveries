@@ -25,7 +25,11 @@ module Erp::Qdeliveries
     end
 
     def get_max_quantity
-      self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
+      if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery.delivery_type)
+				self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
+			elsif [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT].include?(delivery.delivery_type)
+				self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
+			end
     end
 
     if Erp::Core.available?("orders")

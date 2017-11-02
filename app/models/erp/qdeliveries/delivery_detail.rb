@@ -9,12 +9,23 @@ module Erp::Qdeliveries
     STATUS_OVER_DELIVERED = 'over_deliveried'
     STATUS_NO_ORDER = 'no_order'
 
+    after_save :update_product_cache_stock
+
+    # update product cache stock
+    def update_product_cache_stock
+			self.product.update_cache_stock
+		end
+
+    def price=(new_price)
+      self[:price] = new_price.to_s.gsub(/\,/, '')
+    end
+
     def get_delivery_code
       delivery.present? ? delivery.code : ''
     end
 
     def get_max_quantity
-      self.id.nil? ? order_detail.not_delivered_qty : order_detail.not_delivered_qty + DeliveryDetail.find(self.id).quantity
+      self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
     end
 
     if Erp::Core.available?("orders")

@@ -24,16 +24,12 @@ module Erp
 
           @delivery_detail.order_detail.order_id = @params[:order_id] if @params[:order_id].present?
 
-          #@delivery_detail.order_detail.product.code = @params[:product_code] if @params[:product_code].present?
-          #@delivery_detail.order_detail.product.category = Erp::Products::Category.find(@params[:category_id]) if @params[:category_id].present?
-
           @delivery_detail.quantity = @params[:quantity].to_i if @params[:quantity].present?
+          @delivery_detail.price = @params[:price] if @params[:price].present?
           @delivery_detail.warehouse = Erp::Warehouses::Warehouse.find(@params[:warehouse_id]) if @params[:warehouse_id].present?
 
           @delivery_detail.order_detail.product = Erp::Products::Product.find(@params[:product_id]) if @params[:product_id].present?
           @delivery_detail.state = Erp::Products::State.find(@params[:state_id]) if @params[:state_id].present?
-
-          #@diameter = (@params[:diameter].present? ? Erp::Products::PropertiesValue.find(@params[:diameter]) : Erp::Products::PropertiesValue.new)
 
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?

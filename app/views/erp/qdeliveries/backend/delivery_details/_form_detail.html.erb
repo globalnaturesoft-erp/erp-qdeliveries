@@ -18,7 +18,7 @@
             required: true
         }) %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <%= erp_form_control("dataselect", {
             name: "details[#{index}][product_id]",
             value: delivery_detail.order_detail.product.id,
@@ -32,7 +32,7 @@
         }) %>
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' %>
                 <%= erp_form_control("select", {
                     name: "details[#{index}][quantity]",
@@ -68,6 +68,13 @@
                 placeholder: t('.choose_warehouse'),
                 url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json'),
                 required: true
+            }) %>
+        </div>
+        <div class="col-md-2">
+            <%= erp_form_control("number", {
+                name: "details[#{index}][price]",
+                value: delivery_detail.price,
+                placeholder: 'Giá',
             }) %>
         </div>
     <% else %>

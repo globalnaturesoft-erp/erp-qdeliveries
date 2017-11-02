@@ -18,6 +18,15 @@ module Erp::Qdeliveries
     TYPE_CUSTOMER_IMPORT = 'customer_import'
     TYPE_MANUFACTURER_EXPORT = 'manufacturer_export'
 
+    after_save :update_product_cache_stock
+
+    # update product cache stock
+    def update_product_cache_stock
+			self.delivery_details.each do |dd|
+        dd.product.update_cache_stock
+      end
+		end
+
     def creator_name
       creator.present? ? creator.name : ''
     end
@@ -178,7 +187,8 @@ module Erp::Qdeliveries
             quantity: data["quantity"],
             state_id: data["state_id"],
             warehouse_id: data["warehouse_id"],
-            product_id: data["product_id"]
+            product_id: data["product_id"],
+            price: data["price"],
           )
         end
       end

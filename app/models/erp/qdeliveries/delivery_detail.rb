@@ -30,6 +30,7 @@ module Erp::Qdeliveries
 
     if Erp::Core.available?("orders")
       after_save :order_update_cache_delivery_status
+      after_save :update_order_detail_cache_delivery_status
 
       belongs_to :order_detail, class_name: "Erp::Orders::OrderDetail", optional: true
 
@@ -69,6 +70,12 @@ module Erp::Qdeliveries
 			def order_update_cache_delivery_status
 				if order_detail.present?
 					order_detail.order.update_cache_delivery_status
+				end
+			end
+
+			def update_order_detail_cache_delivery_status
+				if order_detail.present?
+					order_detail.update_cache_delivery_status
 				end
 			end
 

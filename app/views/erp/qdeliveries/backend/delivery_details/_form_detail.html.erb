@@ -26,7 +26,8 @@
             placeholder: t('.choose_product'),
             url: erp_products.dataselect_backend_products_path(
                 format: 'json',
-                order_id: delivery_detail.order_detail.order_id.to_i > 0 ? delivery_detail.order_detail.order_id : nil
+                order_id: delivery_detail.order_detail.order_id.to_i > 0 ? delivery_detail.order_detail.order_id : nil,
+                delivery_type: delivery_type
             ),
             required: true
         }) %>

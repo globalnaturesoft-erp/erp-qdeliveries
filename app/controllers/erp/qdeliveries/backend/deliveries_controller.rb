@@ -29,6 +29,7 @@ module Erp
           @delivery = Delivery.new
           @delivery.date = Time.now
           @delivery.delivery_type = params[:delivery_type].to_s if params[:delivery_type].present?
+          @delivery.employee_id = current_user.id
         end
 
         # GET /deliveries/1/edit

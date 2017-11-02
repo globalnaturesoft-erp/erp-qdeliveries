@@ -24,6 +24,11 @@ module Erp
 
           @delivery_detail.order_detail.order_id = @params[:order_id] if @params[:order_id].present?
 
+          # if has order, get warehouse info
+          if @params[:order_id]
+            @delivery_detail.warehouse_id = Erp::Orders::Order.find(@params[:order_id]).warehouse_id
+          end
+
           @delivery_detail.quantity = @params[:quantity].to_i if @params[:quantity].present?
           @delivery_detail.price = @params[:price] if @params[:price].present?
           @delivery_detail.warehouse = Erp::Warehouses::Warehouse.find(@params[:warehouse_id]) if @params[:warehouse_id].present?

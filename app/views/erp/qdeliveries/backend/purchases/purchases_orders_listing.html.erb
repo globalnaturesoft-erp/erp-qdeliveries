@@ -8,10 +8,10 @@
                 <th width='11%'>
                     <%= t('.order_code') %>
                 </th>
-            <% end %>            
+            <% end %>
             <% if get_columns(params).include?("customer") %>
                 <th>
-                    <%= t('.customer') %>
+                    <%= t('.supplier') %>
                 </th>
             <% end %>
             <% if get_columns(params).include?("delivered_ordered") %>
@@ -58,9 +58,9 @@
                     <i class="fa fa-plus expand tr-expand-button"></i>
                     <strong><%= link_to order.code, erp_orders.edit_backend_order_path(order), class: "font-yellow-gold sbold", target: "_blank", title: order.code %></strong>
                 </td>
-                <% end %>                
+                <% end %>
                 <% if get_columns(params).include?("customer") %>
-                <td><%= order.customer_name %></td>
+                <td><%= order.supplier_name %></td>
                 <% end %>
                 <% if get_columns(params).include?("delivered_ordered") %>
                 <td><strong><%= order.total_ordered_quantity %></strong></td>

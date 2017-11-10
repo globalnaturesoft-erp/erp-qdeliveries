@@ -66,6 +66,14 @@ module Erp::Qdeliveries
         end
       end
 
+      def product_unit
+        if order_detail.present?
+          order_detail.product_unit_name
+        else product.present?
+          product.unit_name
+        end
+      end
+
       def ordered_quantity
         order_detail.present? ? order_detail.quantity : 0
       end
@@ -101,5 +109,10 @@ module Erp::Qdeliveries
         warehouse.present? ? warehouse.name : ''
       end
     end
+    
+    # total amount (if product return)
+    def total_amount
+			quantity*price
+		end
   end
 end

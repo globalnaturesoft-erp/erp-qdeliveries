@@ -13,6 +13,7 @@ module Erp::Qdeliveries
     TYPE_EXPORT = 'export'
     STATUS_DELIVERED = 'delivered'
     STATUS_DELETED = 'deleted'
+    
     TYPE_WAREHOUSE_IMPORT = 'warehouse_import'
     TYPE_WAREHOUSE_EXPORT = 'warehouse_export'
     TYPE_CUSTOMER_IMPORT = 'customer_import'
@@ -39,9 +40,18 @@ module Erp::Qdeliveries
       belongs_to :customer, class_name: "Erp::Contacts::Contact", optional: true
       belongs_to :supplier, class_name: "Erp::Contacts::Contact", optional: true
 
+      def customer_code
+        customer.present? ? customer.code : ''
+      end
+      
+      def supplier_code
+        supplier.present? ? supplier.code : ''
+      end
+      
       def customer_name
         customer.present? ? customer.contact_name : ''
       end
+      
       def supplier_name
         supplier.present? ? supplier.contact_name : ''
       end
@@ -132,13 +142,23 @@ module Erp::Qdeliveries
     end
 
     # data for dataselect ajax
-    def self.dataselect(keyword='')
+    def self.dataselect(keyword='', params={})
       query = self.all
 
       if keyword.present?
         keyword = keyword.strip.downcase
-        query = query.where('LOWER(name) LIKE ?', "%#{keyword}%")
+        query = query.where('LOWER(code) LIKE ?', "%#{keyword}%")
       end
+
+      # filter by status
+      if params[:status].present?
+				query = query.where(status: params[:status])
+			end
+
+      # filter by delivery_type
+      if params[:delivery_type].present?
+				query = query.where(delivery_type: params[:delivery_type])
+			end
 
       query = query.limit(8).map{|delivery| {value: delivery.id, text: delivery.code} }
     end
@@ -222,5 +242,34 @@ module Erp::Qdeliveries
         end
       end
     end
+    
+    if Erp::Core.available?("payments")
+			has_many :payment_records, class_name: "Erp::Payments::PaymentRecord"
+		end
+    
+		# get pay payment records for order
+		def done_paid_payment_records
+			self.payment_records.all_done.all_paid
+		end
+
+		# get receice payment records for order
+		def done_receiced_payment_records
+			self.payment_records.all_done.all_received
+		end
+		
+		# get total amount
+		def total_amount
+			return delivery_details.sum(&:total_amount)
+		end
+		
+		# get paid amount
+		def paid_amount
+			self.done_paid_payment_records.sum(:amount) - self.done_receiced_payment_records.sum(:amount)
+		end
+		
+		# get remain amount
+		def remain_amount
+			return total_amount - paid_amount
+		end
   end
 end

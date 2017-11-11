@@ -12,7 +12,7 @@
                                     value: delivery.code,
                                     label: t('.code'),
                                     placeholder: t('.enter_code'),
-                                    required: true,
+                                    required: !delivery.id.nil?,
                                     errors: delivery.errors.full_messages_for(:code)
                                 }) %>
                             </div>
@@ -28,7 +28,10 @@
                             </div>
                         </div>
                         <% if Erp::Core.available?("contacts") %>
-                            <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT].include?(delivery.delivery_type) %>
+                            <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT].include?(delivery.delivery_type) %>
                                 <%= erp_form_control("dataselect", {
                                     name: 'delivery[customer_id]',
                                     value: delivery.customer_id,
@@ -53,7 +56,10 @@
                                     errors: delivery.errors.full_messages_for(:customer_id)
                                 }) %>
                             <% end %>
-                            <% if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery.delivery_type) %>
+                            <% if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT,
+                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT].include?(delivery.delivery_type) %>
                                 <%= erp_form_control("dataselect", {
                                     name: 'delivery[supplier_id]',
                                     value: delivery.supplier_id,

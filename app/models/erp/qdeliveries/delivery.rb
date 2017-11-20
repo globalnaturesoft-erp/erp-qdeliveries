@@ -31,6 +31,15 @@ module Erp::Qdeliveries
         dd.product.update_cache_stock
       end
 		end
+    
+    after_save :update_delivery_detail_cache_total
+
+    # update cache total for delivery_detail
+    def update_delivery_detail_cache_total
+			self.delivery_details.each do |dd|
+        dd.update_cache_total
+      end
+		end
 
     def creator_name
       creator.present? ? creator.name : ''
@@ -198,6 +207,11 @@ module Erp::Qdeliveries
     def self.status_deleted_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
+    
+    # Get all active deliveries
+    def self.all_delivered
+      self.where(status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED)
+    end
 
     def fill_details(details, force=false)
       return if !details.present?

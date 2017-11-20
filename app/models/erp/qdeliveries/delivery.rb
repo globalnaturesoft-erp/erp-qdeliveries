@@ -1,6 +1,6 @@
 module Erp::Qdeliveries
   class Delivery < ApplicationRecord
-		
+
 		validates :code, uniqueness: true
     validates :date, :employee_id, :creator_id, :presence => true
 
@@ -15,7 +15,7 @@ module Erp::Qdeliveries
     TYPE_EXPORT = 'export'
     STATUS_DELIVERED = 'delivered'
     STATUS_DELETED = 'deleted'
-    
+
     TYPE_WAREHOUSE_IMPORT = 'warehouse_import'
     TYPE_WAREHOUSE_EXPORT = 'warehouse_export'
     TYPE_CUSTOMER_IMPORT = 'customer_import'
@@ -47,15 +47,15 @@ module Erp::Qdeliveries
       def customer_code
         customer.present? ? customer.code : ''
       end
-      
+
       def supplier_code
         supplier.present? ? supplier.code : ''
       end
-      
+
       def customer_name
         customer.present? ? customer.contact_name : ''
       end
-      
+
       def supplier_name
         supplier.present? ? supplier.contact_name : ''
       end
@@ -246,11 +246,11 @@ module Erp::Qdeliveries
         end
       end
     end
-    
+
     if Erp::Core.available?("payments")
 			has_many :payment_records, class_name: "Erp::Payments::PaymentRecord"
 		end
-    
+
 		# get pay payment records for order
 		def done_paid_payment_records
 			self.payment_records.all_done.all_paid
@@ -260,22 +260,22 @@ module Erp::Qdeliveries
 		def done_receiced_payment_records
 			self.payment_records.all_done.all_received
 		end
-		
+
 		# get total amount
 		def total_amount
 			return delivery_details.sum(&:total_amount)
 		end
-		
+
 		# get paid amount
 		def paid_amount
 			self.done_paid_payment_records.sum(:amount) - self.done_receiced_payment_records.sum(:amount)
 		end
-		
+
 		# get remain amount
 		def remain_amount
 			return total_amount - paid_amount
 		end
-		
+
 		# Generate code
     before_validation :generate_code
     def generate_code
@@ -296,15 +296,15 @@ module Erp::Qdeliveries
 					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT)
 					str = 'XB'
 				end
-				
+
 				# NK : nhập kho, mua hàng từ nhà cung cấp
 				# XK : xuất kho trả hàng NCC
 				# HK : hoàn kho, hàng bị trả lại
 				# XB : xuất hàng bán
-				
+
 				#str = (is_receipt_voucher? ? 'PT' : 'PC')
 				num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month).count + 1
-				
+
 				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0')
 			end
 		end

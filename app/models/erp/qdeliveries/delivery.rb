@@ -31,7 +31,7 @@ module Erp::Qdeliveries
         dd.product.update_cache_stock
       end
 		end
-    
+
     after_save :update_delivery_detail_cache_total
 
     # update cache total for delivery_detail
@@ -207,7 +207,7 @@ module Erp::Qdeliveries
     def self.status_deleted_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
-    
+
     # Get all active deliveries
     def self.all_delivered
       self.where(status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED)
@@ -218,7 +218,7 @@ module Erp::Qdeliveries
 
       details.each do |row|
         data = row[1]
-        if !data["id"].present? or force
+        if (!data["id"].present? or force) and data["_destroy"] != 'true'
           self.delivery_details.build(
             id: data["id"],
             order_detail_id: data["order_detail_id"],

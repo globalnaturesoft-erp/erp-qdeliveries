@@ -1,8 +1,7 @@
 <table class="table table-bordered table-striped flip-content">
     <thead class="flip-content">
         <tr>
-            <th width="0%" class="bg-yellow bg-font-yellow text-nowrap text-left">Mã SP</th>
-            <th class="bg-yellow bg-font-yellow text-left">Tên SP</th>
+            <th class="bg-yellow bg-font-yellow text-left" width="20%">Tên SP</th>
             <th class="bg-yellow bg-font-yellow text-nowrap">Thuộc đơn hàng</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đặt</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đã giao</th>
@@ -13,13 +12,14 @@
     <tbody>
         <% @delivery.delivery_details.each do |delivery_detail| %>
             <tr>
-                <td width="10%" class="text-left"><strong><%= delivery_detail.product_code %></strong></td>
-                <td class="text-left"><%= link_to delivery_detail.product_name, erp_products.edit_backend_product_path(delivery_detail.get_product), target: "_blank", title: delivery_detail.product_name, class: "font-green-sharp sbold" %></td>
+                <td class="text-left font-green-sharp sbold">
+                    <%= delivery_detail.product_name %>
+                </td>
                 <td class="text-left">
                     <% if delivery_detail.order_detail_id.nil? %>
                         Không chứng từ
                     <% else %>
-                        <%= link_to delivery_detail.get_order_code, erp_orders.edit_backend_order_path(delivery_detail.get_order), target: "_blank", title: delivery_detail.get_order_code, class: "font-red-thunderbird sbold" %>
+                        <%= delivery_detail.get_order_code %>
                     <% end %>
                 </td>
                 <td class="numeric text-center">

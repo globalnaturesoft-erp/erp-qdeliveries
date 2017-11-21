@@ -69,7 +69,7 @@ module Erp
                 value: @delivery.id
               }
             else
-              redirect_to erp_qdeliveries.edit_backend_delivery_path(@delivery), notice: t('.success')
+              redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
             end
           else
             logger.info(@delivery.errors.to_json)
@@ -93,7 +93,7 @@ module Erp
                 value: @delivery.id
               }
             else
-              redirect_to erp_qdeliveries.edit_backend_delivery_path(@delivery), notice: t('.success')
+              redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
             end
           else
             render :edit

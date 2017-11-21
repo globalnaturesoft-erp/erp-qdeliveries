@@ -162,6 +162,8 @@ vi:
             warehouse_import: "Nhập kho - Mua hàng"
             customer_import: "Khách hàng trả hàng"
             manufacturer_export: "Trả hàng NCC"
+            custom_import: "Nhập khác"
+            custom_export: "Xuất khác"
           new:
             warehouse_export: "Xuất kho - Bán hàng"
             warehouse_import: "Nhập kho - Mua hàng"

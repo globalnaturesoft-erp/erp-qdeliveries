@@ -24,6 +24,13 @@ module Erp::Qdeliveries
     TYPE_CUSTOM_EXPORT = 'custom_export'
 
     after_save :update_product_cache_stock
+    after_save :order_update_cache_delivery_status
+
+    def order_update_cache_delivery_status
+      delivery_details.each do |dd|
+        dd.order_update_cache_delivery_status
+      end
+    end
 
     # update product cache stock
     def update_product_cache_stock
@@ -78,23 +85,6 @@ module Erp::Qdeliveries
     def self.filter(query, params)
       params = params.to_unsafe_hash
       and_conds = []
-      show_archived = false
-
-      #filters
-      if params["filters"].present?
-        params["filters"].each do |ft|
-          or_conds = []
-          ft[1].each do |cond|
-            # in case filter is show archived
-            if cond[1]["name"] == 'show_archived'
-              show_archived = true
-            else
-              or_conds << "#{cond[1]["name"]} = '#{cond[1]["value"]}'"
-            end
-          end
-          and_conds << '('+or_conds.join(' OR ')+')' if !or_conds.empty?
-        end
-      end
 
       # show archived items condition - default: false
       show_archived = false
@@ -126,6 +116,41 @@ module Erp::Qdeliveries
           and_conds << '('+or_conds.join(' OR ')+')'
         end
       end
+
+      # global filter
+      global_filter = params[:global_filter]
+
+      if global_filter.present?
+
+				# filter by customer
+				if global_filter[:customer_id].present?
+					query = query.where(customer_id: global_filter[:customer_id])
+				end
+
+				# filter by supplier
+				if global_filter[:supplier_id].present?
+					query = query.where(supplier_id: global_filter[:supplier_id])
+				end
+
+				# if has period
+        if global_filter[:period].present?
+          period = Erp::Periods::Period.find(global_filter[:period])
+          global_filter[:from_date] = period.from_date
+          global_filter[:to_date] = period.to_date
+        end
+
+				# filter by order from date
+				if global_filter[:from_date].present?
+					query = query.where('date >= ?', global_filter[:from_date].to_date.beginning_of_day)
+				end
+
+				# filter by order to date
+				if global_filter[:to_date].present?
+					query = query.where('date <= ?', global_filter[:to_date].to_date.end_of_day)
+				end
+
+			end
+      # end// global filter
 
       # join with users table for search creator
       query = query.joins(:creator)
@@ -237,13 +262,16 @@ module Erp::Qdeliveries
 
       details.each do |row|
         data = row[1]
-        if data["id"].present?
+        if data["id"].present? and data["_destroy"].present?
+          self.delivery_details.find(data["id"]).destroy
+        elsif data["id"].present?
           self.delivery_details.find(data["id"]).update(
             order_detail_id: data["order_detail_id"],
             quantity: data["quantity"],
             state_id: data["state_id"],
             warehouse_id: data["warehouse_id"],
-            product_id: data["product_id"]
+            product_id: data["product_id"],
+            price: data["price"],
           )
         end
       end

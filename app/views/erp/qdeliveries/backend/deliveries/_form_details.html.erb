@@ -4,10 +4,11 @@
     <div class="col-md-2">Chứng từ</div>
     <div class="col-md-2">Sản phẩm</div>
     <div class="col-md-1">Số lượng</div>
-    <div class="col-md-2">Tình trạng</div>
-    <div class="col-md-2">Kho</div>
+    <div class="col-md-1">Tình trạng</div>
+    <div class="col-md-1">Kho</div>
     <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery.delivery_type %>
-        <div class="col-md-2">Giá / 1sản phẩm</div>
+        <div class="col-md-2">Đơn giá</div>
+        <div class="col-md-2">Tổng</div>
     <% end %>
     <div class="col-md-1"></div>
 </div>

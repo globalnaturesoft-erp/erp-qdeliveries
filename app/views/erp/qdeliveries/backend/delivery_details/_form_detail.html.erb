@@ -5,18 +5,27 @@
         <input type="hidden" name="details[<%= index %>][order_detail_id]" value="<%= delivery_detail.order_detail.id %>" />
         <input type="hidden" name="details[<%= index %>][id]" value="<%= delivery_detail.id %>" />
         <input type="hidden" class="destroy_input" name="details[<%= index %>][_destroy]" value="" />
-        <%= erp_form_control("dataselect", {
-            name: "details[#{index}][order_id]",
-            value: delivery_detail.order_detail.order_id,
-            text: delivery_detail.order_detail.order_id.to_s == '-1' ? '-Không chứng từ-' : delivery_detail.order_detail.order.get_name,
-            placeholder: t('.choose_order'),
-            url: erp_orders.dataselect_backend_orders_path(format: 'json',
-                product_id: delivery_detail.order_detail.product.id,
-                include_na: '-Không chứng từ-',
-                delivery_type: delivery_type
-            ),
-            required: true
-        }) %>
+        <% if [
+            Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
+            Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
+            ].include? delivery_detail.delivery.delivery_type
+        %>
+            <input type="hidden" value="-1" name="details[<%= index %>][order_id]" />
+            <span class="text-bold">Không chứng từ</span>
+        <% else %>
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][order_id]",
+                value: delivery_detail.order_detail.order_id,
+                text: delivery_detail.order_detail.order_id.to_s == '-1' ? '-Không chứng từ-' : delivery_detail.order_detail.order.get_name,
+                placeholder: t('.choose_order'),
+                url: erp_orders.dataselect_backend_orders_path(format: 'json',
+                    product_id: delivery_detail.order_detail.product.id,
+                    include_na: '-Không chứng từ-',
+                    delivery_type: delivery_type
+                ),
+                required: true
+            }) %>
+        <% end %>
     </div>
     <div class="col-md-2">
         <%= erp_form_control("dataselect", {
@@ -34,7 +43,7 @@
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
         <div class="col-md-1">
-            <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' %>
+            <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
                 <%= erp_form_control("select", {
                     name: "details[#{index}][quantity]",
                     value: delivery_detail.quantity,
@@ -42,7 +51,7 @@
                     options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
                     required: true
                 }) %>
-            <% elsif delivery_detail.order_detail.order_id.to_s == '-1' %>
+            <% elsif delivery_detail.order_detail.order_id.to_s == '-1' or !delivery_detail.id.nil? %>
                 <%= erp_form_control("number", {
                     name: "details[#{index}][quantity]",
                     value: delivery_detail.quantity,
@@ -51,7 +60,7 @@
                 }) %>
             <% end %>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <%= erp_form_control("dataselect", {
                 name: "details[#{index}][state_id]",
                 value: delivery_detail.state_id,
@@ -61,7 +70,7 @@
                 required: true
             }) %>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <%= erp_form_control("dataselect", {
                 name: "details[#{index}][warehouse_id]",
                 value: delivery_detail.warehouse.id,
@@ -78,6 +87,14 @@
                     value: delivery_detail.price,
                     placeholder: 'Giá trả',
                 }) %>
+                <% if delivery_detail.order_detail_id.present? %>
+                    <div class="font-yellow text-small text-semibold" style="font-size: 70%; margin-top: -20px;margin-bottom: 20px;">
+                        Giá mua: <%= format_price(delivery_detail.order_detail.price) %>
+                    </div>
+                <% end %>
+            </div>
+            <div class="col-md-2 text-bold text-right" style="padding:7px 15px">
+                <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
             </div>
         <% end %>
     <% else %>

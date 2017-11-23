@@ -7,6 +7,10 @@
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đã giao</th>
             <th class="bg-yellow bg-font-yellow text-nowrap">Tình trạng</th>
             <th class="bg-yellow bg-font-yellow text-nowrap">Kho</th>
+            <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Đơn giá</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Tổng</th>
+            <% end %>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +36,10 @@
                 <td class="numeric text-center"><strong><%= delivery_detail.quantity %></strong></td>
                 <td class="text-left"><%= delivery_detail.state_name %></td>
                 <td class="text-left"><%= delivery_detail.warehouse_name %></td>
+                <% if delivery_detail.price.present? %>
+                    <td class="text-right"><%= format_price(delivery_detail.price) %></td>
+                    <td class="text-right"><%= format_price(delivery_detail.total_amount) %></td>
+                <% end %>
             </tr>
         <% end %>
     </tbody>

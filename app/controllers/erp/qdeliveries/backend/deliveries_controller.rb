@@ -79,12 +79,9 @@ module Erp
 
         # PATCH/PUT /deliveries/1
         def update
-          @delivery.fill_details(params.to_unsafe_hash[:details])
-
           if @delivery.update(delivery_params)
             # destroy detals not in form
             @delivery.update_details(params.to_unsafe_hash[:details])
-            @delivery.destroy_details(params.to_unsafe_hash[:details])
 
             if request.xhr?
               render json: {

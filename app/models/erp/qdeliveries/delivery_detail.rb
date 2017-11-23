@@ -13,7 +13,7 @@ module Erp::Qdeliveries
 
     # update product cache stock
     def update_product_cache_stock
-			self.product.update_cache_stock
+			self.product.update_cache_stock if self.product.present?
 		end
 
     def price=(new_price)

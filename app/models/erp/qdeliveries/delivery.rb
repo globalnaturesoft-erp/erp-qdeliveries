@@ -35,7 +35,7 @@ module Erp::Qdeliveries
     # update product cache stock
     def update_product_cache_stock
 			self.delivery_details.each do |dd|
-        dd.product.update_cache_stock
+        dd.update_product_cache_stock
       end
 		end
 

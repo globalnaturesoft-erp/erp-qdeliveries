@@ -183,9 +183,11 @@
     <% end %>
 </div>
 <div class="mt-5 text-small">
-    Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %></trong>
-    <br>
-    Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
+    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+      Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %></trong>
+      <br>
+    <% end %>
+    
 </div>
 <% content_for :footer do %>
     <div class="col text-center" style="width: 25%">

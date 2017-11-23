@@ -80,53 +80,6 @@
                                     errors: delivery.errors.full_messages_for(:supplier_id)
                                 }) %>
                             <% end %>
-                            <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT,
-                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT].include?(delivery.delivery_type) %>
-                                <%= erp_form_control("dataselect", {
-                                    name: 'delivery[customer_id]',
-                                    value: delivery.customer_id,
-                                    text: delivery.customer_name,
-                                    placeholder: t('.choose_customer'),
-                                    label: t('.customer'),
-                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
-                                    create: {
-                                        url: erp_contacts.new_backend_contact_path,
-                                        title: t('.create_customer'),
-                                        container_selector: '.new_contact',
-                                        input_selector: 'input[name="contact[name]"]',
-                                        modal_size: "full"
-                                    },
-                                    edit: {
-                                        url: erp_contacts.edit_backend_contact_path(id: ':value'),
-                                        title: t('.edit_customer'),
-                                        container_selector: '.edit_contact',
-                                        modal_size: "full"
-                                    },
-                                    errors: delivery.errors.full_messages_for(:customer_id)
-                                }) %>
-                                <%= erp_form_control("dataselect", {
-                                    name: 'delivery[supplier_id]',
-                                    value: delivery.supplier_id,
-                                    text: delivery.supplier_name,
-                                    placeholder: t('.choose_supplier'),
-                                    label: t('.supplier'),
-                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
-                                    create: {
-                                        url: erp_contacts.new_backend_contact_path,
-                                        title: t('.create_supplier'),
-                                        container_selector: '.new_contact',
-                                        input_selector: 'input[name="contact[name]"]',
-                                        modal_size: "full"
-                                    },
-                                    edit: {
-                                        url: erp_contacts.edit_backend_contact_path(id: ':value'),
-                                        title: t('.edit_supplier'),
-                                        container_selector: '.edit_contact',
-                                        modal_size: "full"
-                                    },
-                                    errors: delivery.errors.full_messages_for(:supplier_id)
-                                }) %>
-                            <% end %>
                         <% end %>
                     </div>
                 </div>

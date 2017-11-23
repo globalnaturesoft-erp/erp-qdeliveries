@@ -15,6 +15,8 @@ Erp::Qdeliveries::Engine.routes.draw do
 					put 'archive_all'
 					put 'unarchive_all'
 					get 'delivery_details'
+					post 'show_list'
+					get 'pdf'
 				end
 			end
 			

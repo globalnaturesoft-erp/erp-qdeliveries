@@ -9,22 +9,66 @@
 <% end %>
 
 <% content_for :page_toolbar do %>
-    <%= erp_component('button/create', {
-        text: t('.warehouse_export'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT)
+    
+    <!-- create export -->
+    <%=
+        actions = []
+        actions << {
+            text: t('.warehouse_export'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT
+            )
+        }
+        actions << {
+            text: t('.manufacturer_export'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT
+            )
+        }
+        actions << {divider: true}
+        actions << {
+            text: t('.custom_export'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
+            )
+        }
+        erp_component('button/actions', {
+        actions: actions,
+        text: t('.create_export'),
+        class: 'btn-noborder btn-sm',
+        icon: 'glyphicon glyphicon-export'
     }) %>
-    <%= erp_component('button/create', {
-        text: t('.warehouse_import'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT)
-    }) %>
-    <%= erp_component('button/create', {
-        text: t('.customer_import'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT)
-    }) %>
-    <%= erp_component('button/create', {
-        text: t('.manufacturer_export'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT)
-    }) %>
+    
+    <!-- create import -->
+    <%=
+        actions = []
+        actions << {
+            text: t('.customer_import'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT
+            )
+        }
+        actions << {
+            text: t('.warehouse_import'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT
+            )
+        }
+        actions << {divider: true}
+        actions << {
+            text: t('.custom_import'),
+            url: erp_qdeliveries.new_backend_delivery_path(
+                delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT
+            )
+        }
+        erp_component('button/actions', {
+            actions: actions,
+            text: t('.create_import'),
+            class: 'btn-noborder btn-sm',
+            icon: 'glyphicon glyphicon-import'
+        })
+    %>
+    
 <% end %>
 
 <div class="row">

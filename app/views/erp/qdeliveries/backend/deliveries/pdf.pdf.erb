@@ -1,0 +1,217 @@
+<% content_for :title_line_1 do %>
+    <%= 'PHIẾU NHẬP KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT %>
+    <%= 'HÀNG BÁN BỊ TRẢ LẠI' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+    <%= 'PHIẾU NHẬP KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT %>
+    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT %>
+    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT %>
+    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT %>
+<% end %>
+
+<% content_for :title_line_2 do %>
+    Ngày <%= @delivery.date.strftime('%d') %>
+    tháng <%= @delivery.date.strftime('%m') %>
+    năm <%= @delivery.date.strftime('%Y') %>.
+    <div>Số: <%= @delivery.code %></div>
+<% end %>
+
+<% content_for :main_info_col_1 do %>
+  <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
+         Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(@delivery.delivery_type) %>
+    <p>
+      <label>Người phụ trách:</label>
+      <span><%= @delivery.employee_name %></span>
+    </p>
+  <% else %>
+    <p>
+      <label>
+        <%= 'Người giao hàng' if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
+                                  Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) %>
+        <%= 'Người nhận hàng' if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT,
+                                  Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(@delivery.delivery_type) %>
+        :
+      </label>
+      <span><strong><%= @delivery.get_contact.contact_name %></strong></span>
+    </p>
+    <p>
+      <label>Địa chỉ:</label>
+      <span><%= display_contact_address(@delivery.get_contact) %></span>
+    </p>
+  <% end %>
+  <p>
+    <label>Ghi chú:</label>
+    <span><%= @delivery.note %></span>
+  </p>
+<% end %>
+
+<% content_for :main_info_col_2 do %>
+  
+<% end %>
+
+<% content_for :main_info_col_3 do %>
+  <p>
+    <label>Theo ... số ... ngày ... tháng ... năm ... của:</label>
+    <span></span>
+  </p>
+  <% if ![Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
+         Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(@delivery.delivery_type) %>
+    <p>
+      <label>NV phụ trách:</label>
+      <span><%= @delivery.employee_name %></span>
+    </p>
+  <% end %>
+<% end %>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="custom-invoice invoice-content-2 bordered">
+            <div class="row invoice-body">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <% if get_columns(params).include?("ordinal_number") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.ordinal_number') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("items") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.items') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("patient_state") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.patient_state') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("patient_name") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.patient_name') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("warehouse") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.warehouse') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("state") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.state') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("other_info") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.other_info') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("units") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.units') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("quantity") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.quantity') %></th>
+                                <% end %>
+                                <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+                                  <% if get_columns(params).include?("price") %>
+                                      <th class="invoice-title uppercase text-center"><%= t('.price') %></th>
+                                  <% end %>
+                                  <% if get_columns(params).include?("total_amount") %>
+                                      <th class="invoice-title uppercase text-center"><%= t('.total_amount') %></th>
+                                  <% end %>
+                                <% end%>
+                                <% if get_columns(params).include?("note") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.note') %></th>
+                                <% end %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @delivery.delivery_details.each_with_index do |delivery_detail,index| %>
+                                <tr>
+                                    <% if get_columns(params).include?("ordinal_number") %>
+                                        <td class="text-center"><%= index+1 %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("items") %>
+                                        <td>
+                                            <p><%= delivery_detail.get_product.name %></p>
+                                        </td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("patient_state") %>
+                                        <td class="text-center"><%= delivery_detail.get_order.display_patient_info[:state] if delivery_detail.get_order.present? %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("patient_name") %>
+                                        <td class="text-center"><%= delivery_detail.get_order.display_patient_info[:name] if delivery_detail.get_order.present? %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("warehouse") %>
+                                        <td class="text-center"><%= delivery_detail.warehouse_name %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("state") %>
+                                        <td class="text-center"><%= delivery_detail.state_name %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("other_info") %>
+                                        <td class="text-center"></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("units") %>
+                                        <td class="text-center"><%= delivery_detail.get_product.unit_name %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("quantity") %>
+                                        <td class="text-center"><%= delivery_detail.quantity %></td>
+                                    <% end %>
+                                    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+                                        <% if get_columns(params).include?("price") %>
+                                            <td class="text-right"><%= format_number(delivery_detail.price) %></td>
+                                        <% end %>
+                                        <% if get_columns(params).include?("total_amount") %>
+                                            <td class="text-right"><%= format_number(delivery_detail.cache_total) %></td>
+                                        <% end %>
+                                    <% end %>
+                                    <% if get_columns(params).include?("note") %>
+                                        <td class="text-left"><%= delivery_detail.note %></td>
+                                    <% end %>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-footer">
+    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+        <div class="line">
+            <label>Cộng tiền hàng:</label>
+            <span class="text-right"><%= format_number(@delivery.total_amount) %></span>
+        </div>
+        <div class="line">
+            <label>Tiền thuế (0%):</label>
+            <span class="text-right"><%= format_number(0) %></span>
+        </div>
+        <div class="line">
+            <label>Tổng tiền trả lại:</label>
+            <span class="text-right"><%= format_number(@delivery.total_amount) %></span>
+        </div>
+    <% else %>
+        <div class="line">
+            <label>Tổng số lượng:</label>
+            <span class="text-right"><%= format_number(@delivery.total_delivery_quantity) %></span>
+        </div>
+    <% end %>
+</div>
+<div class="mt-5 text-small">
+    Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %></trong>
+    <br>
+    Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
+</div>
+<% content_for :footer do %>
+    <div class="col text-center" style="width: 25%">
+        <p>
+            <strong>Người lập phiếu</strong><br/>
+            <i>(Ký, họ tên)</i>
+        </p>
+        <p class="sign_name"><%= @delivery.creator_name %></p>
+    </div>
+    <div class="col text-center" style="width: 25%">
+        <p>
+            <strong>Người giao hàng</strong><br/>
+            <i>(Ký, họ tên)</i>
+        </p>
+    </div>
+    <div class="col text-center" style="width: 25%">
+        <p>
+            <strong>Người nhận hàng</strong><br/>
+            <i>(Ký, họ tên)</i>
+        </p>
+    </div>
+    <div class="col text-center" style="width: 25%">
+        <p>
+            <strong>Thủ kho</strong><br/>
+            <i>(Ký, họ tên)</i>
+        </p>
+        <p class="sign_name"><%= @delivery.employee_name %></p>
+    </div>
+<% end %>

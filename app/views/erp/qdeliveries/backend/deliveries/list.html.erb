@@ -37,7 +37,7 @@
         </tr>
     </thead>
     <tbody>
-        <% if @deliveries.each do |delivery| %>
+        <% @deliveries.each do |delivery| %>
             <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.delivery_details_backend_deliveries_path(id: delivery.id) %>">
                 <td>
                     <%= erp_datalist_check_row(id: delivery.id) %>
@@ -96,12 +96,12 @@
                 <% end %>
                 <td><%= qdelivery_dropdown_actions(delivery) %></td>
             </tr>
-        <% end.empty? %>
-            <tr>
-                <td colspan="7"><%= t('.no_matching_records_found') %></td>
-            </tr>
         <% end %>
     </tbody>
 </table>
-        
+
+<% if @deliveries.empty? %>
+    <div class="datalist-empty-line"><%= t('.no_matching_records_found') %></div>
+<% end %>
+
 <%= erp_datalist_pagination(@deliveries) %>

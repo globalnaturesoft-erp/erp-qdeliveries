@@ -1,4 +1,79 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>
+    <%= t('.show') %> # <%= @delivery.code %>
+<% end %>
 
-<%= link_to 'Edit', edit_qdelivery_path(@qdelivery) %> |
-<%= link_to 'Back', qdeliveries_path %>
+<% content_for :page_title do %>
+    <a href="
+        <%= erp_qdeliveries.backend_deliveries_path %>
+    ">
+    <i class="glyphicon glyphicon-shopping-cart"></i> <%= t('.deliveries') %>
+    </a> / <%= t('.show_delivery') %> # <%= @delivery.code %>
+    <%= status_label(@delivery.status) %>
+<% end %>
+
+<% content_for :page_toolbar do %>
+
+    <%= erp_component('button/actions', {
+        actions:
+        [
+            {
+                text: '<i class="fa fa-edit"></i> '+t('.edit'),
+                url: erp_qdeliveries.edit_backend_delivery_path(@delivery),
+                hide: false,
+            },
+            {
+                text: '<i class="fa fa-close"></i> '+t('.delete'),
+                href: erp_qdeliveries.status_deleted_backend_deliveries_path(id: @delivery.id),
+                data_method: 'PUT',
+                data_confirm: t('.delete_confirm'),
+                hide: false,
+                class: 'ajax-link'
+            }
+        ],
+        text: t('.options'),
+        class: 'btn-noborder'
+    }) %>
+    
+<% end %>
+
+<%= erp_datalist(
+    url: erp_qdeliveries.show_list_backend_deliveries_path(id: @delivery.id),
+    columns: [
+        {
+            text: t('.ordinal_number'), name: 'ordinal_number', value: true, checked: true
+        },
+        {
+            text: t('.items'), name: 'items', value: true, checked: true
+        },
+        {
+            text: t('.patient_state'), name: 'patient_state', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.patient_name'), name: 'patient_name', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.warehouse'), name: 'warehouse', value: true, checked: true
+        },
+        {
+            text: t('.state'), name: 'state', value: true, checked: true
+        },
+        {
+            text: t('.other_info'), name: 'other_info', value: true, checked: false
+        },
+        {
+            text: t('.units'), name: 'units', value: true, checked: true
+        },
+        {
+            text: t('.quantity'), name: 'quantity', value: true, checked: true
+        },
+        {
+            text: t('.price'), name: 'price', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.total_amount'), name: 'total_amount', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.note'), name: 'note', value: true, checked: false
+        }
+    ]
+) %>

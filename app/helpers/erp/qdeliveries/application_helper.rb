@@ -4,6 +4,10 @@ module Erp
       def qdelivery_dropdown_actions(delivery)
         actions = []
         actions << {
+          text: '<i class="fa fa-print"></i> '+t('.view_print'),
+          url: erp_qdeliveries.backend_delivery_path(delivery)
+        }
+        actions << {
           text: '<i class="fa fa-edit"></i> '+t('.edit'),
           url: erp_qdeliveries.edit_backend_delivery_path(delivery)
         }

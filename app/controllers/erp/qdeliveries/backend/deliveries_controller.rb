@@ -2,7 +2,8 @@ module Erp
   module Qdeliveries
     module Backend
       class DeliveriesController < Erp::Backend::BackendController
-        before_action :set_delivery, only: [:delivery_details, :archive, :unarchive, :status_delivered, :status_deleted, :show, :edit, :update, :destroy]
+        before_action :set_delivery, only: [:delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
+                                            :pdf, :show, :show_list, :edit, :update, :destroy]
         before_action :set_deliveries, only: [:status_delivered_all, :status_deleted_all, :archive_all, :unarchive_all]
 
         # GET /deliveries
@@ -22,6 +23,48 @@ module Erp
 
         # GET /deliveries/1
         def show
+          respond_to do |format|
+            format.html
+            format.pdf do
+              render pdf: "show_list",
+                layout: 'erp/backend/pdf'
+            end
+          end
+        end
+        
+        # GET /orders/1
+        def pdf
+          #authorize! :read, @delivery
+          
+          respond_to do |format|
+            format.html
+            format.pdf do
+              if @delivery.delivery_details.count < 8
+                render pdf: "#{@delivery.code}",
+                  title: "#{@delivery.code}",
+                  layout: 'erp/backend/pdf',
+                  page_size: 'A5',
+                  orientation: 'Landscape',
+                  margin: {
+                    top: 7,                     # default 10 (mm)
+                    bottom: 7,
+                    left: 7,
+                    right: 7
+                  }
+              else
+                render pdf: "#{@delivery.code}",
+                  title: "#{@delivery.code}",
+                  layout: 'erp/backend/pdf',
+                  page_size: 'A4',
+                  margin: {
+                    top: 7,                     # default 10 (mm)
+                    bottom: 7,
+                    left: 7,
+                    right: 7
+                  }
+              end
+            end
+          end
         end
 
         # GET /deliveries/new

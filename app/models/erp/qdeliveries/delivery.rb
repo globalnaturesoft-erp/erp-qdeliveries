@@ -75,6 +75,29 @@ module Erp::Qdeliveries
       def supplier_name
         supplier.present? ? supplier.contact_name : ''
       end
+      
+      # Get contact
+      def get_contact
+        if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
+            Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(delivery_type)
+          if customer.present?
+            query = customer
+          else
+            query = supplier
+          end
+        end
+        
+        if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT,
+            Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery_type)
+          if supplier.present?
+            query = supplier
+          else
+            query = customer
+          end
+        end
+        
+        return query#{name: query.contact_name, address: query.address}
+      end
     end
 
     def total_delivery_quantity

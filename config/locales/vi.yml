@@ -91,7 +91,7 @@ vi:
             order_date: "Ngày đặt hàng"
             supplier: "Nhà cung cấp"
             employee: "Nhân viên phụ trách"
-            delivered_ordered: "Số lượng đã giao"
+            quantity: "Số lượng"
             draft: "Phiếu tạm"
             confirmed: "Đã xác nhận"
             deleted: "Đã bị hủy"

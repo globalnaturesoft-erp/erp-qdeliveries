@@ -31,11 +31,11 @@ module Erp
             end
           end
         end
-        
+
         # GET /orders/1
         def pdf
           #authorize! :read, @delivery
-          
+
           respond_to do |format|
             format.html
             format.pdf do
@@ -112,7 +112,11 @@ module Erp
                 value: @delivery.id
               }
             else
-              redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
+              if params.to_unsafe_hash[:save_print].present?
+                redirect_to erp_qdeliveries.backend_delivery_path(@delivery), notice: t('.success')
+              else
+                redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
+              end
             end
           else
             logger.info(@delivery.errors.to_json)

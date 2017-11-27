@@ -14,9 +14,9 @@
                     <%= t('.supplier') %>
                 </th>
             <% end %>
-            <% if get_columns(params).include?("delivered_ordered") %>
+            <% if get_columns(params).include?("quantity") %>
                 <th>
-                    <%= t('.delivered_ordered') %>
+                    <%= t('.quantity') %>
                 </th>
             <% end %>
             <% if get_columns(params).include?("order_date") %>
@@ -62,8 +62,8 @@
                 <% if get_columns(params).include?("customer") %>
                 <td><%= order.supplier_name %></td>
                 <% end %>
-                <% if get_columns(params).include?("delivered_ordered") %>
-                <td><strong><%= order.total_ordered_quantity %></strong></td>
+                <% if get_columns(params).include?("quantity") %>
+                <td><strong><%= order.total_delivered_quantity %>/<%= order.items_count %></strong></td>
                 <% end %>
                 <% if get_columns(params).include?("order_date") %>
                 <td><%= format_date(order.order_date) %></td>

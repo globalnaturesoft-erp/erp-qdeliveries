@@ -8,15 +8,15 @@
                 <th width='11%'>
                     <%= t('.order_code') %>
                 </th>
-            <% end %>            
+            <% end %>
             <% if get_columns(params).include?("customer") %>
                 <th>
                     <%= t('.customer') %>
                 </th>
             <% end %>
-            <% if get_columns(params).include?("delivered_ordered") %>
+            <% if get_columns(params).include?("quantity") %>
                 <th>
-                    <%= t('.delivered_ordered') %>
+                    <%= t('.quantity') %>
                 </th>
             <% end %>
             <% if get_columns(params).include?("order_date") %>
@@ -58,12 +58,12 @@
                     <i class="fa fa-plus expand tr-expand-button"></i>
                     <strong><%= link_to order.code, erp_orders.edit_backend_order_path(order), class: "font-yellow-gold sbold", target: "_blank", title: order.code %></strong>
                 </td>
-                <% end %>                
+                <% end %>
                 <% if get_columns(params).include?("customer") %>
                 <td><%= order.customer_name %></td>
                 <% end %>
-                <% if get_columns(params).include?("delivered_ordered") %>
-                <td><strong><%= order.total_ordered_quantity %></strong></td>
+                <% if get_columns(params).include?("quantity") %>
+                <td><strong><%= order.total_delivered_quantity %>/<%= order.items_count %></strong></td>
                 <% end %>
                 <% if get_columns(params).include?("order_date") %>
                 <td><%= format_date(order.order_date) %></td>

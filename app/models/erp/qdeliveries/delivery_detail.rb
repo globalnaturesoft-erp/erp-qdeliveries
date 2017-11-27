@@ -118,6 +118,11 @@ module Erp::Qdeliveries
     def total_amount
 			quantity.to_f*price.to_f
 		end
+    
+    # Cache total
+    def self.cache_total
+			self.sum("erp_qdeliveries_delivery_details.cache_total")
+		end
 
     # Update cache total
     after_save :update_cache_total

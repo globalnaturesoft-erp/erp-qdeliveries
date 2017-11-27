@@ -328,7 +328,13 @@ module Erp::Qdeliveries
 
 		# get total amount
 		def total_amount
-			return delivery_details.sum(&:total_amount)
+			return delivery_details.cache_total
+		end
+		
+		
+		# get total amount
+		def self.total_amount
+			self.sum(&:total_amount)
 		end
 
 		# get paid amount

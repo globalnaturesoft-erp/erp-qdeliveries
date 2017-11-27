@@ -48,10 +48,6 @@
 <% end %>
 
 <% content_for :main_info_col_3 do %>
-  <p>
-    <label>Theo ... số ... ngày ... tháng ... năm ... của:</label>
-    <span></span>
-  </p>
   <% if ![Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
          Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(@delivery.delivery_type) %>
     <p>
@@ -186,6 +182,7 @@
     <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
       Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %></trong>
       <br>
+      Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
     <% end %>
     
 </div>

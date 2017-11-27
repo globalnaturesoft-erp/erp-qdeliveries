@@ -238,7 +238,7 @@ vi:
             note: "Ghi chú"
             patient_state: "Tình trạng BN"
             patient_name: "Tên BN"
-            other_info: "Thông tin mắt"
+            other_info: "MT/MP"
         delivery_details:
           form_detail:
             choose_order: "Chọn đơn hàng"

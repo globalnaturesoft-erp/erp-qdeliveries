@@ -9,12 +9,12 @@
 <% content_for :page_toolbar do %>
     <%= erp_component('button/create', {
         text: t('.warehouse_export'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT),
         class: 'btn-noborder'
     }) %>
     <%= erp_component('button/create', {
         text: t('.customer_import'),
-        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT),
+        href: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT),
         class: 'btn-noborder'
     }) %>
 <% end %>

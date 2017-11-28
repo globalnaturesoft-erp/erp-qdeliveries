@@ -29,9 +29,9 @@ module Erp::Qdeliveries
     end
 
     def get_max_quantity
-      if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery.delivery_type)
+      if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
 				self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
-			elsif [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT].include?(delivery.delivery_type)
+			elsif [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT].include?(delivery.delivery_type)
 				self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
 			end
     end
@@ -127,7 +127,7 @@ module Erp::Qdeliveries
     # Update cache total
     after_save :update_cache_total
     def update_cache_total
-			if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery.delivery_type)
+			if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
 				self.update_column(:cache_total, self.total_amount)
 			end
 		end

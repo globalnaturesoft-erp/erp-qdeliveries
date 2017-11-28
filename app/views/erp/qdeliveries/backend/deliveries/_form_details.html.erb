@@ -9,7 +9,7 @@
     <% if Erp::Core.available?('ortho_k') %>
         <div class="col-md-2">Số Lô/Sê-ri</div>
     <% end %>
-    <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery.delivery_type %>
+    <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include? delivery.delivery_type %>
         <div class="col-md-1">Đơn giá</div>
         <div class="col-md-1">Tổng</div>
     <% end %>

@@ -1,9 +1,9 @@
 <% content_for :title_line_1 do %>
-    <%= 'PHIẾU NHẬP KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT %>
-    <%= 'HÀNG BÁN BỊ TRẢ LẠI' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+    <%= 'PHIẾU NHẬP KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT %>
+    <%= 'HÀNG BÁN BỊ TRẢ LẠI' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
     <%= 'PHIẾU NHẬP KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT %>
-    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT %>
-    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT %>
+    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT %>
+    <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT %>
     <%= 'PHIẾU XUẤT KHO' if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT %>
 <% end %>
 
@@ -24,10 +24,10 @@
   <% else %>
     <p>
       <label>
-        <%= 'Người giao hàng' if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
-                                  Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(@delivery.delivery_type) %>
-        <%= 'Người nhận hàng' if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT,
-                                  Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(@delivery.delivery_type) %>
+        <%= 'Người giao hàng' if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+                                  Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) %>
+        <%= 'Người nhận hàng' if [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
+                                  Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) %>
         :
       </label>
       <span><strong><%= @delivery.get_contact.contact_name %></strong></span>
@@ -92,7 +92,7 @@
                                 <% if get_columns(params).include?("quantity") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.quantity') %></th>
                                 <% end %>
-                                <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+                                <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
                                   <% if get_columns(params).include?("price") %>
                                       <th class="invoice-title uppercase text-center"><%= t('.price') %></th>
                                   <% end %>
@@ -137,7 +137,7 @@
                                     <% if get_columns(params).include?("quantity") %>
                                         <td class="text-center"><%= delivery_detail.quantity %></td>
                                     <% end %>
-                                    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+                                    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
                                         <% if get_columns(params).include?("price") %>
                                             <td class="text-right"><%= format_number(delivery_detail.price) %></td>
                                         <% end %>
@@ -158,7 +158,7 @@
     </div>
 </div>
 <div class="table-footer">
-    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
         <div class="line">
             <label>Cộng tiền hàng:</label>
             <span class="text-right"><%= format_number(@delivery.total_amount) %></span>
@@ -179,8 +179,8 @@
     <% end %>
 </div>
 <div class="mt-5 text-small">
-    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
-      Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %></trong>
+    <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
+      Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %></trong>
       <br>
       Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
     <% end %>

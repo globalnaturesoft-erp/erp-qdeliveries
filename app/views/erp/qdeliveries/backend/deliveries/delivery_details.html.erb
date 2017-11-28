@@ -7,7 +7,7 @@
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đã giao</th>
             <th class="bg-yellow bg-font-yellow text-nowrap">Tình trạng</th>
             <th class="bg-yellow bg-font-yellow text-nowrap">Kho</th>
-            <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT %>
+            <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
                 <th class="bg-yellow bg-font-yellow text-nowrap text-right">Đơn giá</th>
                 <th class="bg-yellow bg-font-yellow text-nowrap text-right">Tổng</th>
             <% end %>

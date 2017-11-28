@@ -16,10 +16,10 @@ module Erp::Qdeliveries
     STATUS_DELIVERED = 'delivered'
     STATUS_DELETED = 'deleted'
 
-    TYPE_WAREHOUSE_IMPORT = 'warehouse_import'
-    TYPE_WAREHOUSE_EXPORT = 'warehouse_export'
-    TYPE_CUSTOMER_IMPORT = 'customer_import'
-    TYPE_MANUFACTURER_EXPORT = 'manufacturer_export'
+    TYPE_SALES_EXPORT = 'sales_export'
+    TYPE_SALES_IMPORT = 'sales_import'
+    TYPE_PURCHASE_IMPORT = 'purchase_import'
+    TYPE_PURCHASE_EXPORT = 'purchase_export'
     TYPE_CUSTOM_IMPORT = 'custom_import'
     TYPE_CUSTOM_EXPORT = 'custom_export'
 
@@ -78,8 +78,8 @@ module Erp::Qdeliveries
       
       # Get contact
       def get_contact
-        if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
-            Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT].include?(delivery_type)
+        if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(delivery_type)
           if customer.present?
             query = customer
           else
@@ -87,8 +87,8 @@ module Erp::Qdeliveries
           end
         end
         
-        if [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT,
-            Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include?(delivery_type)
+        if [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
+            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery_type)
           if supplier.present?
             query = supplier
           else
@@ -377,19 +377,19 @@ module Erp::Qdeliveries
     def generate_code
 			if !code.present?
 				# Bổ sung trường hợp lọc để set mã
-				if delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_IMPORT,
+				if delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
+					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
 																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT])
 					str = 'NK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT # Xuất kho trả hàng cho NCC
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT,
+				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT # Xuất kho trả hàng cho NCC
+					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
 																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT])
 					str = 'XK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT # Hoàn kho (hàng bị trả lại)
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT)
+				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT # Hoàn kho (hàng bị trả lại)
+					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
 					str = 'HK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT # Xuất bán
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_WAREHOUSE_EXPORT)
+				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT # Xuất bán
+					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT)
 					str = 'XB'
 				end
 

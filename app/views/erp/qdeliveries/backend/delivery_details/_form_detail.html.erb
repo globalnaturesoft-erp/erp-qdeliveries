@@ -91,7 +91,7 @@
                 }) %>
             </div>
         <% end %>
-        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery_detail.delivery.delivery_type %>
+        <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include? delivery_detail.delivery.delivery_type %>
             <div class="col-md-1">
                 <%= erp_form_control("number", {
                     name: "details[#{index}][price]",

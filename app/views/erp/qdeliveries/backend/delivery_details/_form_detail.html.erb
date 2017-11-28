@@ -80,8 +80,19 @@
                 required: true
             }) %>
         </div>
-        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery_detail.delivery.delivery_type %>
+        <% if Erp::Core.available?('ortho_k') %>
             <div class="col-md-2">
+                <%= erp_form_control("textarea", {
+                    name: "details[#{index}][serials]",
+                    value: delivery_detail.serials,
+                    text: delivery_detail.serials,
+                    rows: 1,
+                    required: true
+                }) %>
+            </div>
+        <% end %>
+        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery_detail.delivery.delivery_type %>
+            <div class="col-md-1">
                 <%= erp_form_control("number", {
                     name: "details[#{index}][price]",
                     value: delivery_detail.price,
@@ -93,14 +104,14 @@
                     </div>
                 <% end %>
             </div>
-            <div class="col-md-2 text-bold text-right" style="padding:7px 15px">
+            <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
                 <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
             </div>
         <% end %>
     <% else %>
         <div class="col-md-6"></div>
     <% end %>
-    <div class="col-md-1">
+    <div class="col-md-1 text-right">
         <a href="#remove" class="btn btn-danger remove-line">
             <i class="fa fa-close"></i>
         </a>

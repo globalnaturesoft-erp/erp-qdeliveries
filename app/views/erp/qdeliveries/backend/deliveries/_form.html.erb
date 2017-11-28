@@ -2,6 +2,13 @@
     <input type="hidden" name="delivery[delivery_type]" value="<%= delivery.delivery_type %>">
     <div class="form-body">
         <div class="row">
+            <div class="col-md-12">
+                <div class="custom-show text-center">
+                    <h4 class="font-yellow bold uppercase">
+                        <%= t(".#{delivery.delivery_type}") %>
+                    </h4>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
@@ -101,7 +108,8 @@
                             name: 'delivery[note]',
                             value: delivery.note,
                             label: t('.note'),
-                            placeholder: t('.enter_note')
+                            placeholder: t('.enter_note'),
+                            rows: 1
                         }) %>
                     </div>
                 </div>

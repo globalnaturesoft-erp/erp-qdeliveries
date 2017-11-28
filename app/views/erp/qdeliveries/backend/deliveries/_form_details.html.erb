@@ -6,9 +6,12 @@
     <div class="col-md-1">Số lượng</div>
     <div class="col-md-1">Tình trạng</div>
     <div class="col-md-1">Kho</div>
+    <% if Erp::Core.available?('ortho_k') %>
+        <div class="col-md-2">Số Lô/Sê-ri</div>
+    <% end %>
     <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOMER_IMPORT, Erp::Qdeliveries::Delivery::TYPE_MANUFACTURER_EXPORT].include? delivery.delivery_type %>
-        <div class="col-md-2">Đơn giá</div>
-        <div class="col-md-2">Tổng</div>
+        <div class="col-md-1">Đơn giá</div>
+        <div class="col-md-1">Tổng</div>
     <% end %>
     <div class="col-md-1"></div>
 </div>

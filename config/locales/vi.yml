@@ -184,6 +184,12 @@ vi:
             custom_import: "Nhập kho tùy chỉnh"
             custom_export: "Xuất kho tùy chỉnh"
           form:
+            sales_export: "Phiếu xuất kho - Bán hàng"
+            sales_import: "Phiếu hoàn kho - Hàng bán bị trả lại"
+            purchase_export: "Phiếu xuất kho - Trả hàng NCC"
+            purchase_import: "Phiếu nhập kho - Mua hàng NCC"
+            custom_export: "Phiếu xuất kho - Tùy chỉnh"
+            custom_import: "Phiếu nhập kho - Tùy chỉnh"
             code: "Mã phiếu"
             enter_code: "Nhập mã phiếu..."
             date: "Ngày chứng từ"

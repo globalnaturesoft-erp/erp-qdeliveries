@@ -267,15 +267,28 @@ module Erp::Qdeliveries
       details.each do |row|
         data = row[1]
         if (!data["id"].present? or force) and data["_destroy"] != 'true'
-          self.delivery_details.build(
-            id: data["id"],
-            order_detail_id: data["order_detail_id"],
-            quantity: data["quantity"],
-            state_id: data["state_id"],
-            warehouse_id: data["warehouse_id"],
-            product_id: data["product_id"],
-            price: data["price"],
-          )
+          if Erp::Core.available?("ortho_k")
+            self.delivery_details.build(
+              id: data["id"],
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+              serials: data["serials"],
+            )
+          else
+            self.delivery_details.build(
+              id: data["id"],
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+            )
+          end
         end
       end
     end
@@ -288,14 +301,26 @@ module Erp::Qdeliveries
         if data["id"].present? and data["_destroy"].present?
           self.delivery_details.find(data["id"]).destroy
         elsif data["id"].present?
-          self.delivery_details.find(data["id"]).update(
-            order_detail_id: data["order_detail_id"],
-            quantity: data["quantity"],
-            state_id: data["state_id"],
-            warehouse_id: data["warehouse_id"],
-            product_id: data["product_id"],
-            price: data["price"],
-          )
+          if Erp::Core.available?("ortho_k")
+            self.delivery_details.find(data["id"]).update(
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+              serials: data["serials"],
+            )
+          else
+            self.delivery_details.find(data["id"]).update(
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+            )
+          end
         end
       end
     end

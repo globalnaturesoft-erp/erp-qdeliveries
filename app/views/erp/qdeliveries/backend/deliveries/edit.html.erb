@@ -14,13 +14,13 @@
     <%=
         actions = []
         actions << {
-            text: t('.warehouse_export'),
+            text: t('.sales_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT
             )
         }
         actions << {
-            text: t('.manufacturer_export'),
+            text: t('.purchase_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
             )
@@ -43,13 +43,13 @@
     <%=
         actions = []
         actions << {
-            text: t('.customer_import'),
+            text: t('.sales_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
             )
         }
         actions << {
-            text: t('.warehouse_import'),
+            text: t('.purchase_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT
             )

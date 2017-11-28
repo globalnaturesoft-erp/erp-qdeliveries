@@ -12,13 +12,13 @@
     <%=
         actions = []
         actions << {
-            text: t('.warehouse_export'),
+            text: t('.sales_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT
             )
         }
         actions << {
-            text: t('.manufacturer_export'),
+            text: t('.purchase_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
             )
@@ -41,13 +41,13 @@
     <%=
         actions = []
         actions << {
-            text: t('.customer_import'),
+            text: t('.sales_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
             )
         }
         actions << {
-            text: t('.warehouse_import'),
+            text: t('.purchase_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT
             )
@@ -149,16 +149,16 @@
             divider: true
         },
         {
-            text: t('.warehouse_export'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT, checked: false
+            text: t('.sales_export'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT, checked: false
         },
         {
-            text: t('.customer_import'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, checked: false
+            text: t('.sales_import'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, checked: false
         },
         {
-            text: t('.warehouse_import'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, checked: false
+            text: t('.purchase_import'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, checked: false
         },
         {
-            text: t('.manufacturer_export'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT, checked: false
+            text: t('.purchase_export'), name: 'erp_qdeliveries_deliveries.delivery_type', value: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT, checked: false
         }
     ],
     columns: [

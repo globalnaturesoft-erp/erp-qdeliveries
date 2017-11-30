@@ -2,7 +2,7 @@ module Erp
   module Qdeliveries
     module Backend
       class DeliveriesController < Erp::Backend::BackendController
-        before_action :set_delivery, only: [:delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
+        before_action :set_delivery, only: [:xls, :delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
                                             :pdf, :show, :show_list, :edit, :update, :destroy]
         before_action :set_deliveries, only: [:status_delivered_all, :status_deleted_all, :archive_all, :unarchive_all]
 
@@ -291,6 +291,12 @@ module Erp
             format.json {
               render json: Delivery.dataselect(params[:keyword], params)
             }
+          end
+        end
+
+        def xls
+          respond_to do |format|
+            format.xlsx
           end
         end
 

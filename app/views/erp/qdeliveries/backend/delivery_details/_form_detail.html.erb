@@ -1,10 +1,11 @@
-<% index = rand(0..900000) %>
-<div class="row autolist-line">
+<% index = unique_id %>
+<div class="row autolist-line auto-cat-<%= delivery_detail.order_detail.product.category_id %>">
     <div class="col-md-2 order-box">
         <input type="hidden" name="index" value="<%= index %>" />
         <input type="hidden" name="details[<%= index %>][order_detail_id]" value="<%= delivery_detail.order_detail.id %>" />
         <input type="hidden" name="details[<%= index %>][id]" value="<%= delivery_detail.id %>" />
         <input type="hidden" class="destroy_input" name="details[<%= index %>][_destroy]" value="" />
+        <input type="hidden" class="ignore_input" name="details[<%= index %>][_ignore]" value="" />
         <% if [
             Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
             Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT

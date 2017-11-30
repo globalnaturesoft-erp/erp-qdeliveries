@@ -75,7 +75,7 @@ module Erp::Qdeliveries
       def supplier_name
         supplier.present? ? supplier.contact_name : ''
       end
-      
+
       # Get contact
       def get_contact
         if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
@@ -86,7 +86,6 @@ module Erp::Qdeliveries
             query = supplier
           end
         end
-        
         if [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery_type)
           if supplier.present?
@@ -95,7 +94,7 @@ module Erp::Qdeliveries
             query = customer
           end
         end
-        
+
         return query#{name: query.contact_name, address: query.address}
       end
     end
@@ -266,19 +265,8 @@ module Erp::Qdeliveries
 
       details.each do |row|
         data = row[1]
-        if (!data["id"].present? or force) and data["_destroy"] != 'true'
-          if Erp::Core.available?("ortho_k")
-            self.delivery_details.build(
-              id: data["id"],
-              order_detail_id: data["order_detail_id"],
-              quantity: data["quantity"],
-              state_id: data["state_id"],
-              warehouse_id: data["warehouse_id"],
-              product_id: data["product_id"],
-              price: data["price"],
-              serials: data["serials"],
-            )
-          else
+        if data['_ignore'] != 'true'
+          if (!data["id"].present? or force) and data["_destroy"] != 'true'
             self.delivery_details.build(
               id: data["id"],
               order_detail_id: data["order_detail_id"],
@@ -298,20 +286,10 @@ module Erp::Qdeliveries
 
       details.each do |row|
         data = row[1]
-        if data["id"].present? and data["_destroy"].present?
-          self.delivery_details.find(data["id"]).destroy
-        elsif data["id"].present?
-          if Erp::Core.available?("ortho_k")
-            self.delivery_details.find(data["id"]).update(
-              order_detail_id: data["order_detail_id"],
-              quantity: data["quantity"],
-              state_id: data["state_id"],
-              warehouse_id: data["warehouse_id"],
-              product_id: data["product_id"],
-              price: data["price"],
-              serials: data["serials"],
-            )
-          else
+        if data['_ignore'] != 'true'
+          if data["id"].present? and data["_destroy"].present?
+            self.delivery_details.find(data["id"]).destroy
+          elsif data["id"].present?
             self.delivery_details.find(data["id"]).update(
               order_detail_id: data["order_detail_id"],
               quantity: data["quantity"],
@@ -355,8 +333,8 @@ module Erp::Qdeliveries
 		def total_amount
 			return delivery_details.cache_total
 		end
-		
-		
+
+
 		# get total amount
 		def self.total_amount
 			self.sum(&:total_amount)

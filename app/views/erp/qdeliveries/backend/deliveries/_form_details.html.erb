@@ -1,5 +1,19 @@
 <h4 class="mt-0"><%= t('.delivery_details') %></h4>
 <hr>
+<% if Erp::Core.available?("ortho_k") %>
+    <div>
+        <%= erp_form_control("dataselect", {
+            name: 'delivery_details_categories_filter',
+            value: '',
+            text: '',
+            class: 'delivery_details_categories_filter',
+            label: 'Loại hàng',
+            placeholder: 'Lọc theo loại hàng',
+            url: erp_products.dataselect_backend_categories_path(format: 'json'),
+            multiple: true
+        }) %>
+    </div>
+<% end %>
 <div class="row">
     <div class="col-md-2">Chứng từ</div>
     <div class="col-md-2">Sản phẩm</div>
@@ -17,7 +31,7 @@
 </div>
 <hr class="mt-5">
 <div class="autolist" data-line-url="<%= erp_qdeliveries.form_detail_backend_delivery_details_path(delivery_type: delivery.delivery_type) %>">
-    <div class="autolist-container">
+    <div class="autolist-container delivery_details_box">
         <% delivery.delivery_details.each do |dd| %>
             <% dd.order_detail = Erp::Orders::OrderDetail.new if !dd.order_detail.present? %>
             <% dd.order_detail.order = Erp::Orders::Order.new(id: -1) if !dd.order_detail.order.present? %>

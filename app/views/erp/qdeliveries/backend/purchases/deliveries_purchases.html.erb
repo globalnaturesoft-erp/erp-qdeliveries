@@ -14,7 +14,7 @@
           <tr>
               <td width="15%" class="text-left">
                 <%= link_to delivery_detail.get_delivery_code,
-                            erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
+                            erp_qdeliveries.backend_delivery_path(delivery_detail.delivery),
                             target: "_blank", title: delivery_detail.get_delivery_code,
                             class: "font-blue sbold" %>
               </td>
@@ -23,7 +23,7 @@
                     Không chứng từ
                 <% else %>
                     <%= link_to delivery_detail.get_order_code,
-                                erp_orders.edit_backend_order_path(delivery_detail.get_order),
+                                erp_orders.backend_order_path(delivery_detail.get_order),
                                 target: "_blank", title: delivery_detail.get_order_code,
                                 class: "font-red-thunderbird sbold" %>
                 <% end %>

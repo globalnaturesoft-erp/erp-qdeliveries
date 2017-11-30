@@ -16,8 +16,8 @@
             <% else %>
                 <tr>
             <% end %>
-                <td class="text-left">
-                    <%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name, class: "font-yellow-gold sbold" %>
+                <td class="text-left font-yellow-gold sbold">
+                    <%= order_detail.product_name %>
                 </td>
                 <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
                 <td class="numeric text-center">
@@ -40,8 +40,8 @@
                     <% if order_detail.delivered_delivery_details.count > 0 %>
                         <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
                             <%= link_to delivery_detail.delivery.code,
-                                        erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
-                                        title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
+                                erp_qdeliveries.backend_delivery_path(delivery_detail.delivery),
+                                title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
                         <% end %>
                     <% end %>
                 </td>

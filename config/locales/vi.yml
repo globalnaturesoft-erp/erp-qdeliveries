@@ -145,6 +145,7 @@ vi:
             change_delivered: "Xác nhận toàn bộ"
             change_deleted: "Xóa toàn bộ"
             quantity: "Số lượng"
+            note: "Mô tả"
             change_deleted_confirm: "Bạn có chắc muốn xóa toàn bộ phiếu được chọn?"
           list:
             code: "Mã phiếu"
@@ -158,6 +159,7 @@ vi:
             edit: "Chỉnh sửa"
             action_deleted: "Hủy phiếu"
             quantity: "Số lượng"
+            note: "Mô tả"
             no_matching_records_found: "Danh sách phiếu nhập/xuất hiện đang trống"
             sales_export: "Xuất kho bán hàng"
             sales_import: "Hàng bán bị trả lại"

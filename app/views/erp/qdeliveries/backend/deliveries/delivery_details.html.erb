@@ -1,15 +1,15 @@
 <table class="table table-bordered table-striped flip-content">
     <thead class="flip-content">
         <tr>
-            <th class="bg-yellow bg-font-yellow text-left" width="20%">Tên SP</th>
-            <th class="bg-yellow bg-font-yellow text-nowrap">Thuộc đơn hàng</th>
+            <th class="bg-yellow bg-font-yellow text-center" width="20%">Tên sản phẩm</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Thuộc đơn hàng</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đặt</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đã giao</th>
-            <th class="bg-yellow bg-font-yellow text-nowrap">Tình trạng</th>
-            <th class="bg-yellow bg-font-yellow text-nowrap">Kho</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Tình trạng</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Kho</th>
             <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Đơn giá</th>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Tổng</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center">Đơn giá</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center">Tổng</th>
             <% end %>
         </tr>
     </thead>
@@ -17,9 +17,9 @@
         <% @delivery.delivery_details.each do |delivery_detail| %>
             <tr>
                 <td class="text-left font-green-sharp sbold">
-                    <%= delivery_detail.product_name %>
+                    <%= backend_product_link(delivery_detail.product) %>
                 </td>
-                <td class="text-left">
+                <td class="text-center">
                     <% if delivery_detail.order_detail_id.nil? %>
                         Không chứng từ
                     <% else %>
@@ -34,8 +34,8 @@
                     <% end %>
                 </td>
                 <td class="numeric text-center"><strong><%= delivery_detail.quantity %></strong></td>
-                <td class="text-left"><%= delivery_detail.state_name %></td>
-                <td class="text-left"><%= delivery_detail.warehouse_name %></td>
+                <td class="text-center"><%= delivery_detail.state_name %></td>
+                <td class="text-center"><%= delivery_detail.warehouse_name %></td>
                 <% if delivery_detail.price.present? %>
                     <td class="text-right"><%= format_price(delivery_detail.price) %></td>
                     <td class="text-right"><%= format_price(delivery_detail.total_amount) %></td>

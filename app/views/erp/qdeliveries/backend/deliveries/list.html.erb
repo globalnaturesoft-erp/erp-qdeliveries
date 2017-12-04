@@ -10,19 +10,22 @@
             <% if get_columns(params).include?("customer_supplier") %>
                 <th width="20%"><%= t('.customer_supplier') %></th>
             <% end %>
-            <% if get_columns(params).include?("employee") %>
-                <th><%= t('.employee') %></th>
-            <% end %>
             <% if get_columns(params).include?("delivery_date") %>
                 <th class="sortable" sort-by='erp_qdeliveries_deliveries.date'>
                     <%= t('.delivery_date') %>
                 </th>
             <% end %>
             <% if get_columns(params).include?("delivery_type") %>
-                <th><%= t('.delivery_type') %></th>
+                <th width="10%"><%= t('.delivery_type') %></th>
             <% end %>
             <% if get_columns(params).include?("quantity") %>
                 <th class="text-center"><%= t('.quantity') %></th>
+            <% end %>
+            <% if get_columns(params).include?("employee") %>
+                <th><%= t('.employee') %></th>
+            <% end %>
+            <% if get_columns(params).include?("note") %>
+                <th width="15%"><%= t('.note') %></th>
             <% end %>
             <% if get_columns(params).include?("status") %>
                 <th><%= t('status') %></th>
@@ -54,13 +57,6 @@
                     <%= raw 'NCC: <strong>' + delivery.supplier_name + '</strong><br>' if !delivery.supplier.nil? %>
                 </td>
                 <% end %>
-                <% if get_columns(params).include?("employee") %>
-                    <td>
-                        <%= erp_component('avatar', {
-                            user: delivery.employee
-                        }) %>
-                    </td>
-                <% end %>
                 <% if get_columns(params).include?("delivery_date") %>
                 <td><%= delivery.date.strftime("%d/%m/%Y") %></td>
                 <% end %>
@@ -69,6 +65,16 @@
                 <% end %>
                 <% if get_columns(params).include?("quantity") %>
                 <td class="text-center"><%= delivery.total_delivery_quantity %></td>
+                <% end %>
+                <% if get_columns(params).include?("employee") %>
+                    <td>
+                        <%= erp_component('avatar', {
+                            user: delivery.employee
+                        }) %>
+                    </td>
+                <% end %>
+                <% if get_columns(params).include?("note") %>
+                <td class="text-left"><%= raw delivery.note %></td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>

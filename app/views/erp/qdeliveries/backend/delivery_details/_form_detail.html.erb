@@ -1,5 +1,8 @@
 <% index = unique_id %>
-<div class="row autolist-line auto-cat-<%= delivery_detail.order_detail.product.category_id %>">
+<div class="row autolist-line
+    auto-cat-<%= delivery_detail.order_detail.product.category_id %>
+    auto-diameter-<%= delivery_detail.order_detail.product.get_diameter_properties_value %>
+">
     <div class="col-md-2 order-box">
         <input type="hidden" name="index" value="<%= index %>" />
         <input type="hidden" name="details[<%= index %>][order_detail_id]" value="<%= delivery_detail.order_detail.id %>" />

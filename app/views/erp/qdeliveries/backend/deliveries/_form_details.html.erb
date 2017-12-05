@@ -1,17 +1,31 @@
 <h4 class="mt-0"><%= t('.delivery_details') %></h4>
 <hr>
 <% if Erp::Core.available?("ortho_k") %>
-    <div>
-        <%= erp_form_control("dataselect", {
-            name: 'delivery_details_categories_filter',
-            value: '',
-            text: '',
-            class: 'delivery_details_categories_filter',
-            label: 'Loại hàng',
-            placeholder: 'Lọc theo loại hàng',
-            url: erp_products.dataselect_backend_categories_path(format: 'json'),
-            multiple: true
-        }) %>
+    <div class="row">
+        <div class="col-md-4">
+            <%= erp_form_control("dataselect", {
+                name: 'delivery_details_categories_filter',
+                value: '',
+                text: '',
+                class: 'delivery_details_categories_filter',
+                label: 'Loại hàng',
+                placeholder: 'Lọc theo loại hàng',
+                url: erp_products.dataselect_backend_categories_path(format: 'json'),
+                multiple: true
+            }) %>
+        </div>
+        <div class="col-md-4">
+            <% diameter = Erp::Products::Property.where(name: "Đường kính").first %>
+            <%= erp_form_control("dataselect", {
+                name: 'delivery_details_diameters_filter',
+                value: '',
+                text: '',
+                label: 'Đường kính',
+                placeholder: 'Chọn đường kính',
+                url: erp_products.dataselect_backend_properties_values_path(format: 'json', property_id: diameter.id),
+                multiple: true
+            }) %>
+        </div>
     </div>
 <% end %>
 <div class="row">

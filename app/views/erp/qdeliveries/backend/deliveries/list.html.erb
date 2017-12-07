@@ -58,7 +58,7 @@
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("delivery_date") %>
-                <td><%= delivery.date.strftime("%d/%m/%Y") %></td>
+                <td><%= format_date(delivery.date) %></td>
                 <% end %>
                 <% if get_columns(params).include?("delivery_type") %>
                 <td><%= t('.'+delivery.delivery_type) %></td>
@@ -78,16 +78,7 @@
                 <% end %>
                 <% if get_columns(params).include?("status") %>
                 <td>
-                    <% if delivery.status == Erp::Qdeliveries::Delivery::STATUS_DELIVERED %>
-                        <%= erp_component('label/success', {
-                            text: t('.'+delivery.status)
-                        }) %>
-                    <% end %>
-                    <% if delivery.status == Erp::Qdeliveries::Delivery::STATUS_DELETED %>
-                        <%= erp_component('label/default', {
-                            text: t('.'+delivery.status)
-                        }) %>
-                    <% end %>
+                    <%= status_label(delivery.status) %>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("creator") %>
@@ -98,7 +89,7 @@
                     </td>
                 <% end %>
                 <% if get_columns(params).include?("created_at") %>
-                    <td><%= delivery.created_at.strftime("%d/%m/%Y") %></td>
+                    <td><%= format_date(delivery.created_at) %></td>
                 <% end %>
                 <td><%= qdelivery_dropdown_actions(delivery) %></td>
             </tr>

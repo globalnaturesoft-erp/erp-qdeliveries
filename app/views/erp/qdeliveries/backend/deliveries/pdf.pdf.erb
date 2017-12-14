@@ -30,11 +30,11 @@
                                   Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) %>
         :
       </label>
-      <span><strong><%= @delivery.get_contact.contact_name %></strong></span>
+      <span><strong><%= @delivery.get_contact.contact_name if @delivery.get_contact.present? %></strong></span>
     </p>
     <p>
       <label>Địa chỉ:</label>
-      <span><%= display_contact_address(@delivery.get_contact) %></span>
+      <span><%= display_contact_address(@delivery.get_contact) if @delivery.get_contact.present? %></span>
     </p>
   <% end %>
   <p>

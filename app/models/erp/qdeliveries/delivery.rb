@@ -384,8 +384,6 @@ module Erp::Qdeliveries
 				# XK : xuất kho trả hàng NCC
 				# HK : hoàn kho, hàng bị trả lại
 				# XB : xuất hàng bán
-
-				#str = (is_receipt_voucher? ? 'PT' : 'PC')
 				num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month).count + 1
 
 				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0')

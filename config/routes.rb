@@ -17,6 +17,10 @@ Erp::Qdeliveries::Engine.routes.draw do
 					get 'delivery_details'
 					post 'show_list'
 					get 'pdf'
+
+					post 'import_file'
+					put 'import_file'
+					patch 'import_file'
 				end
 			end
 

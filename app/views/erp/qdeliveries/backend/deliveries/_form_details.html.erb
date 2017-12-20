@@ -1,8 +1,6 @@
-<h4 class="mt-0"><%= t('.delivery_details') %></h4>
-<hr>
 <% if Erp::Core.available?("ortho_k") %>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <%= erp_form_control("dataselect", {
                 name: 'delivery_details_categories_filter',
                 value: '',
@@ -26,7 +24,21 @@
                 multiple: true
             }) %>
         </div>
+        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT, Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(delivery.delivery_type) %>
+            <div class="col-md-3" style="border-left: solid 1px #ddd; padding-left: 20px">
+                <%= erp_form_control("file", {
+                    name: 'import_file',
+                    value: '',
+                    text: '',
+                    label: ('Nhập từ file (<a href="'+url_for('/backend/file/product_custom_import_export.xlsx')+'" target="_blank">Tải mẫu</a>)').html_safe,
+                }) %>
+            </div>
+            <div class="col-md-2 mt-25 text-right">
+                <button class="btn btn-primary custom-form-submit" data-action="<%= erp_qdeliveries.import_file_backend_deliveries_path(id: delivery.id) %>">Tải file</button>
+            </div>
+        <% end %>
     </div>
+    <hr />
 <% end %>
 <div class="row">
     <div class="col-md-2">Chứng từ</div>

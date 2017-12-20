@@ -359,6 +359,38 @@ module Erp::Qdeliveries
 			return total_amount - paid_amount
 		end
 
+		#
+		def import(file)
+      spreadsheet = Roo::Spreadsheet.open(file.path)
+      header = spreadsheet.row(1)
+      (2..spreadsheet.last_row).each do |i|
+        row = Hash[[header, spreadsheet.row(i)].transpose]
+
+        # Find product
+        product = Erp::Products::Product.where('LOWER(name) = ?', row["product"].strip.downcase).first
+        product_id = product.present? ? product.id : nil
+
+        # Find state
+        state = Erp::Products::State.where('LOWER(name) = ?', row["state"].strip.downcase).first
+        state_id = state.present? ? state.id : nil
+
+        # Find warehouse
+        warehouse = Erp::Warehouses::Warehouse.where('LOWER(name) = ?', row["warehouse"].strip.downcase).first
+        warehouse_id = warehouse.present? ? warehouse.id : nil
+
+        if product.present?
+          self.delivery_details.build(
+            order_detail_id: nil,
+            state_id: state_id,
+            product_id: product_id,
+            warehouse_id: warehouse_id,
+            quantity: row["quantity"],
+            serials: row["serials"],
+          )
+        end
+      end
+    end
+
 		# Generate code
     before_validation :generate_code
     def generate_code

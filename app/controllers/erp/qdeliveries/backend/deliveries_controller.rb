@@ -300,6 +300,28 @@ module Erp
           end
         end
 
+        # POST /deliveries/1
+        def import_file
+          if params[:id].present?
+            @delivery = Delivery.find(params[:id])
+            @delivery.assign_attributes(delivery_params)
+
+            if params[:import_file].present?
+              @delivery.import(params[:import_file])
+            end
+
+            render :edit
+          else
+            @delivery = Delivery.new(delivery_params)
+
+            if params[:import_file].present?
+              @delivery.import(params[:import_file])
+            end
+
+            render :new
+          end
+        end
+
         private
           # Use callbacks to share common setup or constraints between actions.
           def set_delivery

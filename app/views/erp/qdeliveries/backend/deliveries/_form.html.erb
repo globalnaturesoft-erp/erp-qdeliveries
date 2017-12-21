@@ -88,6 +88,18 @@
                                 }) %>
                             <% end %>
                         <% end %>
+                        <% if [
+                            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+                            ].include? delivery.delivery_type
+                        %>
+                            <%= erp_form_control("radio", {
+                                name: 'delivery[payment_for]',
+                                label: t('.payment_for'),
+                                value: @delivery.payment_for,
+                                options: Erp::Qdeliveries::Delivery.get_payment_type_options()
+                            }) %>
+                        <% end %>
                     </div>
                 </div>
             </div>
@@ -104,13 +116,27 @@
                             required: true,
                             errors: delivery.errors.full_messages_for(:employee_id)
                         }) %>
-                        <%= erp_form_control("textarea", {
-                            name: 'delivery[note]',
-                            value: delivery.note,
-                            label: t('.note'),
-                            placeholder: t('.enter_note'),
-                            rows: 1
-                        }) %>
+                        <% if [
+                            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+                            ].include? delivery.delivery_type
+                        %>
+                            <%= erp_form_control("textarea", {
+                                name: 'delivery[note]',
+                                value: delivery.note,
+                                label: t('.note'),
+                                placeholder: t('.enter_note'),
+                                rows: 5
+                            }) %>
+                        <% else %>
+                            <%= erp_form_control("textarea", {
+                                name: 'delivery[note]',
+                                value: delivery.note,
+                                label: t('.note'),
+                                placeholder: t('.enter_note'),
+                                rows: 1
+                            }) %>
+                        <% end %>
                     </div>
                 </div>
             </div>

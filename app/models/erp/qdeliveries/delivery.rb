@@ -23,6 +23,9 @@ module Erp::Qdeliveries
     TYPE_CUSTOM_IMPORT = 'custom_import'
     TYPE_CUSTOM_EXPORT = 'custom_export'
 
+    PAYMENT_FOR_ORDER = 'for_order'
+    PAYMENT_FOR_CONTACT = 'for_contact'
+
     after_save :update_product_cache_stock
     after_save :order_update_cache_delivery_status
 
@@ -54,6 +57,14 @@ module Erp::Qdeliveries
 
     def employee_name
       employee.present? ? employee.name : ''
+    end
+    
+    # get payment type
+    def self.get_payment_type_options()
+      [
+        {text: I18n.t('qdeliveries.payment_for_order'), value: Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER},
+        {text: I18n.t('qdeliveries.payment_for_contact'), value: Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT}
+      ]
     end
 
     if Erp::Core.available?("contacts")
@@ -101,6 +112,10 @@ module Erp::Qdeliveries
 
     def total_delivery_quantity
       delivery_details.sum(:quantity)
+    end
+
+    def self.total_delivery_quantity
+      self.sum(&:total_delivery_quantity)
     end
 
     # Filters
@@ -421,5 +436,52 @@ module Erp::Qdeliveries
 				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0')
 			end
 		end
+    
+    # Get deliveries with payment for order
+    def self.get_deliveries_with_payment_for_order(params={})
+      query = self.where(payment_for: Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER)
+      
+      if params[:from_date].present?
+				query = query.where('date >= ?', params[:from_date].to_date.beginning_of_day)
+			end
+
+			if params[:to_date].present?
+				query = query.where('date <= ?', params[:to_date].to_date.end_of_day)
+			end
+
+			if Erp::Core.available?("periods")
+				if params[:period].present?
+					query = query.where('date >= ? AND date <= ?',
+            Erp::Periods::Period.find(params[:period]).from_date.beginning_of_day,
+            Erp::Periods::Period.find(params[:period]).to_date.end_of_day)
+				end
+			end
+			
+			return query
+    end
+    
+    # Get deliveries with payment for contact
+    def self.get_deliveries_with_payment_for_contact(params={})
+      query = self.where(payment_for: Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT)
+      
+      if params[:from_date].present?
+				query = query.where('date >= ?', params[:from_date].to_date.beginning_of_day)
+			end
+
+			if params[:to_date].present?
+				query = query.where('date <= ?', params[:to_date].to_date.end_of_day)
+			end
+
+			if Erp::Core.available?("periods")
+				if params[:period].present?
+					query = query.where('date >= ? AND date <= ?',
+            Erp::Periods::Period.find(params[:period]).from_date.beginning_of_day,
+            Erp::Periods::Period.find(params[:period]).to_date.end_of_day)
+				end
+			end
+			
+			return query
+    end
+    
   end
 end

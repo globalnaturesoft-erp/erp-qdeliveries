@@ -73,6 +73,7 @@ module Erp
           @delivery.date = Time.now
           @delivery.delivery_type = params[:delivery_type].to_s if params[:delivery_type].present?
           @delivery.employee_id = current_user.id
+          @delivery.payment_for = Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER
 
           if params[:order_id].present?
             @order = Erp::Orders::Order.find(params[:order_id])
@@ -334,7 +335,7 @@ module Erp
 
           # Only allow a trusted parameter "white list" through.
           def delivery_params
-            params.fetch(:delivery, {}).permit(:code, :date, :delivery_type, :note, :employee_id, :customer_id, :supplier_id)
+            params.fetch(:delivery, {}).permit(:code, :date, :delivery_type, :note, :employee_id, :customer_id, :supplier_id, :payment_for)
           end
       end
     end

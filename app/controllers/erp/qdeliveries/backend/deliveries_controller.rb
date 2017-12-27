@@ -138,7 +138,11 @@ module Erp
                 value: @delivery.id
               }
             else
-              redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
+              if params.to_unsafe_hash[:save_print].present?
+                redirect_to erp_qdeliveries.backend_delivery_path(@delivery), notice: t('.success')
+              else
+                redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success')
+              end
             end
           else
             render :edit

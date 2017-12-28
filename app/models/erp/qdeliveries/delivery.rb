@@ -28,6 +28,8 @@ module Erp::Qdeliveries
 
     after_save :update_product_cache_stock
     after_save :order_update_cache_delivery_status
+    after_save :update_cache_total
+    after_save :update_delivery_detail_cache_total
 
     def order_update_cache_delivery_status
       delivery_details.each do |dd|
@@ -41,8 +43,11 @@ module Erp::Qdeliveries
         dd.update_product_cache_stock
       end
 		end
-
-    after_save :update_delivery_detail_cache_total
+    
+    # Update delivery cache total
+    def update_cache_total
+			self.update_column(:cache_total, self.total_amount)
+		end
 
     # update cache total for delivery_detail
     def update_delivery_detail_cache_total
@@ -355,14 +360,16 @@ module Erp::Qdeliveries
 
 		# get total amount
 		def total_amount
-			return delivery_details.cache_total
+			return delivery_details.sum(&:total_amount)
 		end
 
-
-		# get total amount
 		def self.total_amount
 			self.sum(&:total_amount)
 		end
+		
+		def self.cache_total_amount
+      self.sum("erp_qdeliveries_deliveries.cache_total")
+    end
 
 		# get paid amount
 		def paid_amount
@@ -482,6 +489,21 @@ module Erp::Qdeliveries
 			
 			return query
     end
+    
+    # Get deliveries is sales import
+    def self.sales_import_deliveries
+      self.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
+    end
+    
+    # Get deliveries is sales export
+    
+    # Get deliveries is purchase import
+    
+    # Get deliveries is purchase export
+    
+    # Get deliveries is custom import
+    
+    # Get deliveries is custom export
     
   end
 end

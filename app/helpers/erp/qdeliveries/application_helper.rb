@@ -43,6 +43,12 @@ module Erp
           actions
         )
       end
+      
+      # order link helper
+      def qdelivery_link(delivery, text=nil)
+        text = text.nil? ? delivery.code : text
+        raw "<a href='#{erp_qdeliveries.backend_delivery_path(delivery)}' class='modal-link'>#{text}</a>"
+      end
 
     end
   end

@@ -53,6 +53,7 @@
                     value: delivery_detail.quantity,
                     placeholder: t('.choose_quantity'),
                     options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
+                    class: "line_quantity",
                     required: true
                 }) %>
             <% elsif delivery_detail.order_detail.order_id.to_s == '-1' or !delivery_detail.id.nil? %>
@@ -60,6 +61,7 @@
                     name: "details[#{index}][quantity]",
                     value: delivery_detail.quantity,
                     placeholder: t('.choose_quantity'),
+                    class: "line_quantity",
                     required: true
                 }) %>
             <% end %>
@@ -109,6 +111,7 @@
                 <% end %>
             </div>
             <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
+                <span class="line_total" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
                 <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
             </div>
         <% end %>
@@ -121,3 +124,10 @@
         </a>
     </div>
 </div>
+<script>
+    setTimeout(function() {
+        $('.delivery-details').each(function() {
+            calculateTotalLine($(this));
+        });
+    }, 3000);
+</script>

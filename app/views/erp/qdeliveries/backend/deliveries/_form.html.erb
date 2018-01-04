@@ -149,7 +149,7 @@
                             <a href="#tab_5_1" data-toggle="tab" aria-expanded="true"><%= t('.delivery_details') %></a>
                         </li>
                     </ul>
-                    <div class="tab-content">
+                    <div class="tab-content delivery-details">
                         <div class="tab-pane addableform-table active" id="tab_5_1">
                             <%= render "erp/qdeliveries/backend/deliveries/form_details", delivery: delivery %>
                         </div>
@@ -167,4 +167,48 @@
         text: t('cancel'),
         href: erp_qdeliveries.backend_deliveries_path
     }) %>
+    
+    <% content_for :page_script do %>
+        <script>
+            function calculateTotalLine(container) {
+                var rows = container.find('.autolist-line:visible');
+                var quantity = 0;
+                var total = 0;
+                rows.each(function() {
+                    var row = $(this);
+                    var qty = customParseFloat(row.find('.line_quantity').val());
+                    var cache_total = customParseFloat(row.find('.line_total').html());                        
+                        
+                    // Update total (amount/quantity)
+                    if(qty) {
+                        quantity += qty;
+                    }
+                    if(cache_total) {
+                        total += cache_total;
+                    }
+                });
+                // update line total
+                container.find('.quantity').html(quantity);
+                container.find('.total').html(total);
+            }
+            $(document).ready(function() {
+                $('.delivery-details').each(function() {
+                    calculateTotalLine($(this));
+                });
+        
+                // Change event on order line
+                $(document).on('change keyup', '.delivery-details input, .delivery-details select', function(e) {
+                    var container = $(this).parents('.delivery-details');
+                    calculateTotalLine(container);
+                });
+        
+                // Click event nested remove button
+                $(document).on('click', '.nested-remove-button', function(e) {
+                    var container = $(this).parents('.delivery-details');
+                    setTimeout(function() {calculateTotalLine(container);}, 100);
+                });
+            });
+        </script>
+    <% end %>
+
 <% end %>

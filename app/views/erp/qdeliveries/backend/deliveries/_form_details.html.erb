@@ -74,3 +74,24 @@
         <i class="fa fa-plus"></i>
     </a>
 </div>
+<hr />
+<table class="table">
+    <tr>
+        <td width="90%" class="text-right text-semibold">Số lượng:</td>
+        <td class="text-right">
+            <h4 class="no-margin">
+                <span class="quantity text-bold text-primary"></span>
+            </h4>
+        </td>
+    </tr>
+    <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include? delivery.delivery_type %>
+        <tr>
+            <td width="90%" class="text-right text-semibold">Tổng tiền:</td>
+            <td class="text-right">
+                <h4 class="no-margin">
+                    <span class="total text-bold text-primary"></span>
+                </h4>
+            </td>
+        </tr>
+    <% end %>
+</table>

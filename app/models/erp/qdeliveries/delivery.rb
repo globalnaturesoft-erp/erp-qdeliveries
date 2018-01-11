@@ -43,7 +43,7 @@ module Erp::Qdeliveries
         dd.update_product_cache_stock
       end
 		end
-    
+
     # Update delivery cache total
     def update_cache_total
 			self.update_column(:cache_total, self.total_amount)
@@ -63,7 +63,7 @@ module Erp::Qdeliveries
     def employee_name
       employee.present? ? employee.name : ''
     end
-    
+
     # get payment type
     def self.get_payment_type_options()
       [
@@ -302,7 +302,7 @@ module Erp::Qdeliveries
     end
 
     def update_details(details)
-      return if !details.present?
+      return false if !details.present?
 
       details.each do |row|
         data = row[1]
@@ -318,15 +318,15 @@ module Erp::Qdeliveries
               product_id: data["product_id"],
               price: data["price"],
             )
-          elsif !data["id"].present? and data["_destroy"] != 'true'
-            self.delivery_details.create.update(
-              order_detail_id: data["order_detail_id"],
-              quantity: data["quantity"],
-              state_id: data["state_id"],
-              warehouse_id: data["warehouse_id"],
-              product_id: data["product_id"],
-              price: data["price"],
-            )
+          #elsif !data["id"].present? and data["_destroy"] != 'true'
+          #  self.delivery_details.create(
+          #    order_detail_id: data["order_detail_id"],
+          #    quantity: data["quantity"],
+          #    state_id: data["state_id"],
+          #    warehouse_id: data["warehouse_id"],
+          #    product_id: data["product_id"],
+          #    price: data["price"],
+          #  )
           end
         end
       end
@@ -366,7 +366,7 @@ module Erp::Qdeliveries
 		def self.total_amount
 			self.sum(&:total_amount)
 		end
-		
+
 		def self.cache_total_amount
       self.sum("erp_qdeliveries_deliveries.cache_total")
     end
@@ -443,11 +443,11 @@ module Erp::Qdeliveries
 				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0')
 			end
 		end
-    
+
     # Get deliveries with payment for order
     def self.get_deliveries_with_payment_for_order(params={})
       query = self.where(payment_for: Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER)
-      
+
       if params[:from_date].present?
 				query = query.where('date >= ?', params[:from_date].to_date.beginning_of_day)
 			end
@@ -463,14 +463,14 @@ module Erp::Qdeliveries
             Erp::Periods::Period.find(params[:period]).to_date.end_of_day)
 				end
 			end
-			
+
 			return query
     end
-    
+
     # Get deliveries with payment for contact
     def self.get_deliveries_with_payment_for_contact(params={})
       query = self.where(payment_for: Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT)
-      
+
       if params[:from_date].present?
 				query = query.where('date >= ?', params[:from_date].to_date.beginning_of_day)
 			end
@@ -486,24 +486,24 @@ module Erp::Qdeliveries
             Erp::Periods::Period.find(params[:period]).to_date.end_of_day)
 				end
 			end
-			
+
 			return query
     end
-    
+
     # Get deliveries is sales import
     def self.sales_import_deliveries
       self.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
     end
-    
+
     # Get deliveries is sales export
-    
+
     # Get deliveries is purchase import
-    
+
     # Get deliveries is purchase export
-    
+
     # Get deliveries is custom import
-    
+
     # Get deliveries is custom export
-    
+
   end
 end

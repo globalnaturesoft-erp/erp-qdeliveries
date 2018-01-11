@@ -17,6 +17,7 @@ module Erp
             @delivery_detail.warehouse = Erp::Warehouses::Warehouse.new
             @delivery_detail.state = Erp::Products::State.first
             @delivery_detail.quantity = 1
+            @delivery_detail.id = @params[:id]
 
             # Tmp Delivery
             @delivery_detail.delivery = Erp::Qdeliveries::Delivery.new(delivery_type: @delivery_type)

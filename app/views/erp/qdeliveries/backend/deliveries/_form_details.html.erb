@@ -25,7 +25,7 @@
             }) %>
         </div>
         <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT, Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(delivery.delivery_type) %>
-            <div class="col-md-3" style="border-left: solid 1px #ddd; padding-left: 20px">
+            <div class="col-md-4" style="border-left: solid 1px #ddd; padding-left: 20px">
                 <%= erp_form_control("file", {
                     name: 'import_file',
                     value: '',
@@ -33,7 +33,7 @@
                     label: ('Nhập từ file (<a href="'+url_for('/backend/file/product_custom_import_export.xlsx')+'" target="_blank">Tải mẫu</a>)').html_safe,
                 }) %>
             </div>
-            <div class="col-md-2 mt-25 text-right">
+            <div class="col-md-1 mt-25 text-right" style="margin-top: 26px;">
                 <button class="btn btn-primary custom-form-submit" data-action="<%= erp_qdeliveries.import_file_backend_deliveries_path(id: delivery.id) %>">Tải file</button>
             </div>
         <% end %>
@@ -44,7 +44,7 @@
     <div class="col-md-2">Chứng từ</div>
     <div class="col-md-2">Sản phẩm</div>
     <div class="col-md-1">Số lượng</div>
-    <div class="col-md-1">Tình trạng</div>
+    <div class="col-md-1">T.Trạng</div>
     <div class="col-md-1">Kho</div>
     <% if Erp::Core.available?('ortho_k') %>
         <div class="col-md-2">Số Lô/Sê-ri</div>

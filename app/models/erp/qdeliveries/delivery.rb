@@ -389,7 +389,8 @@ module Erp::Qdeliveries
         row = Hash[[header, spreadsheet.row(i)].transpose]
 
         # Find product
-        product = Erp::Products::Product.where('LOWER(name) = ?', row["product"].strip.downcase).first
+        p_name = "#{row["code"].to_s.strip}-#{row["diameter"].to_s.strip}-#{row["category"].to_s.strip}"
+        product = Erp::Products::Product.where('LOWER(name) = ?', p_name.strip.downcase).first
         product_id = product.present? ? product.id : nil
 
         # Find state

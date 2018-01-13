@@ -88,7 +88,7 @@
         </div>
         <% if Erp::Core.available?('ortho_k') %>
             <div class="col-md-2">
-                <%= erp_form_control("textarea", {
+                <%= erp_form_control("text", {
                     name: "details[#{index}][serials]",
                     value: delivery_detail.serials,
                     text: delivery_detail.serials,

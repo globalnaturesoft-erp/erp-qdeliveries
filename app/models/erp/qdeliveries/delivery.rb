@@ -505,6 +505,23 @@ module Erp::Qdeliveries
     # Get deliveries is custom import
 
     # Get deliveries is custom export
-
+    
+    # Get related order
+    def get_related_order
+      order_id = nil
+      delivery_details.each_with_index do |dd,index|
+        if dd.order_detail.present?
+          order_id = dd.order_detail.order_id if order_id == nil
+          if order_id != dd.order_detail.order_id
+            order_id = nil
+            break
+          end
+        else
+          order_id = nil
+          break
+        end
+      end
+      return order_id.nil? ? nil : Erp::Orders::Order.find(order_id)
+    end
   end
 end

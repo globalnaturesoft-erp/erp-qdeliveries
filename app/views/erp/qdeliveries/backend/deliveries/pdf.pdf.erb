@@ -8,9 +8,9 @@
 <% end %>
 
 <% content_for :title_line_2 do %>
-    Ngày <%= @delivery.date.strftime('%d') %>
-    tháng <%= @delivery.date.strftime('%m') %>
-    năm <%= @delivery.date.strftime('%Y') %>.
+    <i>Ngày <%= @delivery.date.strftime('%d') %>
+      tháng <%= @delivery.date.strftime('%m') %>
+      năm <%= @delivery.date.strftime('%Y') %></i>
     <div>Số: <%= @delivery.code %></div>
 <% end %>
 
@@ -53,6 +53,12 @@
     <p>
       <label>NV phụ trách:</label>
       <span><%= @delivery.employee_name %></span>
+    </p>
+  <% end %>
+  <% if !@delivery.get_related_order.nil? %>
+    <p>
+      <label>Chứng từ:</label>
+      <span><strong><%= @delivery.get_related_order.code %></strong></span>
     </p>
   <% end %>
 <% end %>
@@ -100,6 +106,9 @@
                                       <th class="invoice-title uppercase text-center"><%= t('.total_amount') %></th>
                                   <% end %>
                                 <% end%>
+                                <% if get_columns(params).include?("record") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.record') %></th>
+                                <% end %>
                                 <% if get_columns(params).include?("note") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.note') %></th>
                                 <% end %>
@@ -143,6 +152,9 @@
                                             <td class="text-right"><%= format_number(delivery_detail.cache_total) %></td>
                                         <% end %>
                                     <% end %>
+                                    <% if get_columns(params).include?("record") %>
+                                        <td class="text-center"><%= delivery_detail.get_order_code %></td>
+                                    <% end %>
                                     <% if get_columns(params).include?("note") %>
                                         <td class="text-left"><%= delivery_detail.note %></td>
                                     <% end %>
@@ -180,8 +192,8 @@
     <% if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %>
       Tổng số tiền (bằng chữ): <trong><%= docso(@delivery.total_amount) if @delivery.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT %></trong>
       <br>
-      Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
     <% end %>
+    Lưu ý: Cty chỉ thu hồi hàng hóa khi có HĐBH kèm theo.
 
 </div>
 <% content_for :footer do %>

@@ -238,6 +238,7 @@ vi:
             patient_state: "Tình trạng BN"
             patient_name: "Tên BN"
             other_info: "Thông tin thêm"
+            record: "Chứng từ"
           pdf:
             ordinal_number: "STT"
             items: "Sản phẩm"
@@ -251,6 +252,7 @@ vi:
             patient_state: "Tình trạng BN"
             patient_name: "Tên BN"
             other_info: "MT/MP"
+            record: "Chứng từ"
         delivery_details:
           form_detail:
             choose_order: "Chọn đơn hàng"

@@ -73,6 +73,9 @@
             text: t('.total_amount'), name: 'total_amount', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) ? true : false)
         },
         {
+            text: t('.record'), name: 'record', value: true, checked: false
+        },
+        {
             text: t('.note'), name: 'note', value: true, checked: false
         }
     ]

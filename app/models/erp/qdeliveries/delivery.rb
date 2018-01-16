@@ -501,11 +501,14 @@ module Erp::Qdeliveries
     # Get deliveries is purchase import
 
     # Get deliveries is purchase export
+    def self.purchase_export_deliveries
+      self.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT)
+    end
 
     # Get deliveries is custom import
 
     # Get deliveries is custom export
-    
+
     # Get related order
     def get_related_order
       order_id = nil

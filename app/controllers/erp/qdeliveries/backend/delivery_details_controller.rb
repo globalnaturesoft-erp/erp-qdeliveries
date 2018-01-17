@@ -36,6 +36,7 @@ module Erp
 
           @delivery_detail.order_detail.product = Erp::Products::Product.find(@params[:product_id]) if @params[:product_id].present?
           @delivery_detail.state = Erp::Products::State.find(@params[:state_id]) if @params[:state_id].present?
+          @delivery_detail.serials = @params[:serials] if @params[:serials].present?
 
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?

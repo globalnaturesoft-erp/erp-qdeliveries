@@ -16,7 +16,7 @@ module Erp::Qdeliveries
     def update_product_cache_stock
 			self.product.update_cache_stock if self.product.present?
 		end
-    
+
     # update delivery cache total
     def update_delivery_cache_total
 			if delivery.present?
@@ -126,7 +126,7 @@ module Erp::Qdeliveries
     def total_amount
 			quantity.to_f*price.to_f
 		end
-    
+
     # Cache total
     def self.cache_total
 			self.sum("erp_qdeliveries_delivery_details.cache_total")

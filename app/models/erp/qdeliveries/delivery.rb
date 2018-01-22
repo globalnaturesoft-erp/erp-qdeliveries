@@ -318,15 +318,15 @@ module Erp::Qdeliveries
               product_id: data["product_id"],
               price: data["price"],
             )
-          #elsif !data["id"].present? and data["_destroy"] != 'true'
-          #  self.delivery_details.create(
-          #    order_detail_id: data["order_detail_id"],
-          #    quantity: data["quantity"],
-          #    state_id: data["state_id"],
-          #    warehouse_id: data["warehouse_id"],
-          #    product_id: data["product_id"],
-          #    price: data["price"],
-          #  )
+          elsif !data["id"].present? and data["_destroy"] != 'true'
+            self.delivery_details.create(
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+            )
           end
         end
       end

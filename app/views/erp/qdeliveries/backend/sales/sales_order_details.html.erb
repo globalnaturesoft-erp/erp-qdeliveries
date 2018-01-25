@@ -1,53 +1,134 @@
-<table class="table table-bordered table-striped flip-content table-child-content">
-    <thead class="flip-content">
-        <tr>
-            <th width="15%" class="bg-green-jungle bg-font-green-jungle text-center"><%= t('.product_code') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.product_name') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.product_type') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.ordered_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.deliveried_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.remain_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('status') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('.deliveries') %></th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @order.order_details.each do |order_detail| %>
-            <% if order_detail.delivered_delivery_details.count > 0 %>
-                <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_deliveries_sales_path(id: order_detail.id) %>">
-            <% else %>
-                <tr>
-            <% end %>
-                <td class="text-center">
-                    <% if order_detail.delivered_delivery_details.count > 0 %>
-                        <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
-                    <% end %>
-                    <strong><%= order_detail.product_code %></strong>
-                </td>
-                <td class="text-left"><%= link_to order_detail.product_name, erp_products.edit_backend_product_path(order_detail.product), target: "_blank", title: order_detail.product_name, class: "font-yellow-gold sbold" %></td>
-                <td class="text-left"><%= order_detail.product_category_name %></td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.delivered_quantity) %></strong></td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivered_quantity) %></strong></td>
-                <td class="text-right">
-                    <% if order_detail.not_delivered_quantity > 0 %>
-                        <span class="font-yellow-gold bold">Chưa giao</span>
-                    <% elsif order_detail.not_delivered_quantity == 0 %>
-                        <span class="font-green-meadow bold">Giao xong</span>
-                    <% else %>
-                        <span class="font-red-thunderbird bold">Giao dư</span>
-                    <% end %>
-                </td>
-                <td class="text-right">
-                    <% if order_detail.delivered_delivery_details.count > 0 %>
-                        <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
-                            <%= link_to delivery_detail.delivery.code,
-                                        erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
-                                        title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
-                        <% end %>
-                    <% end %>
-                </td>
-            </tr>
+<% tabid = unique_id %>
+<div class="tabbable-custom ">
+    <ul class="nav nav-tabs ">
+        <li class="active">
+            <a href="#tab_<%= tabid %>_1" data-toggle="tab">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                <%= t('.order_details') %>
+            </a>
+        </li>
+
+        <% if @order.get_order_stock_check.present? and @order.get_order_stock_check.is_done? %>
+            <li>
+                <a href="#tab_<%= tabid %>_2" data-toggle="tab">
+                    <i class="glyphicon glyphicon-check"></i>
+                    <%= t('.order_stock_check_details') %>
+                </a>
+            </li>
         <% end %>
-    </tbody>
-</table>                    
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_<%= tabid %>_1">
+            <table class="table table-bordered table-striped flip-content table-child-content">
+                <thead class="flip-content">
+                    <tr>
+                        <% if !Erp::Core.available?("ortho_k") %>
+                            <th width="15%" class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.product_code') %></th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left"><%= t('.product_name') %></th>
+                        <% else %>
+                            <th width="20%" class="bg-green-jungle bg-font-green-jungle text-nowrap text-left"><%= t('.product_name') %></th>
+                        <% end %>
+                        <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left"><%= t('.product_type') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.unit') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.ordered_quantity') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.deliveried_quantity') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.remain_quantity') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-right text-center"><%= t('status') %></th>
+                        <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('.deliveries') %></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @order.order_details.each do |order_detail| %>
+                        <% if order_detail.delivered_delivery_details.count > 0 %>
+                            <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_deliveries_sales_path(id: order_detail.id) %>">
+                        <% else %>
+                            <tr>
+                        <% end %>
+                            <% if !Erp::Core.available?("ortho_k") %>
+                                <td class="text-left">
+                                    <% if order_detail.delivered_delivery_details.count > 0 %>
+                                        <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
+                                    <% end %>
+                                    <strong><%= order_detail.product_code %></strong>
+                                </td>
+                                <td class="text-left">
+                                    <%= link_to order_detail.product_name,
+                                        erp_products.edit_backend_product_path(order_detail.product),
+                                        target: "_blank", title: order_detail.product_name,
+                                        class: "font-yellow-gold sbold" %>
+                                </td>
+                            <% else %>
+                                <td class="text-left">
+                                    <% if order_detail.delivered_delivery_details.count > 0 %>
+                                        <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
+                                    <% end %>
+                                    <strong>
+                                        <%= link_to order_detail.product_name,
+                                            erp_products.edit_backend_product_path(order_detail.product),
+                                            target: "_blank", title: order_detail.product_name,
+                                            class: "font-yellow-gold sbold" %>
+                                    </strong>
+                                </td>
+                            <% end %>
+                            <td class="text-left"><%= order_detail.product_category_name %></td>
+                            <td class="text-center"><%= order_detail.product_unit_name %></td>
+                            <td class="numeric text-center bold"><%= format_number(order_detail.quantity) %></td>
+                            <td class="numeric text-center bold"><%= format_number(order_detail.delivered_quantity) %></td>
+                            <td class="numeric text-center bold"><%= format_number(order_detail.not_delivered_quantity) %></td>
+                            <td class="text-center">
+                                <% if order_detail.not_delivered_quantity > 0 %>
+                                    <span class="font-yellow-gold bold">Chưa giao</span>
+                                <% elsif order_detail.not_delivered_quantity == 0 %>
+                                    <span class="font-green-meadow bold">Giao xong</span>
+                                <% else %>
+                                    <span class="font-red-thunderbird bold">Giao dư</span>
+                                <% end %>
+                            </td>
+                            <td class="text-right">
+                                <% if order_detail.delivered_delivery_details.count > 0 %>
+                                    <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
+                                        <%= link_to delivery_detail.delivery.code,
+                                                    erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
+                                                    title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
+                                    <% end %>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+        <% if @order.get_order_stock_check.present? and @order.get_order_stock_check.is_done? %>
+            <div class="tab-pane" id="tab_<%= tabid %>_2">
+                <table class="table table-bordered table-advance order-column">
+                    <thead class="flip-content">
+                        <tr>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left" width="20%">Tên sản phẩm</th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Loại hàng</th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">ĐVT</th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">SL đặt</th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">Có sẵn (trong kho)</th>
+                            <th width="20%" class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Ghi chú</th>
+                            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Hàng thay thế (gợi ý)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @order.schecks.last.scheck_details.each do |scheck_detail| %>
+                        <tr>
+                            <td class="text-left"><strong><%= scheck_detail.order_detail.product_name %></strong></td>
+                            <td class="text-left"><%= scheck_detail.order_detail.product_category_name %></td>
+                            <td class="text-center"><%= scheck_detail.order_detail.product_unit_name %></td>
+                            <td class="text-center"><%= scheck_detail.order_detail.quantity %></td>
+                            <td class="text-center">
+                                <%= raw scheck_detail.available? ? '<i class="fa fa-check font-green-jungle"></i>' : '<i class="fa fa-close font-red-thunderbird"></i>' %>
+                            </td>
+                            <td class="text-left"><%= scheck_detail.note %></td>
+                            <td class="text-left"><%= raw scheck_detail.get_alternative_item_names.join('<br>') %></td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        <% end %>
+    </div>
+</div>

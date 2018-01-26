@@ -165,5 +165,20 @@ module Erp::Qdeliveries
 
 			return query.sum(:cache_total)
 		end
+
+    # Find serials
+    def find_serials
+      return self.serials if !self.id.nil? or self.serials.present?
+      return nil if self.order_detail.nil? or self.order_detail.order.schecks.empty?
+
+      scheck = self.order_detail.order.schecks.last
+
+      scheck.scheck_details.each do |scd|
+        serials = scd.get_alternative_serials_by_product_id(self.order_detail.product_id)
+        return serials if serials.present?
+      end
+
+      return nil
+    end
   end
 end

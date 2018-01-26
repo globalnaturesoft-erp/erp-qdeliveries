@@ -295,6 +295,7 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              serials: data["serials"],
             )
           end
         end
@@ -317,6 +318,7 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              serials: data["serials"],
             )
           elsif !data["id"].present? and data["_destroy"] != 'true'
             self.delivery_details.create(
@@ -326,6 +328,7 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              serials: data["serials"],
             )
           end
         end

@@ -76,7 +76,6 @@
                     <div class="form-group">
                         <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
                     </div>
-                    <!--<div class="text-danger text-center">Hết hàng</div>-->
                 <% else %>
                     <%= erp_form_control("select", {
                         name: "details[#{index}][quantity]",
@@ -90,7 +89,9 @@
             <% else %>
                 <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
                     <% if delivery_detail.get_max_quantity < 1 %>
-                        <span class="text-danger">Hết hàng</span>
+                        <div class="form-group">
+                            <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
+                        </div>
                     <% else %>
                         <%= erp_form_control("select", {
                             name: "details[#{index}][quantity]",

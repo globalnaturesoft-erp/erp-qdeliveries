@@ -47,24 +47,14 @@
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
         <div class="col-md-1">
-            <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
-                <%= erp_form_control("select", {
-                    name: "details[#{index}][quantity]",
-                    value: delivery_detail.quantity,
-                    placeholder: t('.choose_quantity'),
-                    options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
-                    class: "line_quantity",
-                    required: true
-                }) %>
-            <% elsif delivery_detail.order_detail.order_id.to_s == '-1' or !delivery_detail.id.nil? %>
-                <%= erp_form_control("number", {
-                    name: "details[#{index}][quantity]",
-                    value: delivery_detail.quantity,
-                    placeholder: t('.choose_quantity'),
-                    class: "line_quantity",
-                    required: true
-                }) %>
-            <% end %>
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][warehouse_id]",
+                value: delivery_detail.warehouse.id,
+                text: delivery_detail.warehouse.name,
+                placeholder: t('.choose_warehouse'),
+                url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json'),
+                required: true
+            }) %>
         </div>
         <div class="col-md-1">
             <%= erp_form_control("dataselect", {
@@ -77,14 +67,50 @@
             }) %>
         </div>
         <div class="col-md-1">
-            <%= erp_form_control("dataselect", {
-                name: "details[#{index}][warehouse_id]",
-                value: delivery_detail.warehouse.id,
-                text: delivery_detail.warehouse.name,
-                placeholder: t('.choose_warehouse'),
-                url: erp_warehouses.dataselect_backend_warehouses_path(format: 'json'),
-                required: true
-            }) %>
+            <% if [
+                Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
+                Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
+                Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
+            ].include?(delivery_detail.delivery.delivery_type) %>
+                <% if delivery_detail.get_max_quantity < 1 %>
+                    <div class="form-group">
+                        <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
+                    </div>
+                    <!--<div class="text-danger text-center">Hết hàng</div>-->
+                <% else %>
+                    <%= erp_form_control("select", {
+                        name: "details[#{index}][quantity]",
+                        value: delivery_detail.quantity,
+                        placeholder: t('.choose_quantity'),
+                        options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
+                        class: "line_quantity",
+                        required: true
+                    }) %>
+                <% end %>
+            <% else %>
+                <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
+                    <% if delivery_detail.get_max_quantity < 1 %>
+                        <span class="text-danger">Hết hàng</span>
+                    <% else %>
+                        <%= erp_form_control("select", {
+                            name: "details[#{index}][quantity]",
+                            value: delivery_detail.quantity,
+                            placeholder: t('.choose_quantity'),
+                            options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
+                            class: "line_quantity",
+                            required: true
+                        }) %>
+                    <% end %>
+                <% elsif delivery_detail.order_detail.order_id.to_s == '-1' or !delivery_detail.id.nil? %>
+                    <%= erp_form_control("number", {
+                        name: "details[#{index}][quantity]",
+                        value: delivery_detail.quantity,
+                        placeholder: t('.choose_quantity'),
+                        class: "line_quantity",
+                        required: true
+                    }) %>
+                <% end %>
+            <% end %>
         </div>
         <% if Erp::Core.available?('ortho_k') %>
             <div class="col-md-2">

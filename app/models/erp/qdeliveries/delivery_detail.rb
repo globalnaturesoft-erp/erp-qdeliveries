@@ -37,11 +37,17 @@ module Erp::Qdeliveries
     end
 
     def get_max_quantity
+      max = 10000
       if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
-				self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
+				max = self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
 			elsif [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT].include?(delivery.delivery_type)
-				self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
+				max = self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
 			end
+
+      prod = order_detail.present? ? order_detail.product : self.product
+      stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
+
+      (stock < max) ? stock : max
     end
 
     if Erp::Core.available?("orders")
@@ -169,7 +175,7 @@ module Erp::Qdeliveries
     # Find serials
     def find_serials
       return self.serials if !self.id.nil? or self.serials.present?
-      return nil if self.order_detail.nil? or self.order_detail.order.schecks.empty?
+      return nil if self.order_detail.nil? or self.order_detail.order.nil? or self.order_detail.order.schecks.empty?
 
       scheck = self.order_detail.order.schecks.last
 

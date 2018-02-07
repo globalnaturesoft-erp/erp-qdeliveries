@@ -123,7 +123,16 @@
                                 <%= raw scheck_detail.available? ? '<i class="fa fa-check font-green-jungle"></i>' : '<i class="fa fa-close font-red-thunderbird"></i>' %>
                             </td>
                             <td class="text-left"><%= scheck_detail.note %></td>
-                            <td class="text-left"><%= raw scheck_detail.get_alternative_item_names.join('<br>') %></td>
+                            <td class="text-left">
+                                <table width="100%">
+                                    <% scheck_detail.get_alternative_items.each do |item| %>
+                                        <tr>
+                                            <td width="1%" class="text-nowrap text-left"><div class="badge badge-info"><%= item[:index] %></div></td>
+                                            <td class="text-nowrap text-left"><%= item[:product].name %></td>
+                                        </tr>
+                                    <% end %>
+                                </table>
+                            </td>
                         </tr>
                         <% end %>
                     </tbody>

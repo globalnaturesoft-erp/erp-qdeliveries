@@ -49,6 +49,9 @@ module Erp::Qdeliveries
 
       prod = order_detail.present? ? order_detail.product : self.product
       stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
+      
+      # check if editing case
+      stock = stock + DeliveryDetail.find(self.id).quantity if prod.present? and self.id.present?
 
       (stock < max) ? stock : max
     end

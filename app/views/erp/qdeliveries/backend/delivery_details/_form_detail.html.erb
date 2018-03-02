@@ -74,7 +74,7 @@
             ].include?(delivery_detail.delivery.delivery_type) %>
                 <% if delivery_detail.get_max_quantity < 1 %>
                     <div class="form-group">
-                        <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
+                        <input type="text" readonly style="width: 100%" placeholder="Thiếu hàng <%= delivery_detail.order_detail.present? ? delivery_detail.order_detail.not_delivered_quantity : '--' %>" class="bg-danger form-control required" />
                     </div>
                 <% else %>
                     <%= erp_form_control("select", {

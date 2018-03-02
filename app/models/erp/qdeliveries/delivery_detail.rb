@@ -39,21 +39,22 @@ module Erp::Qdeliveries
     def get_max_quantity
       max = 10000
 
+      prod = order_detail.present? ? order_detail.product : self.product
+      stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
+
       if order_detail_id.present?
         if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
           max = self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
+          # check if editing case
+          stock = stock + DeliveryDetail.find(self.id).quantity if prod.present? and self.id.present?
+
+          max = (stock < max) ? stock : max
         elsif [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT].include?(delivery.delivery_type)
           max = self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
         end
       end
 
-      prod = order_detail.present? ? order_detail.product : self.product
-      stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
-      
-      # check if editing case
-      stock = stock + DeliveryDetail.find(self.id).quantity if prod.present? and self.id.present?
-
-      (stock < max) ? stock : max
+      max
     end
 
     if Erp::Core.available?("orders")

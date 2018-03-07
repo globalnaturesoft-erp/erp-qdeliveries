@@ -12,7 +12,7 @@ module Erp
 
         # POST /deliveries/list
         def list
-          @deliveries = Delivery.search(params).paginate(:page => params[:page], :per_page => 50)
+          @deliveries = Delivery.search(params).paginate(:page => params[:page], :per_page => 20)
 
           render layout: nil
         end

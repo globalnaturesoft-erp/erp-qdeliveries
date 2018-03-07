@@ -184,13 +184,19 @@ module Erp::Qdeliveries
     # Find serials
     def find_serials
       return self.serials if !self.id.nil? or self.serials.present?
-      return nil if self.order_detail.nil? or self.order_detail.order.nil? or self.order_detail.order.schecks.empty?
+      return nil if self.order_detail.nil?
 
-      scheck = self.order_detail.order.schecks.last
+      # return order detail serials if existed
+      return self.order_detail.serials if self.order_detail.serials.present?
 
-      scheck.scheck_details.each do |scd|
-        serials = scd.get_alternative_serials_by_product_id(self.order_detail.product_id)
-        return serials if serials.present?
+      # find from schecks
+      if !self.order_detail.order.nil? and !self.order_detail.order.schecks.empty?
+        scheck = self.order_detail.order.schecks.last
+
+        scheck.scheck_details.each do |scd|
+          serials = scd.get_alternative_serials_by_product_id(self.order_detail.product_id)
+          return serials if serials.present?
+        end
       end
 
       return nil

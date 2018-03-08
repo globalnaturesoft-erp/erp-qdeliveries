@@ -446,7 +446,7 @@ module Erp::Qdeliveries
 				# XB : xuất hàng bán
 				num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month).count + 1
 
-				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0')
+				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0') + " / " + Time.now.to_i.to_s
 			end
 		end
 

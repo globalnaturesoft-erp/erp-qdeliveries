@@ -40,7 +40,8 @@ module Erp::Qdeliveries
       max = 10000
 
       prod = order_detail.present? ? order_detail.product : self.product
-      stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
+      #stock = prod.present? ? Erp::Products::CacheStock.get_stock(prod.id, {warehouse_id: self.warehouse_id, state_id: self.state_id}) : 0
+      stock = prod.present? ? prod.get_stock(warehouse_ids: self.warehouse_id, state_ids: self.state_id) : 0
 
       if order_detail_id.present?
         if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)

@@ -1,7 +1,7 @@
 module Erp::Qdeliveries
   class Delivery < ApplicationRecord
 
-		validates :code, uniqueness: true
+		#validates :code, uniqueness: true
     validates :date, :employee_id, :creator_id, :presence => true
 
     belongs_to :employee, class_name: "Erp::User"
@@ -419,35 +419,67 @@ module Erp::Qdeliveries
       end
     end
 
-		# Generate code
-    before_validation :generate_code
-    def generate_code
-			if !code.present?
-				# Bổ sung trường hợp lọc để set mã
-				if delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
-																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT])
-					str = 'NK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT # Xuất kho trả hàng cho NCC
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
-																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT])
-					str = 'XK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT # Hoàn kho (hàng bị trả lại)
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
-					str = 'HK'
-				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT # Xuất bán
-					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT)
-					str = 'XB'
-				end
-
-				# NK : nhập kho, mua hàng từ nhà cung cấp
-				# XK : xuất kho trả hàng NCC
-				# HK : hoàn kho, hàng bị trả lại
-				# XB : xuất hàng bán
-				num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month).count + 1
-
-				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0') + " / " + Time.now.to_i.to_s
-			end
+#		# Generate code
+#    before_validation :generate_code
+#    def generate_code
+#			if !code.present?
+#				# Bổ sung trường hợp lọc để set mã
+#				if delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
+#					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+#																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT])
+#					str = 'NK'
+#				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT # Xuất kho trả hàng cho NCC
+#					query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
+#																																	 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT])
+#					str = 'XK'
+#				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT # Hoàn kho (hàng bị trả lại)
+#					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
+#					str = 'HK'
+#				elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT # Xuất bán
+#					query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT)
+#					str = 'XB'
+#				end
+#
+#				# NK : nhập kho, mua hàng từ nhà cung cấp
+#				# XK : xuất kho trả hàng NCC
+#				# HK : hoàn kho, hàng bị trả lại
+#				# XB : xuất hàng bán
+#				num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month).count + 1
+#
+#				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0') + " / " + Time.now.to_i.to_s
+#			end
+#		end
+    
+    # force generate code
+    after_create :force_generate_code
+    def force_generate_code
+      if !code.present?
+        # Bổ sung trường hợp lọc để set mã
+        if delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
+          query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+                                                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT])
+          str = 'NK'
+        elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT # Xuất kho trả hàng cho NCC
+          query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
+                                                                   Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT])
+          str = 'XK'
+        elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT # Hoàn kho (hàng bị trả lại)
+          query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
+          str = 'HK'
+        elsif delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT # Xuất bán
+          query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT)
+          str = 'XB'
+        end
+  
+        # NK : nhập kho, mua hàng từ nhà cung cấp
+        # XK : xuất kho trả hàng NCC
+        # HK : hoàn kho, hàng bị trả lại
+        # XB : xuất hàng bán
+        num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month)
+        num = num.where('created_at <= ?', self.created_at).count
+  
+        self.update_column(:code, str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0'))
+      end
 		end
 
     # Get deliveries with payment for order

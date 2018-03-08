@@ -75,7 +75,10 @@
                 <% if delivery_detail.get_max_quantity < 1 %>
                     <div class="form-group">
                         <input type="text" readonly style="width: 100%" placeholder="Thiếu hàng <%= delivery_detail.order_detail.present? ? delivery_detail.order_detail.not_delivered_quantity : '--' %>" class="bg-danger form-control required" />
-                    </div>
+                        <% if delivery_detail.order_detail.present? and delivery_detail.order_detail.product.present? and can?(:combine, delivery_detail.order_detail.product) %>
+                            <a style="margin-top: -10px; font-size: 11px" target="_blank" href="<%= erp_products.combine_backend_products_path(id: delivery_detail.order_detail.product.id) %>" class="text-small">Ghép sản phẩm</a>
+                        <% end %>
+                    </div>                    
                 <% else %>
                     <%= erp_form_control("select", {
                         name: "details[#{index}][quantity]",

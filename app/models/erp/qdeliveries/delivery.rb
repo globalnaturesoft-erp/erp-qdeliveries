@@ -453,7 +453,7 @@ module Erp::Qdeliveries
     # force generate code
     after_create :force_generate_code
     def force_generate_code
-      if !code.present?
+      #if !code.present?
         # Bổ sung trường hợp lọc để set mã
         if delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT or delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT  # Nhập kho (mua hàng từ NCC)
           query = Erp::Qdeliveries::Delivery.where(delivery_type: [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
@@ -479,7 +479,7 @@ module Erp::Qdeliveries
         num = num.where('created_at <= ?', self.created_at).count
   
         self.update_column(:code, str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0'))
-      end
+      #end
 		end
 
     # Get deliveries with payment for order

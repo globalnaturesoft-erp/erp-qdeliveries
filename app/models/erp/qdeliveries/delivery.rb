@@ -283,7 +283,7 @@ module Erp::Qdeliveries
     def fill_details(details, force=false)
       return if !details.present?
 
-      details.each do |row|
+      details.each_with_index do |row, index|
         data = row[1]
         if data['_ignore'] != 'true'
           if (!data["id"].present? or force) and data["_destroy"] != 'true'

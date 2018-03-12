@@ -103,9 +103,9 @@ module Erp
           @delivery.creator = current_user
           @delivery.delivery_type = params[:delivery][:delivery_type]
 
-          @delivery.fill_details(params.to_unsafe_hash[:details])
-
           if @delivery.save
+            @delivery.update_details(params.to_unsafe_hash[:details])
+
             if request.xhr?
               render json: {
                 status: 'success',

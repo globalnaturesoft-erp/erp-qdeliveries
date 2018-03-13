@@ -24,11 +24,10 @@
   <% else %>
     <p>
       <label>
-        <%= 'Người giao hàng' if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+        <%= 'Người giao hàng:' if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
                                   Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) %>
-        <%= 'Người nhận hàng' if [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
+        <%= 'Người nhận hàng:' if [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
                                   Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) %>
-        :
       </label>
       <span><strong><%= @delivery.get_contact.contact_name if @delivery.get_contact.present? %></strong></span>
     </p>

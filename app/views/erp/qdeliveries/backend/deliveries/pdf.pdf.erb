@@ -92,6 +92,12 @@
                                 <% if get_columns(params).include?("other_info") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.other_info') %></th>
                                 <% end %>
+                                <% if get_columns(params).include?("serials") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.serials') %></th>
+                                <% end %>
+                                <% if get_columns(params).include?("eye_position") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.eye_position') %></th>
+                                <% end %>
                                 <% if get_columns(params).include?("units") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.units') %></th>
                                 <% end %>
@@ -137,6 +143,12 @@
                                     <% end %>
                                     <% if get_columns(params).include?("other_info") %>
                                         <td class="text-center"></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("serials") %>
+                                        <td class="text-center"><%= delivery_detail.serials %></td>
+                                    <% end %>
+                                    <% if get_columns(params).include?("eye_position") %>
+                                        <td class="text-center"><%= delivery_detail.get_eye_position %></td>
                                     <% end %>
                                     <% if get_columns(params).include?("units") %>
                                         <td class="text-center"><%= delivery_detail.get_product.unit_name %></td>

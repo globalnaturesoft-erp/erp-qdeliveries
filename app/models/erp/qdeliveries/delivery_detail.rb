@@ -118,7 +118,14 @@ module Erp::Qdeliveries
 					order_detail.update_cache_delivery_status
 				end
 			end
-
+      
+      def get_eye_position
+        if order_detail.present?
+          order_detail.display_eye_position
+        else
+          return ''
+        end
+      end
     end
 
     if Erp::Core.available?("products")

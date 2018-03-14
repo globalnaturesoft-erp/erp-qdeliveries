@@ -191,6 +191,21 @@ module Erp::Qdeliveries
 					query = query.where('date <= ?', global_filter[:to_date].to_date.end_of_day)
 				end
 
+				# filter by customer_id
+				if global_filter[:customer].present?
+					query = query.where(customer_id: global_filter[:customer])
+				end
+
+				# filter by customer_id
+				if global_filter[:supplier].present?
+					query = query.where(supplier_id: global_filter[:supplier])
+				end
+
+				# filter by employee_id
+				if global_filter[:employee].present?
+					query = query.where(employee_id: global_filter[:employee])
+				end
+
 			end
       # end// global filter
 

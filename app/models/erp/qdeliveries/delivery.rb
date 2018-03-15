@@ -230,7 +230,7 @@ module Erp::Qdeliveries
         order = params[:sort_by]
         order += " #{params[:sort_direction]}" if params[:sort_direction].present?
 
-        query = query.order(order)
+        query = query.order(order + ", erp_qdeliveries_deliveries.created_at #{params[:sort_direction].to_s}")
       end
 
       return query
@@ -464,7 +464,7 @@ module Erp::Qdeliveries
 #				self.code = str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0') + " / " + Time.now.to_i.to_s
 #			end
 #		end
-    
+
     # force generate code
     after_create :force_generate_code
     def force_generate_code
@@ -485,14 +485,14 @@ module Erp::Qdeliveries
           query = Erp::Qdeliveries::Delivery.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT)
           str = 'XB'
         end
-  
+
         # NK : nhập kho, mua hàng từ nhà cung cấp
         # XK : xuất kho trả hàng NCC
         # HK : hoàn kho, hàng bị trả lại
         # XB : xuất hàng bán
         num = query.where('date >= ? AND date <= ?', self.date.beginning_of_month, self.date.end_of_month)
         num = num.where('created_at <= ?', self.created_at).count
-  
+
         self.update_column(:code, str + date.strftime("%m") + date.strftime("%Y").last(2) + "-" + num.to_s.rjust(3, '0'))
       #end
 		end

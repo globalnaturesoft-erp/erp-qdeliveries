@@ -34,7 +34,7 @@
                 <th><%= t('creator') %></th>
             <% end %>
             <% if get_columns(params).include?("created_at") %>
-                <th><%= t('created_at') %></th>
+                <th class="sortable" sort-by='erp_qdeliveries_deliveries.created_at'><%= t('created_at') %></th>
             <% end %>
             <th width="7%"><%= t('actions') %></th>
         </tr>

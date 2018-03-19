@@ -24,7 +24,11 @@
                 multiple: true
             }) %>
         </div>
-        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT, Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(delivery.delivery_type) %>
+        <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
+            Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT,
+            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
+            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+        ].include?(delivery.delivery_type) %>
             <div class="col-md-4" style="border-left: solid 1px #ddd; padding-left: 20px">
                 <%= erp_form_control("file", {
                     name: 'import_file',

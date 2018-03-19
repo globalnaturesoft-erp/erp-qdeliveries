@@ -106,6 +106,9 @@ module Erp
           if @delivery.save
             @delivery.update_details(params.to_unsafe_hash[:details])
 
+            # udpate cache
+            @delivery.save
+
             if request.xhr?
               render json: {
                 status: 'success',

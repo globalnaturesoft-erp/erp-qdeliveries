@@ -59,6 +59,9 @@
       <label>Chứng từ:</label>
       <span><strong><%= @delivery.get_related_order.code %></strong></span>
     </p>
+    <p>
+      <span>BS: <strong><%= @delivery.get_related_order.doctor_name %></strong> / BN: <strong><%= @delivery.get_related_order.patient_name %></strong></span>
+    </p>
   <% end %>
 <% end %>
 

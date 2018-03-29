@@ -7,6 +7,9 @@
             <% if get_columns(params).include?("code") %>
                 <th><%= t('.code') %></th>
             <% end %>
+            <% if get_columns(params).include?("related_orders") %>
+                <th><%= t('.related_orders') %></th>
+            <% end %>
             <% if get_columns(params).include?("customer_supplier") %>
                 <th width="20%"><%= t('.customer_supplier') %></th>
             <% end %>
@@ -48,7 +51,14 @@
                 <% if get_columns(params).include?("code") %>
                     <td>
                         <i class="fa fa-plus expand tr-expand-button"></i>
-                        <%= link_to delivery.code, erp_qdeliveries.edit_backend_delivery_path(delivery), class: "font-yellow-gold sbold" %>
+                        <span class="font-yellow-gold sbold"><%= delivery.code %></span>
+                    </td>
+                <% end %>
+                <% if get_columns(params).include?("related_orders") %>
+                    <td>
+                        <% if delivery.get_related_order.present? %>
+                            <%= order_link(delivery.get_related_order) %>
+                        <% end %>
                     </td>
                 <% end %>
                 <% if get_columns(params).include?("customer_supplier") %>

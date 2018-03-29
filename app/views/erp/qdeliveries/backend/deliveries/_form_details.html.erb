@@ -58,7 +58,7 @@
 <hr class="mt-5">
 <div class="autolist" data-line-url="<%= erp_qdeliveries.form_detail_backend_delivery_details_path(delivery_type: delivery.delivery_type) %>">
     <div class="autolist-container delivery_details_box">
-        <% delivery.delivery_details.order(:created_at).each do |dd| %>
+        <% delivery.delivery_details.each do |dd| %>
             <% dd.order_detail = Erp::Orders::OrderDetail.new if !dd.order_detail.present? %>
             <% dd.order_detail.order = Erp::Orders::Order.new(id: -1) if !dd.order_detail.order.present? %>
             <% dd.order_detail.product = dd.product if !dd.order_detail.product.present? %>

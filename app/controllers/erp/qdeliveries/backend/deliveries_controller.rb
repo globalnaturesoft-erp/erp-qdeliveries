@@ -327,6 +327,23 @@ module Erp
             render :new
           end
         end
+        
+        def ajax_address_field
+          @customer = Erp::Contacts::Contact.where(id: params[:datas][0]).first
+          @supplier = Erp::Contacts::Contact.where(id: params[:datas][1]).first
+
+          if @customer.present?
+            @address = view_context.display_contact_address(@customer)
+          end
+          
+          if @supplier.present?
+            @address = view_context.display_contact_address(@supplier)
+          end
+          
+          @is_edit = params[:delivery_id].present? ? true : false
+          @new_address = @address
+          @address = params[:address] if params[:address].present?
+        end
 
         private
           # Use callbacks to share common setup or constraints between actions.
@@ -340,7 +357,8 @@ module Erp
 
           # Only allow a trusted parameter "white list" through.
           def delivery_params
-            params.fetch(:delivery, {}).permit(:code, :date, :delivery_type, :note, :employee_id, :customer_id, :supplier_id, :payment_for)
+            params.fetch(:delivery, {}).permit(:code, :date, :delivery_type, :note, :address,
+                                               :employee_id, :customer_id, :supplier_id, :payment_for)
           end
       end
     end

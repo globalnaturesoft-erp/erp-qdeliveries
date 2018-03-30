@@ -1,0 +1,19 @@
+<!-- @todo // sửa lại hàm thông báo cho gọn, đẹp -->
+<%
+    notice = nil
+    if @is_edit == true
+        if (@new_address.to_s != @address.to_s) and @new_address.present?
+            notice = 'Bạn có muốn thay đổi địa chỉ? (' + @new_address + ')'
+        elsif (@new_address.to_s != @address.to_s) and !@new_address.present?
+            notice = 'Liên hệ này chưa có địa chỉ. Bạn có muốn thay đổi?'
+        end
+    end
+    notice = notice
+%>
+<%= erp_form_control("text", {
+    name: 'delivery[address]',
+    value: @address,
+    label: 'Địa chỉ',
+    placeholder: 'Nhập địa chỉ',
+    notice: notice
+}) %>

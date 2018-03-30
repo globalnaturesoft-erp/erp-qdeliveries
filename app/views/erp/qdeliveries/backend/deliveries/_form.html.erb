@@ -89,7 +89,7 @@
                             <% end %>
                             <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
                                    Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(delivery.delivery_type) %>
-                                <div class="row last">
+                                <div class="row">
                                     <div class="col-md-6">
                                         <%= erp_form_control("dataselect", {
                                             name: 'delivery[customer_id]',
@@ -139,6 +139,22 @@
                                 </div>
                             <% end %>
                         <% end %>
+                        <div class="ajax-box"
+                            data-url="<%= erp_qdeliveries.ajax_address_field_backend_deliveries_path(
+                                address: delivery.address,
+                                delivery_id: delivery.id
+                            ) %>"
+                            data-control="
+                                [name='delivery[customer_id]'],
+                                [name='delivery[supplier_id]']
+                            ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
                         <% if [
                             Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
                             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
@@ -150,13 +166,7 @@
                                 value: @delivery.payment_for,
                                 options: Erp::Qdeliveries::Delivery.get_payment_type_options()
                             }) %>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="portlet light bordered">
-                    <div class="portlet-body form">
+                        <% end %>                        
                         <%= erp_form_control("dataselect", {
                             name: 'delivery[employee_id]',
                             value: delivery.employee_id,

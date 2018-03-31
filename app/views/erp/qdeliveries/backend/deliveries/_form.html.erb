@@ -1,14 +1,16 @@
 <%= form_for([erp_qdeliveries, :backend, delivery], html: {multipart: true}) do |f| %>
     <input type="hidden" name="delivery[delivery_type]" value="<%= delivery.delivery_type %>">
     <div class="form-body">
-        <div class="row">
+        <div class="row mb-10">
             <div class="col-md-12">
                 <div class="custom-show text-center">
-                    <h4 class="font-yellow bold uppercase">
+                    <h4 class="font-green-jungle bold uppercase">
                         <%= t(".#{delivery.delivery_type}") %>
                     </h4>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
@@ -24,7 +26,7 @@
                                 }) %>
                             </div>
                             <div class="col-md-6">
-                                <%= erp_form_control('date', {
+                                <%= erp_form_control('datetime', {
                                     name: 'delivery[date]',
                                     value: delivery.date,
                                     placeholder: t('.choose_date'),
@@ -155,18 +157,6 @@
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
-                        <% if [
-                            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
-                            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
-                            ].include? delivery.delivery_type
-                        %>
-                            <%= erp_form_control("radio", {
-                                name: 'delivery[payment_for]',
-                                label: t('.payment_for'),
-                                value: @delivery.payment_for,
-                                options: Erp::Qdeliveries::Delivery.get_payment_type_options()
-                            }) %>
-                        <% end %>                        
                         <%= erp_form_control("dataselect", {
                             name: 'delivery[employee_id]',
                             value: delivery.employee_id,
@@ -182,14 +172,18 @@
                             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
                             ].include? delivery.delivery_type
                         %>
-                            <%= erp_form_control("textarea", {
-                                name: 'delivery[note]',
-                                value: delivery.note,
-                                label: t('.note'),
-                                placeholder: t('.enter_note'),
-                                rows: 5
+                            <%= erp_form_control("radio", {
+                                name: 'delivery[payment_for]',
+                                label: t('.payment_for'),
+                                value: @delivery.payment_for,
+                                options: Erp::Qdeliveries::Delivery.get_payment_type_options()
                             }) %>
-                        <% else %>
+                        <% end %>
+                        <% if [
+                            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+                            ].include? delivery.delivery_type
+                        %>
                             <%= erp_form_control("textarea", {
                                 name: 'delivery[note]',
                                 value: delivery.note,
@@ -197,11 +191,20 @@
                                 placeholder: t('.enter_note'),
                                 rows: 1
                             }) %>
+                        <% else %>
+                            <%= erp_form_control("textarea", {
+                                name: 'delivery[note]',
+                                value: delivery.note,
+                                label: t('.note'),
+                                placeholder: t('.enter_note'),
+                                rows: 5
+                            }) %>
                         <% end %>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="tabbable-custom ">

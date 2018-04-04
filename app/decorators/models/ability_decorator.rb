@@ -17,11 +17,15 @@ Erp::Ability.class_eval do
     end
 
     can :pay_sales_import, Erp::Qdeliveries::Delivery do |delivery|
-      delivery.remain_amount > 0
+      if delivery.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER
+        delivery.remain_amount > 0
+      end
     end
 
     can :receive_sales_import, Erp::Qdeliveries::Delivery do |delivery|
-      delivery.remain_amount < 0
+      if delivery.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER
+        delivery.remain_amount < 0
+      end
     end
   end
 end

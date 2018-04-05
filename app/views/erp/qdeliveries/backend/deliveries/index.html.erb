@@ -117,19 +117,7 @@
 
 <%= erp_datalist(
     url: erp_qdeliveries.list_backend_deliveries_path,
-    keywords: [
-        {
-            text: t('.code'), name: 'erp_qdeliveries_deliveries.code'
-        },
-        {
-            text: t('creator'),
-            name: 'erp_users.name',
-            select: {
-                name: 'erp_users.id',
-                data_url: erp.dataselect_backend_users_path
-            }
-        }
-    ],
+    keyword: true,
     actions: [
         {
             text: '<i class="fa fa-trash"></i> '+t('.change_deleted'),

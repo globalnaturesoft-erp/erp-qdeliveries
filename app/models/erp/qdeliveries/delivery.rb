@@ -217,6 +217,15 @@ module Erp::Qdeliveries
 
       # add conditions to query
       query = query.where(and_conds.join(' AND ')) if !and_conds.empty?
+      
+      # single keyword
+      if params[:keyword].present?
+				keyword = params[:keyword].strip.downcase
+				keyword.split(' ').each do |q|
+					q = q.strip
+					query = query.where('LOWER(erp_qdeliveries_deliveries.cache_search) LIKE ?', '%'+q+'%')
+				end
+			end
 
       return query
     end
@@ -235,6 +244,21 @@ module Erp::Qdeliveries
 
       return query
     end
+    
+    after_save :update_cache_search
+		def update_cache_search
+			str = []
+			str << code.to_s.downcase.strip
+			if self.get_contact.present?
+        str << get_contact.contact_name.to_s.downcase.strip
+      end
+			str << employee_name.to_s.downcase.strip
+			if !self.get_related_order.nil?
+        str << get_related_order.code.to_s.downcase.strip
+      end
+
+			self.update_column(:cache_search, str.join(" ") + " " + str.join(" ").to_ascii)
+		end
 
     # data for dataselect ajax
     def self.dataselect(keyword='', params={})

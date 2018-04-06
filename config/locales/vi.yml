@@ -210,8 +210,6 @@ vi:
             edit_customer: "Cập nhật thông tin khách hàng"
             supplier: "Đơn vị cung cấp"
             choose_supplier: "Chọn đơn vị cung cấp"
-            employee: "Nhân viên phụ trách"
-            choose_employee: "Chọn nhân viên phụ trách"
             delivery_details: "Chi tiết phiếu"
             note: "Ghi chú"
             enter_note: "Nhập ghi chú"
@@ -261,6 +259,9 @@ vi:
             serials: "Số lô"
             eye_position: "MT/MP"
             record: "Chứng từ"
+          ajax_employee_field:
+            employee: "Nhân viên phụ trách"
+            choose_employee: "Chọn nhân viên phụ trách"
         delivery_details:
           form_detail:
             choose_order: "Chọn đơn hàng"

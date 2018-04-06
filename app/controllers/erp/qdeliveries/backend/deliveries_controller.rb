@@ -73,7 +73,6 @@ module Erp
           @delivery = Delivery.new
           @delivery.date = Time.now
           @delivery.delivery_type = params[:delivery_type].to_s if params[:delivery_type].present?
-          @delivery.employee_id = current_user.id
           @delivery.payment_for = Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER
 
           if params[:order_id].present?
@@ -343,6 +342,26 @@ module Erp
           @is_edit = params[:delivery_id].present? ? true : false
           @new_address = @address
           @address = params[:address] if params[:address].present?
+        end
+        
+        def ajax_employee_field
+          @customer = Erp::Contacts::Contact.where(id: params[:datas][0]).first
+          @supplier = Erp::Contacts::Contact.where(id: params[:datas][1]).first
+          
+          @employee = Erp::User.new
+          if params[:employee_id].present?
+            @employee = Erp::User.find(params[:employee_id])
+          end
+          
+          if @customer.present? and @customer.salesperson_id.present?
+            @employee = Erp::User.find(@customer.salesperson_id)
+          end
+          
+          if @supplier.present? and @supplier.salesperson_id.present?
+            @employee = Erp::User.find(@supplier.salesperson_id)
+          end
+          
+          render layout: false
         end
 
         private

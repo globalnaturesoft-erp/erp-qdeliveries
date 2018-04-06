@@ -157,16 +157,15 @@
             <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
-                        <%= erp_form_control("dataselect", {
-                            name: 'delivery[employee_id]',
-                            value: delivery.employee_id,
-                            text: delivery.employee_name,
-                            placeholder: t('.choose_employee'),
-                            label: t('.employee'),
-                            url: erp.dataselect_backend_users_path(format: 'json'),
-                            required: true,
-                            errors: delivery.errors.full_messages_for(:employee_id)
-                        }) %>
+                        <div class="ajax-box mb-25"
+                            data-url="<%= erp_qdeliveries.ajax_employee_field_backend_deliveries_path(
+                                employee_id: delivery.employee_id
+                            ) %>"
+                            data-control="
+                                [name='delivery[customer_id]'],
+                                [name='delivery[supplier_id]']
+                            ">
+                        </div>
                         <% if [
                             Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
                             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT

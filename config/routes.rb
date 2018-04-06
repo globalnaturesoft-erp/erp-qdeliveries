@@ -18,6 +18,7 @@ Erp::Qdeliveries::Engine.routes.draw do
 					post 'show_list'
 					get 'pdf'
 					get 'ajax_address_field'
+					get 'ajax_employee_field'
 
 					post 'import_file'
 					put 'import_file'

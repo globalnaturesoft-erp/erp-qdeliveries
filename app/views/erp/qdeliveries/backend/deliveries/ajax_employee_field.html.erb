@@ -1,0 +1,20 @@
+<%= erp_form_control("dataselect", {
+    name: 'delivery[employee_id]',
+    value: @employee.id,
+    text: @employee.name,
+    placeholder: t('.choose_employee'),
+    label: t('.employee'),
+    url: erp.dataselect_backend_users_path(format: 'json'),
+    required: true,
+}) %>
+
+<!-- erp_form_control("dataselect", {
+    name: 'delivery[employee_id]',
+    value: delivery.employee_id,
+    text: delivery.employee_name,
+    placeholder: t('.choose_employee'),
+    label: t('.employee'),
+    url: erp.dataselect_backend_users_path(format: 'json'),
+    required: true,
+    errors: delivery.errors.full_messages_for(:employee_id)
+})-->

@@ -154,6 +154,16 @@ module Erp::Qdeliveries
     def self.cache_total
 			self.sum("erp_qdeliveries_delivery_details.cache_total")
 		end
+    
+    def ordered_price
+      order_detail.present? ? order_detail.price : nil
+    end
+    
+    def discount
+      if !ordered_price.nil?
+        (ordered_price.to_f * quantity.to_f) - total_amount
+      end
+    end
 
     # Update cache total
     after_save :update_cache_total

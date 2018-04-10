@@ -159,9 +159,13 @@ module Erp::Qdeliveries
       order_detail.present? ? order_detail.price : nil
     end
     
+    def ordered_subtotal
+      ordered_price.nil? ? nil : ordered_price.to_f*quantity.to_f
+    end
+    
     def discount
-      if !ordered_price.nil?
-        (ordered_price.to_f * quantity.to_f) - total_amount
+      if !ordered_subtotal.nil?
+        ordered_subtotal - total_amount
       end
     end
 

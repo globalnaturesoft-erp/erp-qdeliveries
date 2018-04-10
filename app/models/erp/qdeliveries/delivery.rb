@@ -412,6 +412,24 @@ module Erp::Qdeliveries
 		def self.cache_total_amount
       self.sum("erp_qdeliveries_deliveries.cache_total")
     end
+		
+		# if orders engine available // Start
+		def ordered_subtotal
+      return delivery_details.map(&:ordered_subtotal).sum(&:to_f)
+    end
+		
+		def discount
+      return delivery_details.map(&:discount).sum(&:to_f)
+    end
+		
+		def self.ordered_subtotal
+      self.sum(&:ordered_subtotal)
+    end
+		
+		def self.discount
+      self.sum(&:discount)
+    end
+		# if orders engine available // End
 
 		# get paid amount
 		def paid_amount

@@ -190,7 +190,8 @@ module Erp::Qdeliveries
 				if global_filter[:to_date].present?
 					query = query.where('date <= ?', global_filter[:to_date].to_date.end_of_day)
 				end
-
+        
+        # @todo // chuyển về chung 1 kiểu (customer_id ~ customer, supplier_id >< supplier)
 				# filter by customer_id
 				if global_filter[:customer].present?
 					query = query.where(customer_id: global_filter[:customer])

@@ -130,6 +130,7 @@
                 <%= erp_form_control("number", {
                     name: "details[#{index}][price]",
                     value: delivery_detail.price,
+                    class: 'delivery-detail-price',
                     placeholder: 'Giá trả',
                 }) %>
                 <% if delivery_detail.order_detail_id.present? %>

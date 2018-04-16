@@ -230,6 +230,9 @@
         text: t('cancel'),
         href: erp_qdeliveries.backend_deliveries_path
     }) %>
+    <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include? @delivery.delivery_type %>
+        <a class="btn grey pull-right delivery-clear-prices">Bỏ tất cả giá</a>
+    <% end %>
 
     <% content_for :page_script do %>
         <script>

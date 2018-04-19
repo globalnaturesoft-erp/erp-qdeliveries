@@ -587,8 +587,26 @@ module Erp::Qdeliveries
     end
 
     # Get deliveries is sales import
-    def self.sales_import_deliveries
-      self.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
+    def self.sales_import_deliveries(params={})
+      query = self.where(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT)
+      
+      if params[:from_date].present?
+				query = query.where('date >= ?', params[:from_date].to_date.beginning_of_day)
+			end
+
+			if params[:to_date].present?
+				query = query.where('date <= ?', params[:to_date].to_date.end_of_day)
+			end
+
+			if Erp::Core.available?("periods")
+				if params[:period].present?
+					query = query.where('date >= ? AND date <= ?',
+            Erp::Periods::Period.find(params[:period]).from_date.beginning_of_day,
+            Erp::Periods::Period.find(params[:period]).to_date.end_of_day)
+				end
+			end
+			
+			query
     end
 
     # Get deliveries is sales export

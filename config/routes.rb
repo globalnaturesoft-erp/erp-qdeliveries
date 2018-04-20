@@ -17,6 +17,7 @@ Erp::Qdeliveries::Engine.routes.draw do
 					get 'delivery_details'
 					post 'show_list'
 					get 'pdf'
+					get 'xlsx'
 					get 'ajax_address_field'
 					get 'ajax_employee_field'
 

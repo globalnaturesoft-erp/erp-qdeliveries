@@ -314,6 +314,16 @@ module Erp::Qdeliveries
     def self.status_deleted_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
+    
+    # check if status if delivered
+    def is_delivered?
+      return self.status == Erp::Qdeliveries::Delivery::STATUS_DELIVERED
+    end
+
+		# check if status if deleted
+		def is_deleted?
+			return self.status == Erp::Qdeliveries::Delivery::STATUS_DELETED
+		end
 
     # Get all active deliveries
     def self.all_delivered

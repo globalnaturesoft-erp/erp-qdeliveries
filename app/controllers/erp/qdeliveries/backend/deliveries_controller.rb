@@ -2,7 +2,7 @@ module Erp
   module Qdeliveries
     module Backend
       class DeliveriesController < Erp::Backend::BackendController
-        before_action :set_delivery, only: [:xls, :delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
+        before_action :set_delivery, only: [:xlsx, :delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
                                             :pdf, :show, :show_list, :edit, :update, :destroy]
         before_action :set_deliveries, only: [:status_delivered_all, :status_deleted_all, :archive_all, :unarchive_all]
 
@@ -24,6 +24,8 @@ module Erp
 
         # GET /deliveries/1
         def show
+          authorize! :print, @delivery
+          
           respond_to do |format|
             format.html
             format.pdf do
@@ -35,7 +37,7 @@ module Erp
 
         # GET /orders/1
         def pdf
-          #authorize! :read, @delivery
+          authorize! :print, @delivery
 
           respond_to do |format|
             format.html
@@ -95,6 +97,7 @@ module Erp
 
         # GET /deliveries/1/edit
         def edit
+          authorize! :update, @delivery
         end
 
         # POST /deliveries
@@ -199,6 +202,8 @@ module Erp
 
         # STATUS DELIVERED /deliveries/status_delivered?id=1
         def status_delivered
+          authorize! :set_delivered, @delivery
+          
           @delivery.status_delivered
           respond_to do |format|
             format.json {
@@ -226,6 +231,8 @@ module Erp
 
         # STATUS DELETED /deliveries/status_deleted?id=1
         def status_deleted
+          authorize! :set_deleted, @delivery
+          
           @delivery.status_deleted
           respond_to do |format|
             format.json {
@@ -302,9 +309,11 @@ module Erp
           end
         end
 
-        def xls
+        def xlsx
           respond_to do |format|
-            format.xlsx
+            format.xlsx {
+              response.headers['Content-Disposition'] = "attachment; filename='Phieu xuat nhap #{@delivery.code}.xlsx'"
+            }
           end
         end
 

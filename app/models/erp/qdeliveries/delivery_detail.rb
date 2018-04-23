@@ -231,7 +231,7 @@ module Erp::Qdeliveries
     
     # get_returned_confirmed_delivery_details
     def self.get_returned_confirmed_delivery_details(options={})
-      query = Erp::Qdeliveries::DeliveryDetail.joins(:delivery, :order_detail => :order)
+      query = Erp::Qdeliveries::DeliveryDetail.joins(:delivery)
         .where(erp_qdeliveries_deliveries: {
           status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED,
           delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
@@ -245,9 +245,16 @@ module Erp::Qdeliveries
 				query = query.where('erp_qdeliveries_deliveries.date <= ?', options[:to_date].to_date.end_of_day)
 			end
 			
-			if options[:patient_state_id].present?
-				query = query.where('erp_orders_orders.patient_state_id = ?', options[:patient_state_id])
-			end
+			if Erp::Core.available?("ortho_k")
+        if options[:patient_state_id].present?          
+          if options[:patient_state_id] == -1
+            query = query.where(order_detail_id: nil)
+          else
+            query = query.joins(:order_detail => :order)
+            query = query.where('erp_orders_orders.patient_state_id = ?', options[:patient_state_id])
+          end
+        end
+      end
 
 			if Erp::Core.available?("periods")
 				if options[:period].present?

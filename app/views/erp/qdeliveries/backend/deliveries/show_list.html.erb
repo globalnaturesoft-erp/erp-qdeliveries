@@ -1,1 +1,8 @@
+<div class="text-right mb-10">
+  <a target="_blank"
+    href="<%= erp_qdeliveries.xlsx_backend_deliveries_path(params.to_unsafe_hash.merge({format: 'xlsx'})) %>"
+    target="_blank"
+    class="btn btn-primary"
+  >Xuất excel</a>
+</div>
 <iframe class="pdf" src="<%= erp_qdeliveries.pdf_backend_deliveries_path(params.to_unsafe_hash.merge({format: 'pdf'})) %>" />

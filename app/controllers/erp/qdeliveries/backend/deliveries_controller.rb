@@ -111,6 +111,7 @@ module Erp
 
             # udpate cache
             @delivery.save
+            @delivery.update_cache_total
 
             if request.xhr?
               render json: {
@@ -136,6 +137,9 @@ module Erp
           if @delivery.update(delivery_params)
             # destroy detals not in form
             @delivery.update_details(params.to_unsafe_hash[:details])
+            
+            # udpate cache
+            @delivery.update_cache_total
 
             if request.xhr?
               render json: {

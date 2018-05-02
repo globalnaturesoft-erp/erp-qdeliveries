@@ -32,8 +32,8 @@ module Erp::Qdeliveries
     after_save :update_delivery_detail_cache_total
 
     def order_update_cache_delivery_status
-      delivery_details.each do |dd|
-        dd.order_update_cache_delivery_status
+      Erp::Orders::Order.where(id: delivery_details.joins(:order_detail => :order).select('erp_orders_orders.id')).each do |o|
+        o.update_cache_delivery_status
       end
     end
 

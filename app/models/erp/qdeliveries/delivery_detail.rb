@@ -10,19 +10,19 @@ module Erp::Qdeliveries
     STATUS_NO_ORDER = 'no_order'
 
     after_save :update_product_cache_stock
-    after_save :update_delivery_cache_total
+    # after_save :update_delivery_cache_total
 
     # update product cache stock
     def update_product_cache_stock
 			self.product.update_cache_stock if self.product.present?
 		end
 
-    # update delivery cache total
-    def update_delivery_cache_total
-			if delivery.present?
-				delivery.update_cache_total
-			end
-		end
+#    # update delivery cache total
+#    def update_delivery_cache_total
+#			if delivery.present?
+#				delivery.update_cache_total
+#			end
+#		end
 
     def price=(new_price)
       self[:price] = new_price.to_s.gsub(/\,/, '')

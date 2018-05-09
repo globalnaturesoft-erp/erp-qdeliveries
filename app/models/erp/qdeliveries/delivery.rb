@@ -346,6 +346,7 @@ module Erp::Qdeliveries
               product_id: data["product_id"],
               price: data["price"],
               serials: data["serials"],
+              note: data["note"],
             )
           end
         end
@@ -369,6 +370,7 @@ module Erp::Qdeliveries
               product_id: data["product_id"],
               price: data["price"],
               serials: data["serials"],
+              note: data["note"],
             )
           elsif !data["id"].present? and data["_destroy"] != 'true'
             self.delivery_details.create(
@@ -379,6 +381,7 @@ module Erp::Qdeliveries
               product_id: data["product_id"],
               price: data["price"],
               serials: data["serials"],
+              note: data["note"],
             )
           end
         end

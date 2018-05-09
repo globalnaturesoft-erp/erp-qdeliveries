@@ -43,7 +43,7 @@
                 delivery_type: delivery_type
             ),
             required: true
-        }) %>
+        }) %>        
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
         <div class="col-md-1">
@@ -121,6 +121,12 @@
                 <%= erp_form_control("text", {
                     name: "details[#{index}][serials]",
                     value: delivery_detail.find_serials,
+                    rows: 1
+                }) %>
+                <%= erp_form_control("text", {
+                    placeholder: "Ghi chú",
+                    name: "details[#{index}][note]",
+                    value: delivery_detail.note,
                     rows: 1
                 }) %>
             </div>

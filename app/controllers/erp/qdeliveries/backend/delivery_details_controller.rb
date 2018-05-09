@@ -29,7 +29,8 @@ module Erp
           #if @params[:order_id] and @params[:order_id] != -1
           #  @delivery_detail.warehouse_id = Erp::Orders::Order.find(@params[:order_id]).warehouse_id
           #end
-
+          
+          @delivery_detail.note = @params[:note] if @params[:note].present?
           @delivery_detail.quantity = @params[:quantity] if @params[:quantity].present?
           @delivery_detail.price = @params[:price] if @params[:price].present?
           @delivery_detail.warehouse = Erp::Warehouses::Warehouse.find(@params[:warehouse_id]) if @params[:warehouse_id].present?

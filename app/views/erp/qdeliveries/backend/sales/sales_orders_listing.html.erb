@@ -60,7 +60,11 @@
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("customer") %>
-                <td><%= order.customer_name %></td>
+                <td><%= contact_link(order.customer, order.customer_name) %>
+                    <% if Erp::Core.available?('ortho_k') %>
+                        <%= order.display_customer_info.present? ? "<br/>".html_safe + order.display_customer_info : '' %>
+                    <% end %>
+                </td>
                 <% end %>
                 <% if get_columns(params).include?("quantity") %>
                 <td><strong><%= order.total_delivered_quantity %>/<%= order.items_count %></strong></td>

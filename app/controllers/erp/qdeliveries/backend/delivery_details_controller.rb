@@ -30,6 +30,8 @@ module Erp
           #  @delivery_detail.warehouse_id = Erp::Orders::Order.find(@params[:order_id]).warehouse_id
           #end
           
+          @delivery_detail.patient_id = @params[:patient_id] if @params[:patient_id].present?
+          @delivery_detail.patient_state_id = @params[:patient_state_id] if @params[:patient_state_id].present?
           @delivery_detail.note = @params[:note] if @params[:note].present?
           @delivery_detail.quantity = @params[:quantity] if @params[:quantity].present?
           @delivery_detail.price = @params[:price] if @params[:price].present?

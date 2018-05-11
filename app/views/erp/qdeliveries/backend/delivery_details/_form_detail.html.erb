@@ -30,6 +30,27 @@
                 required: true
             }) %>
         <% end %>
+        <% if delivery_detail.order_detail.order_id.to_s == '-1' %>
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][patient_id]",
+                value: delivery_detail.patient_id,
+                text: delivery_detail.patient_name,
+                placeholder: 'Bệnh nhân',
+                url: erp_contacts.dataselect_backend_contacts_path(format: 'json', contact_group_id: Erp::Contacts::ContactGroup.get_patient.id),
+                create: {
+                    url: erp_contacts.new_backend_contact_path(
+                      contact_type: Erp::Contacts::Contact::TYPE_PERSON,
+                      parent_id:  nil,
+                      is_customer: 'true',
+                      contact_group_id: Erp::Contacts::ContactGroup.get_patient.id,
+                    ),
+                    title: 'Thêm liên hệ',
+                    container_selector: '.new_contact',
+                    input_selector: 'input[name="order[patient_id]"]',
+                    modal_size: "full"
+                },
+            }) %>
+        <% end %>
     </div>
     <div class="col-md-2">
         <%= erp_form_control("dataselect", {
@@ -43,7 +64,23 @@
                 delivery_type: delivery_type
             ),
             required: true
-        }) %>        
+        }) %>
+        <% if delivery_detail.order_detail.order_id.to_s == '-1' %>
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][patient_state_id]",
+                value: delivery_detail.patient_state_id,
+                text: delivery_detail.patient_state_name,
+                placeholder: 'Tình trạng bệnh nhân',
+                url: erp_ortho_k.dataselect_backend_patient_states_path(format: 'json'),
+                create: {
+                    url: erp_ortho_k.new_backend_patient_state_path,
+                    title: 'Thêm tình trạng',
+                    container_selector: '.new_patient_state',
+                    input_selector: 'input[name="order[patient_state_id]"]',
+                    modal_size: "md"
+                },
+            }) %>
+        <% end %>
     </div>
     <% if !delivery_detail.order_detail.product.id.nil? and !delivery_detail.order_detail.order_id.nil? %>
         <div class="col-md-1">

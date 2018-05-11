@@ -347,6 +347,8 @@ module Erp::Qdeliveries
               price: data["price"],
               serials: data["serials"],
               note: data["note"],
+              patient_id: data["patient_id"],
+              patient_state_id: data["patient_state_id"],
             )
           end
         end
@@ -371,6 +373,8 @@ module Erp::Qdeliveries
               price: data["price"],
               serials: data["serials"],
               note: data["note"],
+              patient_id: data["patient_id"],
+              patient_state_id: data["patient_state_id"],
             )
           elsif !data["id"].present? and data["_destroy"] != 'true'
             self.delivery_details.create(
@@ -382,6 +386,8 @@ module Erp::Qdeliveries
               price: data["price"],
               serials: data["serials"],
               note: data["note"],
+              patient_id: data["patient_id"],
+              patient_state_id: data["patient_state_id"],
             )
           end
         end

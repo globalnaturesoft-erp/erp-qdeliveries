@@ -132,10 +132,10 @@
                                         </td>
                                     <% end %>
                                     <% if get_columns(params).include?("patient_state") %>
-                                        <td class="text-center"><%= delivery_detail.get_order.display_patient_info[:state] if delivery_detail.get_order.present? %></td>
+                                        <td class="text-center"><%= delivery_detail.get_patient_name %></td>
                                     <% end %>
                                     <% if get_columns(params).include?("patient_name") %>
-                                        <td class="text-center"><%= delivery_detail.get_order.display_patient_info[:name] if delivery_detail.get_order.present? %></td>
+                                        <td class="text-center"><%= delivery_detail.get_patient_state_name %></td>
                                     <% end %>
                                     <% if get_columns(params).include?("warehouse") %>
                                         <td class="text-center"><%= delivery_detail.warehouse_name %></td>

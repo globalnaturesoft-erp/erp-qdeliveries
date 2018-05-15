@@ -18,7 +18,7 @@ module Erp
         end
 
         def delivery_details
-          @delivery_details = @delivery.delivery_details
+          @delivery_details = @delivery.delivery_details.includes(:product).order('erp_products_products.ordered_code')
           render layout: nil
         end
 
@@ -82,7 +82,7 @@ module Erp
             @delivery.customer_id = @order.customer_id if @order.sales?
             @delivery.supplier_id = @order.supplier_id if @order.purchase?
 
-            @order.order_details.each do |od|
+            @order.order_details.includes(:product).order('erp_products_products.ordered_code').each do |od|
               if !od.is_delivered?
                 @delivery.delivery_details.build(
                   order_detail_id: od.id,

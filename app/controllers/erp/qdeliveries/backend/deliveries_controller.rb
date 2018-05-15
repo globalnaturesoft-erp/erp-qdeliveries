@@ -18,7 +18,7 @@ module Erp
         end
 
         def delivery_details
-          @delivery_details = @delivery.delivery_details#.paginate(:page => params[:page], :per_page => 10)
+          @delivery_details = @delivery.delivery_details
           render layout: nil
         end
 

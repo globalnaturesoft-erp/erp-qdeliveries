@@ -111,7 +111,7 @@
                 Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
                 Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
             ].include?(delivery_detail.delivery.delivery_type) %>
-                <% if delivery_detail.get_max_quantity < 1 %>
+                <% if @max_quantity < 1 %>
                     <div class="form-group">
                         <input type="text" readonly style="width: 100%" placeholder="Thiếu hàng <%= delivery_detail.order_detail.present? ? delivery_detail.order_detail.not_delivered_quantity : '--' %>" class="bg-danger form-control required" />
                         <% if delivery_detail.order_detail.present? and delivery_detail.order_detail.product.present? and can?(:combine, delivery_detail.order_detail.product) %>
@@ -123,14 +123,14 @@
                         name: "details[#{index}][quantity]",
                         value: delivery_detail.quantity,
                         placeholder: t('.choose_quantity'),
-                        options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
+                        options: (1..@max_quantity).map{|number| {value: number, text: "#{number} / #{@max_quantity}"} },
                         class: "line_quantity",
                         required: true
                     }) %>
                 <% end %>
             <% else %>
                 <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
-                    <% if delivery_detail.get_max_quantity < 1 %>
+                    <% if @max_quantity < 1 %>
                         <div class="form-group">
                             <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
                         </div>
@@ -139,7 +139,7 @@
                             name: "details[#{index}][quantity]",
                             value: delivery_detail.quantity,
                             placeholder: t('.choose_quantity'),
-                            options: (1..delivery_detail.get_max_quantity).map{|number| {value: number, text: "#{number} / #{delivery_detail.get_max_quantity}"} },
+                            options: (1..@max_quantity).map{|number| {value: number, text: "#{number} / #{@max_quantity}"} },
                             class: "line_quantity",
                             required: true
                         }) %>

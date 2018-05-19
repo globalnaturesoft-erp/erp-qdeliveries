@@ -46,6 +46,8 @@ module Erp
             @delivery_detail.order_detail = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product.id).first
             @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
           end
+          
+          @max_quantity = @delivery_detail.get_max_quantity
 
           render partial: 'erp/qdeliveries/backend/delivery_details/form_detail', locals: {
             delivery_detail: @delivery_detail,

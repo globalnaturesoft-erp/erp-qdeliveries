@@ -14,8 +14,10 @@
             Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
             ].include? delivery_detail.delivery.delivery_type
         %>
-            <input type="hidden" value="-1" name="details[<%= index %>][order_id]" />
-            <span class="text-bold">Không chứng từ</span>
+            <div class="form-group" style="height: 34px">
+                <input type="hidden" value="-1" name="details[<%= index %>][order_id]" />
+                <span class="text-bold">Không chứng từ</span>
+            </div>
         <% else %>
             <%= erp_form_control("dataselect", {
                 name: "details[#{index}][order_id]",

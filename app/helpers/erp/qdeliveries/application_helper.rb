@@ -6,7 +6,8 @@ module Erp
         
         actions << {
           text: '<i class="fa fa-print"></i> '+t('.view_print'),
-          url: erp_qdeliveries.backend_delivery_path(delivery)
+          url: erp_qdeliveries.backend_delivery_path(delivery),
+          class: 'modal-link'
         } if can? :print, delivery
         
         actions << {
@@ -42,7 +43,8 @@ module Erp
         
         actions << {
           text: '<i class="fa fa-file-text-o"></i> '+t('.view'),
-          url: erp_orders.backend_order_path(order)
+          url: erp_orders.backend_order_path(order),
+          class: 'modal-link'
         }
         
         actions << {

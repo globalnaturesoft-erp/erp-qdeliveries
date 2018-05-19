@@ -36,7 +36,7 @@
 
 <% end %>
 
-<% content_for :global_filter do %>
+<form class="global-filter">
     <div class="row top-datalist">        
         <div class="col-md-3">
             <%= erp_form_control("select", {
@@ -51,7 +51,7 @@
             }) %>
         </div>
     </div>
-<% end %>
+</form>
 
 <%= erp_datalist(
     url: erp_qdeliveries.show_list_backend_deliveries_path(id: @delivery.id),

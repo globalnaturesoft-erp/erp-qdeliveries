@@ -79,12 +79,12 @@
                                 <% if get_columns(params).include?("items") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.items') %></th>
                                 <% end %>
-                                <% if get_columns(params).include?("patient_state") %>
-                                    <th class="invoice-title uppercase text-center"><%= t('.patient_state') %></th>
-                                <% end %>
                                 <% if get_columns(params).include?("patient_name") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.patient_name') %></th>
                                 <% end %>
+                                <% if get_columns(params).include?("patient_state") %>
+                                    <th class="invoice-title uppercase text-center"><%= t('.patient_state') %></th>
+                                <% end %>                                
                                 <% if get_columns(params).include?("warehouse") %>
                                     <th class="invoice-title uppercase text-center"><%= t('.warehouse') %></th>
                                 <% end %>
@@ -131,10 +131,10 @@
                                             <p><%= delivery_detail.get_product.name %></p>
                                         </td>
                                     <% end %>
-                                    <% if get_columns(params).include?("patient_state") %>
+                                    <% if get_columns(params).include?("patient_name") %>
                                         <td class="text-center"><%= delivery_detail.get_patient_name %></td>
                                     <% end %>
-                                    <% if get_columns(params).include?("patient_name") %>
+                                    <% if get_columns(params).include?("patient_state") %>
                                         <td class="text-center"><%= delivery_detail.get_patient_state_name %></td>
                                     <% end %>
                                     <% if get_columns(params).include?("warehouse") %>

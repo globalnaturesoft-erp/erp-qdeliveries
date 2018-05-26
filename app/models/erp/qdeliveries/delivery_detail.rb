@@ -55,7 +55,7 @@ module Erp::Qdeliveries
         end
       end
 
-      # check if editing case
+      # 
       if [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT, Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT, Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT].include?(delivery.delivery_type)
         stock = stock + DeliveryDetail.find(self.id).quantity if prod.present? and self.id.present?
         max = (stock < max) ? stock : max

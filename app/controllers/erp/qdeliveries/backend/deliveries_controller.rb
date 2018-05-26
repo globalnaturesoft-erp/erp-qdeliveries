@@ -87,7 +87,7 @@ module Erp
                 @delivery.delivery_details.build(
                   order_detail_id: od.id,
                   state_id: (Erp::Products::State.first.nil? ? nil : Erp::Products::State.first.id),
-                  warehouse_id: @order.warehouse_id,
+                  warehouse_id: od.warehouse_id,
                   quantity: od.not_delivered_quantity,
                 )
               end

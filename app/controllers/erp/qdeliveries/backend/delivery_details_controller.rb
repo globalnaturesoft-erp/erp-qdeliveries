@@ -43,7 +43,9 @@ module Erp
 
           # select defferent order
           if @delivery_detail.order_detail.order_id.to_i > 0 and !@delivery_detail.order_detail.product.id.nil?
-            @delivery_detail.order_detail = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product.id).first
+            odq = @delivery_detail.order_detail.order.order_details.where(product_id: @delivery_detail.order_detail.product_id)
+            odq = odq.where(warehouse_id: @params[:warehouse_id]) if @params[:warehouse_id].present?
+            @delivery_detail.order_detail = odq.first
             @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
           end
 

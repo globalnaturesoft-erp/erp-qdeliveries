@@ -181,7 +181,7 @@
                 }) %>
                 <% if delivery_detail.order_detail_id.present? %>
                     <div class="font-yellow text-small text-semibold" style="font-size: 70%; margin-top: -20px;margin-bottom: 20px;">
-                        Giá mua: <%= format_price(delivery_detail.order_detail.price) %>
+                        Giá mua: <%= format_price(delivery_detail.order_detail.unit_price) %>
                     </div>
                 <% end %>
             </div>

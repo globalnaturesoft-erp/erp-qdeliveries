@@ -3,6 +3,16 @@ module Erp::Qdeliveries
     validates :delivery, presence: true
     belongs_to :delivery, inverse_of: :delivery_details, class_name: "Erp::Qdeliveries::Delivery"
     belongs_to :product, class_name: "Erp::Products::Product", optional: true
+    if Erp::Core.available?("taxes")
+			belongs_to :tax, class_name: "Erp::Taxes::Tax", foreign_key: :tax_id, optional: true
+      
+			# tax name
+			def tax_name
+				if tax.present?
+					tax.short_name.present? ? tax.short_name : tax.name
+				end
+			end
+		end
 
     STATUS_DELIVERED = 'deliveried'
     STATUS_NOT_DELIVERY = 'not_delivery'
@@ -26,6 +36,14 @@ module Erp::Qdeliveries
 
     def price=(new_price)
       self[:price] = new_price.to_s.gsub(/\,/, '')
+    end
+
+    def discount_amount=(new_price)
+      self[:discount_amount] = new_price.to_s.gsub(/\,/, '')
+    end
+
+    def discount_percent=(new_price)
+      self[:discount_percent] = new_price.to_s.gsub(/\,/, '')
     end
 
     def quantity=(number)

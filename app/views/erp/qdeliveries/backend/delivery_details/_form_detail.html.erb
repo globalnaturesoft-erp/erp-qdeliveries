@@ -97,16 +97,6 @@
             }) %>
         </div>
         <div class="col-md-1">
-            <%= erp_form_control("dataselect", {
-                name: "details[#{index}][state_id]",
-                value: delivery_detail.state_id,
-                text: delivery_detail.state_name,
-                placeholder: t('.choose_sate'),
-                url: erp_products.dataselect_backend_states_path(format: 'json'),
-                required: true
-            }) %>
-        </div>
-        <div class="col-md-1">
             <% if [
                 Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT,
                 Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
@@ -155,15 +145,24 @@
                     }) %>
                 <% end %>
             <% end %>
+            <%= erp_form_control("dataselect", {
+                name: "details[#{index}][state_id]",
+                value: delivery_detail.state_id,
+                text: delivery_detail.state_name,
+                placeholder: t('.choose_sate'),
+                url: erp_products.dataselect_backend_states_path(format: 'json'),
+                required: true
+            }) %>
         </div>
         <% if Erp::Core.available?('ortho_k') %>
-            <div class="col-md-2">
-                <%= erp_form_control("text", {
+            <div class="col-md-1">
+                <%= erp_form_control("textarea", {
+                    placeholder: "Số lô/Sê-ri",
                     name: "details[#{index}][serials]",
                     value: delivery_detail.find_serials,
                     rows: 1
                 }) %>
-                <%= erp_form_control("text", {
+                <%= erp_form_control("textarea", {
                     placeholder: "Ghi chú",
                     name: "details[#{index}][note]",
                     value: delivery_detail.note,
@@ -177,14 +176,50 @@
                     name: "details[#{index}][price]",
                     value: delivery_detail.price,
                     class: 'delivery-detail-price',
-                    placeholder: 'Giá trả',
+                    placeholder: 'Đơn giá',
                 }) %>
                 <% if delivery_detail.order_detail_id.present? %>
-                    <div class="font-yellow text-small text-semibold" style="font-size: 70%; margin-top: -20px;margin-bottom: 20px;">
-                        Giá mua: <%= format_price(delivery_detail.order_detail.unit_price) %>
+                    <div class="font-yellow text-small text-semibold" style="font-size: 70%; margin-top: -12px;margin-bottom: 20px;">
+                        Giá đã mua: <%= format_price(delivery_detail.order_detail.unit_price) %>
                     </div>
                 <% end %>
             </div>
+            <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
+                <span class="line_amount" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
+                <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
+            </div>
+            <div class="col-md-1">
+                <%= erp_form_control("number", {
+                    name: "details[#{index}][discount_amount]",
+                    value: delivery_detail.discount_amount,
+                    class: 'delivery-detail-discount-amount',
+                    placeholder: 'Cố định',
+                }) %>
+                <%= erp_form_control("number", {
+                    name: "details[#{index}][discount_percent]",
+                    value: delivery_detail.discount_percent,
+                    class: 'delivery-detail-discount-percent',
+                    placeholder: 'Phần trăm',
+                }) %>
+            </div>
+            <% if delivery_detail.delivery.sales_import? || delivery_detail.delivery.purchase_export? %>
+                <div class="col-md-1" title="<%= delivery_detail.tax_name %>">
+                    <% if delivery_detail.delivery.sales_import? %>
+                        <% scope = Erp::Taxes::Tax::TAX_SCOPE_SALES %>
+                    <% elsif delivery_detail.delivery.purchase_export? %>
+                        <% scope = Erp::Taxes::Tax::TAX_SCOPE_PURCHASE %>
+                    <% end %>
+                    <%= erp_form_control("dataselect", {
+                        name: "details[#{index}][tax_id]",
+                        value: delivery_detail.tax_id,
+                        text: delivery_detail.tax_name,
+                        placeholder: 'Thuế',
+                        url: erp_taxes.dataselect_backend_taxes_path(format: 'json', scope: scope),
+                        required: true
+                    }) %>
+                </div>
+            <% end %>
+            
             <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
                 <span class="line_total" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
                 <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>

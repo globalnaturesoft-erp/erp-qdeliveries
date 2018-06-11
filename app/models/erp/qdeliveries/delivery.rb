@@ -345,6 +345,9 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              discount_amount: data["discount_amount"],
+              discount_percent: data["discount_percent"],
+              tax_id: data["tax_id"],
               serials: data["serials"],
               note: data["note"],
               patient_id: data["patient_id"],
@@ -371,6 +374,9 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              discount_amount: data["discount_amount"],
+              discount_percent: data["discount_percent"],
+              tax_id: data["tax_id"],
               serials: data["serials"],
               note: data["note"],
               patient_id: data["patient_id"],
@@ -384,6 +390,9 @@ module Erp::Qdeliveries
               warehouse_id: data["warehouse_id"],
               product_id: data["product_id"],
               price: data["price"],
+              discount_amount: data["discount_amount"],
+              discount_percent: data["discount_percent"],
+              tax_id: data["tax_id"],
               serials: data["serials"],
               note: data["note"],
               patient_id: data["patient_id"],
@@ -460,6 +469,16 @@ module Erp::Qdeliveries
 		def remain_amount
 			return total_amount - paid_amount
 		end
+		
+		# check if delivery is sales import
+		def sales_import?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
+    end
+		
+		# check if delivery is purchase export
+		def purchase_export?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+    end
 
 		#
 		def import(file)

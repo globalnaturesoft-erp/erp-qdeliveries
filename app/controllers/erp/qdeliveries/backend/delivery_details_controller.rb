@@ -15,6 +15,7 @@ module Erp
             @delivery_detail.order_detail.product = Erp::Products::Product.new
             @delivery_detail.order_detail.product.category = Erp::Products::Category.new
             @delivery_detail.warehouse = Erp::Warehouses::Warehouse.new
+            @delivery_detail.tax = Erp::Taxes::Tax.new
             @delivery_detail.state = Erp::Products::State.first
             @delivery_detail.quantity = 1
             @delivery_detail.id = @params[:id]
@@ -35,7 +36,10 @@ module Erp
           @delivery_detail.note = @params[:note] if @params[:note].present?
           @delivery_detail.quantity = @params[:quantity] if @params[:quantity].present?
           @delivery_detail.price = @params[:price] if @params[:price].present?
+          @delivery_detail.discount_amount = @params[:discount_amount] if @params[:discount_amount].present?
+          @delivery_detail.discount_percent = @params[:discount_percent] if @params[:discount_percent].present?
           @delivery_detail.warehouse = Erp::Warehouses::Warehouse.find(@params[:warehouse_id]) if @params[:warehouse_id].present?
+          @delivery_detail.tax = Erp::Taxes::Tax.find(@params[:tax_id]) if @params[:tax_id].present?
 
           @delivery_detail.order_detail.product = Erp::Products::Product.find(@params[:product_id]) if @params[:product_id].present?
           @delivery_detail.state = Erp::Products::State.find(@params[:state_id]) if @params[:state_id].present?

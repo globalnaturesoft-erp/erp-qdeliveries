@@ -207,7 +207,7 @@
                     <% if delivery_detail.delivery.sales_import? %>
                         <% scope = Erp::Taxes::Tax::TAX_SCOPE_SALES %>
                     <% elsif delivery_detail.delivery.purchase_export? %>
-                        <% scope = Erp::Taxes::Tax::TAX_SCOPE_PURCHASE %>
+                        <% scope = Erp::Taxes::Tax::TAX_SCOPE_PURCHASES %>
                     <% end %>
                     <%= erp_form_control("dataselect", {
                         name: "details[#{index}][tax_id]",

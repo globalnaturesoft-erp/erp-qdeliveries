@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        <% @delivery_details.each do |delivery_detail| %>
+        <% @delivery_details.includes(:product).order('erp_products_products.ordered_code').each do |delivery_detail| %>
             <tr>
                 <td class="text-left font-green-sharp sbold">
                     <%= backend_product_link(delivery_detail.product) %>

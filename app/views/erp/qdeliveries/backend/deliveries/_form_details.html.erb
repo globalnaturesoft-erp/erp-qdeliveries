@@ -29,16 +29,34 @@
             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
         ].include?(delivery.delivery_type) %>
-            <div class="col-md-4" style="border-left: solid 1px #ddd; padding-left: 20px">
-                <%= erp_form_control("file", {
-                    name: 'import_file',
-                    value: '',
-                    text: '',
-                    label: ('Nhập từ file (<a href="'+url_for('/backend/file/product_custom_import_export.xlsx')+'" target="_blank">Tải mẫu</a>)').html_safe,
-                }) %>
-            </div>
-            <div class="col-md-1 mt-25 text-right" style="margin-top: 26px;">
-                <button class="btn btn-primary custom-form-submit" data-action="<%= erp_qdeliveries.import_file_backend_deliveries_path(id: delivery.id) %>">Tải file</button>
+            <div class="col-md-5" style="border-left: solid 1px #ddd; padding-left: 20px">
+                <div class="row">
+                    <div class="col-md-12">
+                        <% order = Erp::Orders::Order.find(params[:default_order_id]) if params[:default_order_id].present? %>
+                        <%= erp_form_control("dataselect", {
+                            name: "default_order_id",
+                            value: (order.present? ? order.id : nil),
+                            text: (order.present? ? order.code : nil),
+                            placeholder: 'Chọn đơn hàng',
+                            url: erp_orders.dataselect_backend_orders_path(format: 'json',
+                                delivery_type: delivery.delivery_type
+                            ),
+                        }) %>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <%= erp_form_control("file", {
+                            name: 'import_file',
+                            value: '',
+                            text: '',
+                            label: ('Nhập từ file (<a href="'+url_for('/backend/file/product_custom_import_export.xlsx')+'" target="_blank">Tải mẫu</a>)').html_safe,
+                        }) %>
+                    </div>
+                    <div class="col-md-4 text-right" style="margin-top: 26px;">
+                        <button class="btn btn-primary custom-form-submit" data-action="<%= erp_qdeliveries.import_file_backend_deliveries_path(id: delivery.id) %>">Tải file</button>
+                    </div>
+                </div>
             </div>
         <% end %>
     </div>
@@ -68,6 +86,14 @@
         <% delivery.delivery_details.each do |dd| %>
             <% dd.order_detail = Erp::Orders::OrderDetail.new if !dd.order_detail.present? %>
             <% dd.order_detail.order = Erp::Orders::Order.new(id: -1) if !dd.order_detail.order.present? %>
+            <%
+                if params[:default_order_id].present?
+                    order = Erp::Orders::Order.find(params[:default_order_id])
+                    odq = order.order_details.where(product_id: dd.product_id)
+                    odq = odq.where(warehouse_id: dd.warehouse_id) if dd.warehouse_id.present?
+                    dd.order_detail = odq.first if odq.first.present?
+                end
+            %>
             <% dd.order_detail.product = dd.product if !dd.order_detail.product.present? %>
             <% dd.warehouse = Erp::Warehouses::Warehouse.new if !dd.warehouse.present? %>
             <%= render "erp/qdeliveries/backend/delivery_details/form_detail",

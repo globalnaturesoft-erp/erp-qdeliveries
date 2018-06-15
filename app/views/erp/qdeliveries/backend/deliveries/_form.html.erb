@@ -239,22 +239,46 @@
             function calculateTotalLine(container) {
                 var rows = container.find('.autolist-line:visible');
                 var quantity = 0;
+                var subtotal = 0;
+                var discount = 0;
+                var amount = 0;
+                var tax = 0;
                 var total = 0;
                 rows.each(function() {
                     var row = $(this);
-                    var qty = customParseFloat(row.find('.line_quantity').val());
-                    var cache_total = customParseFloat(row.find('.line_total').html());
+                    var line_qty = customParseFloat(row.find('.line_quantity').val());
+                    var line_subtotal = customParseFloat(row.find('.line_subtotal').html());
+                    var line_discount = customParseFloat(row.find('.line_discount').html());
+                    var line_amount = customParseFloat(row.find('.line_amount').html());
+                    var line_tax = customParseFloat(row.find('.line_tax').html());
+                    var line_total = customParseFloat(row.find('.line_total').html());
 
                     // Update total (amount/quantity)
-                    if(qty) {
-                        quantity += qty;
+                    if(line_qty) {
+                        quantity += line_qty;
                     }
-                    if(cache_total) {
-                        total += cache_total;
+                    if(line_subtotal) {
+                        subtotal += line_subtotal;
+                    }
+                    if(line_discount) {
+                        discount += line_discount;
+                    }
+                    if(line_amount) {
+                        amount += line_amount;
+                    }
+                    if(line_tax) {
+                        tax += line_tax;
+                    }
+                    if(line_total) {
+                        total += line_total;
                     }
                 });
                 // update line total
                 container.find('.quantity').html(quantity);
+                container.find('.subtotal').html(subtotal);
+                container.find('.discount').html(discount);
+                container.find('.amount').html(amount);
+                container.find('.tax').html(tax);
                 container.find('.total').html(total);
             }
             $(document).ready(function() {

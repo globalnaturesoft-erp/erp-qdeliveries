@@ -166,6 +166,68 @@ module Erp::Qdeliveries
         warehouse.present? ? warehouse.name : ''
       end
     end
+    # ==========================================
+    # @todo validates when quantity nil?
+    def subtotal
+			quantity.to_f*price.to_f
+		end
+
+    # get discount amount
+    def discount_am
+			discount_amount.nil? ? 0.0 : discount_amount
+		end
+    
+    def discount_per
+			discount_percent.nil? ? 0.0 : discount_percent
+		end
+    
+    DISCOUNT_COMPUTATION_AMOUNT = 'amount'
+    DISCOUNT_COMPUTATION_PERCENT = 'percent'
+    
+    def calculate_discount(options={})
+      if options[:computation].present?
+        if options[:computation] == Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_AMOUNT
+          return (discount_am/subtotal)*100
+        elsif options[:computation] == Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_PERCENT
+          return subtotal*(discount_per/100)
+        end
+      else
+        return nil
+      end
+    end
+    
+    #def tinh_giam_gia
+    #  if discount_amount.present?
+    #    discount_percent = 1000
+    #  elsif discount_percent.present?
+    #    discount_amount = 20000
+    #  end
+    #end
+
+    # total before tax
+    def total_without_tax
+			subtotal - discount_am
+		end
+
+    # tax amount
+    def tax_amount
+			count = 0
+			if tax.present?
+        if tax.computation == Erp::Taxes::Tax::TAX_COMPUTATION_FIXED
+          count = tax.amount
+        elsif tax.computation == Erp::Taxes::Tax::TAX_COMPUTATION_PRICE
+          count = (total_without_tax*(tax.amount))/100
+        end
+      end
+			return count
+		end
+
+    # total after tax
+    def total
+			total_without_tax + tax_amount
+		end
+    
+    # ==========================================
 
     # total amount (if product return)
     def total_amount

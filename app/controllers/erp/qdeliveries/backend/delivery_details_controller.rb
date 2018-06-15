@@ -52,6 +52,14 @@ module Erp
             @delivery_detail.order_detail = odq.first
             @delivery_detail.quantity = @delivery_detail.get_max_quantity if !@params[:quantity].present?
           end
+          
+          # fill discount
+          @current_control = params.to_unsafe_hash[:current_control].to_s
+          if @current_control.include?("discount_amount")
+            @delivery_detail.discount_percent = @delivery_detail.calculate_discount(computation: Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_AMOUNT)
+          elsif @current_control.include?("discount_percent")
+            @delivery_detail.discount_amount = @delivery_detail.calculate_discount(computation: Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_PERCENT)
+          end
 
           render partial: 'erp/qdeliveries/backend/delivery_details/form_detail', locals: {
             delivery_detail: @delivery_detail,

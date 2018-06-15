@@ -119,7 +119,39 @@
     </tr>
     <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include? delivery.delivery_type %>
         <tr>
-            <td width="90%" class="text-right text-semibold">Tổng tiền:</td>
+            <td width="90%" class="text-right text-semibold">Thành tiền:</td>
+            <td class="text-right">
+                <h4 class="no-margin">
+                    <span class="subtotal text-bold text-primary"></span>
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td width="90%" class="text-right text-semibold">Giảm giá:</td>
+            <td class="text-right">
+                <h4 class="no-margin">
+                    <span class="discount text-bold text-primary"></span>
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td width="90%" class="text-right text-semibold">Tạm tính:</td>
+            <td class="text-right">
+                <h4 class="no-margin">
+                    <span class="amount text-bold text-primary"></span>
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td width="90%" class="text-right text-semibold">Tổng thuế:</td>
+            <td class="text-right">
+                <h4 class="no-margin">
+                    <span class="tax text-bold text-primary"></span>
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td width="90%" class="text-right text-semibold">Tổng cộng:</td>
             <td class="text-right">
                 <h4 class="no-margin">
                     <span class="total text-bold text-primary"></span>

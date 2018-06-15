@@ -185,10 +185,11 @@
                 <% end %>
             </div>
             <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
-                <span class="line_amount" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
+                <span class="line_subtotal" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
                 <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
             </div>
             <div class="col-md-1">
+                <span class="line_discount" hidden><%= delivery_detail.discount_amount %></span>
                 <%= erp_form_control("number", {
                     name: "details[#{index}][discount_amount]",
                     value: delivery_detail.discount_amount,
@@ -209,6 +210,7 @@
                     <% elsif delivery_detail.delivery.purchase_export? %>
                         <% scope = Erp::Taxes::Tax::TAX_SCOPE_PURCHASES %>
                     <% end %>
+                    <span class="line_tax" hidden><%= delivery_detail.tax_amount %></span>
                     <%= erp_form_control("dataselect", {
                         name: "details[#{index}][tax_id]",
                         value: delivery_detail.tax_id,
@@ -221,8 +223,9 @@
             <% end %>
             
             <div class="col-md-1 text-bold text-right" style="padding:7px 15px">
-                <span class="line_total" hidden><%= delivery_detail.price.to_f*delivery_detail.quantity %></span>
-                <%= format_price(delivery_detail.price.to_f*delivery_detail.quantity) %>
+                <span class="line_amount" hidden><%= delivery_detail.total_without_tax %></span>
+                <span class="line_total" hidden><%= delivery_detail.total %></span>
+                <%= format_price(delivery_detail.total) %>
             </div>
         <% end %>
     <% else %>

@@ -1,21 +1,24 @@
 <table class="table table-bordered table-striped flip-content">
     <thead class="flip-content">
         <tr>
-            <th class="bg-yellow bg-font-yellow text-left" width="20%">Tên sản phẩm</th>
+            <th class="bg-yellow bg-font-yellow text-left" width="25%">Tên sản phẩm</th>
             <th class="bg-yellow bg-font-yellow text-center">ĐVT</th>
-            <th class="bg-yellow bg-font-yellow text-left">Số lô/Serials</th>
-            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Tình trạng</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">TT SP</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-center">Kho</th>
+            <th class="bg-yellow bg-font-yellow text-left">Số lô</th>
             <th class="bg-yellow bg-font-yellow text-nowrap text-left">Chg.từ liên quan</th>
-            <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đặt hàng</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đặt</th>
             <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) %>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đã hoàn </th>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Đơn giá hoàn</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL hoàn </th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Đơn giá</th>
                 <th class="bg-yellow bg-font-yellow text-nowrap text-right">Thành tiền</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Giảm giá</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Tiền VAT</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right">Tổng cộng</th>
             <% elsif [Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT].include?(@delivery.delivery_type) %>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đã xuất</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL xuất</th>
             <% else %>
-                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đã giao</th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL giao</th>
             <% end %>
         </tr>
     </thead>
@@ -28,11 +31,11 @@
                 <td class="text-center">
                     <%= delivery_detail.product_unit %>
                 </td>
+                <td class="text-center"><%= delivery_detail.state_name %></td>
+                <td class="text-center"><%= delivery_detail.warehouse_name %></td>
                 <td class="text-left">
                     <%= delivery_detail.serials %>
                 </td>
-                <td class="text-center"><%= delivery_detail.state_name %></td>
-                <td class="text-center"><%= delivery_detail.warehouse_name %></td>
                 <td class="text-left">
                     <% if delivery_detail.order_detail_id.nil? %>
                         Không chứng từ
@@ -42,7 +45,7 @@
                 </td>
                 <td class="numeric text-center">
                     <% if delivery_detail.order_detail_id.nil? %>
-                        Không chứng từ
+                        --
                     <% else %>
                         <strong><%= delivery_detail.ordered_quantity %></strong>
                     <% end %>
@@ -50,7 +53,10 @@
                 <td class="numeric text-center"><strong><%= delivery_detail.quantity %></strong></td>
                 <% if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) %>
                     <td class="text-right"><%= delivery_detail.price.present? ? format_price(delivery_detail.price) : '--' %></td>
-                    <td class="text-right"><%= delivery_detail.price.present? ? format_price(delivery_detail.total_amount) : '--' %></td>
+                    <td class="text-right"><%= format_price(delivery_detail.subtotal) %></td>
+                    <td class="text-right"><%= format_price(delivery_detail.discount) %></td>
+                    <td class="text-right"><%= format_price(delivery_detail.tax_amount) %></td>
+                    <td class="text-right"><%= format_price(delivery_detail.total) %></td>
                 <% end %>
             </tr>
         <% end %>

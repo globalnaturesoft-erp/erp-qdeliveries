@@ -430,6 +430,39 @@ module Erp::Qdeliveries
 		end
 
 		# get total amount
+		def subtotal
+			return delivery_details.sum(&:subtotal)
+		end
+
+		def self.subtotal
+			self.sum(&:subtotal)
+		end
+		
+		def total_without_tax
+			return delivery_details.sum(&:total_without_tax)
+		end
+
+		def self.total_without_tax
+			self.sum(&:total_without_tax)
+		end
+		
+		def tax_amount
+			return delivery_details.sum(&:tax_amount)
+		end
+
+		def self.tax_amount
+			self.sum(&:tax_amount)
+		end
+		
+		def total
+			return delivery_details.sum(&:total)
+		end
+
+		def self.total
+			self.sum(&:total)
+		end
+		
+		# will remove
 		def total_amount
 			return delivery_details.sum(&:total_amount)
 		end
@@ -437,6 +470,7 @@ module Erp::Qdeliveries
 		def self.total_amount
 			self.sum(&:total_amount)
 		end
+		# ###########
 
 		def self.cache_total_amount
       self.sum("erp_qdeliveries_deliveries.cache_total")
@@ -447,12 +481,12 @@ module Erp::Qdeliveries
       return delivery_details.map(&:ordered_subtotal).sum(&:to_f)
     end
 		
-		def discount
-      return delivery_details.map(&:discount).sum(&:to_f)
-    end
-		
 		def self.ordered_subtotal
       self.sum(&:ordered_subtotal)
+    end
+		
+		def discount
+      return delivery_details.map(&:discount).sum(&:to_f)
     end
 		
 		def self.discount

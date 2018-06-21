@@ -63,10 +63,10 @@
             text: t('.items'), name: 'items', value: true, checked: true
         },
         {
-            text: t('.patient_state'), name: 'patient_state', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) ? true : false)
+            text: t('.patient_state'), name: 'patient_state', value: true, checked: false
         },
         {
-            text: t('.patient_name'), name: 'patient_name', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) ? true : false)
+            text: t('.patient_name'), name: 'patient_name', value: true, checked: false
         },
         {
             text: t('.warehouse'), name: 'warehouse', value: true, checked: true
@@ -87,10 +87,23 @@
             text: t('.quantity'), name: 'quantity', value: true, checked: true
         },
         {
-            text: t('.price'), name: 'price', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) ? true : false)
+            text: t('.price'), name: 'price', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                    Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) ? true : false)
         },
         {
-            text: t('.total_amount'), name: 'total_amount', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT].include?(@delivery.delivery_type) ? true : false)
+            text: t('.subtotal'), name: 'subtotal', value: true, checked: false
+        },
+        {
+            text: t('.discount'), name: 'discount', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                    Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.tax_amount'), name: 'tax_amount', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                    Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) ? true : false)
+        },
+        {
+            text: t('.total'), name: 'total', value: true, checked: ([Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
+                    Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(@delivery.delivery_type) ? true : false)
         },
         {
             text: t('.record'), name: 'record', value: true, checked: false

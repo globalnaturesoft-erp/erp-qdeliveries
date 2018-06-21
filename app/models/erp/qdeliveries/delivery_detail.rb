@@ -173,13 +173,17 @@ module Erp::Qdeliveries
 		end
 
     # get discount amount
-    def discount_am
+    def get_discount_amount
 			discount_amount.nil? ? 0.0 : discount_amount
 		end
     
-    def discount_per
+    def get_discount_percent
 			discount_percent.nil? ? 0.0 : discount_percent
 		end
+    
+    def discount # //Mac dinh lay so tien giam gia
+      return get_discount_amount
+    end
     
     DISCOUNT_COMPUTATION_AMOUNT = 'amount'
     DISCOUNT_COMPUTATION_PERCENT = 'percent'
@@ -187,26 +191,18 @@ module Erp::Qdeliveries
     def calculate_discount(options={})
       if options[:computation].present?
         if options[:computation] == Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_AMOUNT
-          return (discount_am/subtotal)*100
+          return (get_discount_amount/subtotal)*100
         elsif options[:computation] == Erp::Qdeliveries::DeliveryDetail::DISCOUNT_COMPUTATION_PERCENT
-          return subtotal*(discount_per/100)
+          return subtotal*(get_discount_percent/100)
         end
       else
         return nil
       end
     end
-    
-    #def tinh_giam_gia
-    #  if discount_amount.present?
-    #    discount_percent = 1000
-    #  elsif discount_percent.present?
-    #    discount_amount = 20000
-    #  end
-    #end
 
     # total before tax
     def total_without_tax
-			subtotal - discount_am
+			subtotal - get_discount_amount
 		end
 
     # tax amount
@@ -231,7 +227,8 @@ module Erp::Qdeliveries
 
     # total amount (if product return)
     def total_amount
-			quantity.to_f*price.to_f
+			#quantity.to_f*price.to_f
+			total #su dung tam ham total_amount thay the cho total (chuyển sau)
 		end
 
     # Cache total
@@ -247,11 +244,11 @@ module Erp::Qdeliveries
       ordered_price.nil? ? nil : ordered_price.to_f*quantity.to_f
     end
     
-    def discount
-      if !ordered_subtotal.nil?
-        ordered_subtotal - total_amount
-      end
-    end
+    #def discount
+    #  if !ordered_subtotal.nil?
+    #    ordered_subtotal - total_amount
+    #  end
+    #end
 
     # Update cache total
     after_save :update_cache_total

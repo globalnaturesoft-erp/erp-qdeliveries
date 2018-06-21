@@ -51,8 +51,8 @@ module Erp
                   margin: {
                     top: 7,                     # default 10 (mm)
                     bottom: 7,
-                    left: 7,
-                    right: 7
+                    left: 3,
+                    right: 3
                   }
               else
                 render pdf: "#{@delivery.code}",
@@ -62,8 +62,8 @@ module Erp
                   margin: {
                     top: 7,                     # default 10 (mm)
                     bottom: 7,
-                    left: 7,
-                    right: 7
+                    left: 3,
+                    right: 3
                   }
               end
             end

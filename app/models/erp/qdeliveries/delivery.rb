@@ -46,7 +46,7 @@ module Erp::Qdeliveries
 
     # Update delivery cache total
     def update_cache_total
-			self.update_column(:cache_total, self.total_amount)
+			self.update_column(:cache_total, self.total)
 		end
 
     # update cache total for delivery_detail
@@ -462,15 +462,15 @@ module Erp::Qdeliveries
 			self.sum(&:total)
 		end
 		
-		# will remove
+		# .......
 		def total_amount
-			return delivery_details.sum(&:total_amount)
+			return total
 		end
-
+		
 		def self.total_amount
-			self.sum(&:total_amount)
+			self.total
 		end
-		# ###########
+		# .......
 
 		def self.cache_total_amount
       self.sum("erp_qdeliveries_deliveries.cache_total")
@@ -501,7 +501,7 @@ module Erp::Qdeliveries
 
 		# get remain amount
 		def remain_amount
-			return total_amount - paid_amount
+			return total - paid_amount
 		end
 		
 		# check if delivery is sales import

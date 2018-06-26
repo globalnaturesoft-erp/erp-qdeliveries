@@ -227,8 +227,7 @@ module Erp::Qdeliveries
 
     # total amount (if product return)
     def total_amount
-			#quantity.to_f*price.to_f
-			total #su dung tam ham total_amount thay the cho total (chuyển sau)
+			return total
 		end
 
     # Cache total
@@ -254,7 +253,7 @@ module Erp::Qdeliveries
     after_save :update_cache_total
     def update_cache_total
 			if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
-				self.update_column(:cache_total, self.total_amount)
+				self.update_column(:cache_total, self.total)
 			end
 		end
 

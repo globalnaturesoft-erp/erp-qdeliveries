@@ -27,7 +27,8 @@
         <% if [Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT,
             Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT,
             Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT,
-            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+            Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT,
+            Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT,
         ].include?(delivery.delivery_type) %>
             <div class="col-md-5" style="border-left: solid 1px #ddd; padding-left: 20px">
                 <div class="row">

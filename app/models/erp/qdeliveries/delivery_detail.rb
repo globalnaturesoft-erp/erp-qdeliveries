@@ -321,6 +321,10 @@ module Erp::Qdeliveries
 				query = query.where('erp_qdeliveries_deliveries.date <= ?', options[:to_date].to_date.end_of_day)
 			end
 			
+			if options[:customer_id].present?
+				query = query.where(erp_qdeliveries_deliveries: {customer_id: options[:customer_id]})
+			end
+			
 			if Erp::Core.available?("ortho_k")
         if options[:patient_state_id].present?          
           if options[:patient_state_id] == -1

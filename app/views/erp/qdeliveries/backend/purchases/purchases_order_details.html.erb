@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <% @order.order_details.each do |order_detail| %>
+        <% @order.ordered_order_details.each do |order_detail| %>
             <% if order_detail.delivered_delivery_details.count > 0 %>
                 <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.backend_deliveries_purchases_path(id: order_detail.id) %>">
             <% else %>

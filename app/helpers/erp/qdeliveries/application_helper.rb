@@ -42,10 +42,16 @@ module Erp
         actions = []
         
         actions << {
-          text: '<i class="fa fa-file-text-o"></i> '+t('.view'),
+          text: '<i class="fa fa-print"></i> '+t('view_print'),
           url: erp_orders.backend_order_path(order),
           class: 'modal-link'
-        }
+        } if can? :print, order
+        
+        actions << {
+          text: '<i class="fa fa-file-excel-o"></i> Xuất excel',
+          url: erp_orders.xlsx_backend_orders_path(id: order.id, format: 'xlsx'),
+          target: '_blank'
+        } if can? :xlsx_export, order
         
         actions << {
           text: '<i class="icon-action-redo"></i> Xuất kho',

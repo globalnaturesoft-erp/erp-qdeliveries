@@ -33,6 +33,7 @@ vi:
           sales_orders_listing:
             order_code: "Mã đơn hàng"
             order_date: "Ngày đặt hàng"
+            quantity: "Số lượng"
             customer: "Khách hàng"
             employee: "Nhân viên phụ trách"
             delivered_ordered: "Số lượng"

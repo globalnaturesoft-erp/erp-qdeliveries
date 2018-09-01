@@ -54,6 +54,14 @@ module Erp
         } if can? :xlsx_export, order
         
         actions << {
+          text: '<i class="fa fa-edit"></i> '+t('edit'),
+          url: erp_orders.edit_backend_order_path(order),
+          class: 'modal-link'
+        } if can? :update_tam_thoi_an_khong_cho_nvkho_su_dung, order
+        
+        actions << { divider: true }  if ((can? :sales_export, order) or (can? :purchase_import, order))
+        
+        actions << {
           text: '<i class="icon-action-redo"></i> Xuất kho',
           url: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT, order_id: order.id),
         } if can? :sales_export, order

@@ -52,22 +52,14 @@
                                     <strong><%= order_detail.product_code %></strong>
                                 </td>
                                 <td class="text-left">
-                                    <%= link_to order_detail.product_name,
-                                        erp_products.edit_backend_product_path(order_detail.product),
-                                        target: "_blank", title: order_detail.product_name,
-                                        class: "font-yellow-gold sbold" %>
+                                    <%= backend_product_link(order_detail.product, order_detail.product_name) %>
                                 </td>
                             <% else %>
                                 <td class="text-left">
                                     <% if order_detail.delivered_delivery_details.count > 0 %>
                                         <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
                                     <% end %>
-                                    <strong>
-                                        <%= link_to order_detail.product_name,
-                                            erp_products.edit_backend_product_path(order_detail.product),
-                                            target: "_blank", title: order_detail.product_name,
-                                            class: "font-yellow-gold sbold" %>
-                                    </strong>
+                                    <%= backend_product_link(order_detail.product, order_detail.product_name) %>
                                 </td>
                             <% end %>
                             <td class="text-left"><%= order_detail.product_category_name %></td>
@@ -77,19 +69,22 @@
                             <td class="numeric text-center bold"><%= format_number(order_detail.not_delivered_quantity) %></td>
                             <td class="text-center">
                                 <% if order_detail.not_delivered_quantity > 0 %>
-                                    <span class="font-yellow-gold bold">Chưa giao</span>
+                                    <span class="font-yellow-gold">Chưa giao</span>
                                 <% elsif order_detail.not_delivered_quantity == 0 %>
-                                    <span class="font-green-meadow bold">Giao xong</span>
+                                    <span class="font-green-meadow">Giao xong</span>
                                 <% else %>
-                                    <span class="font-red-thunderbird bold">Giao dư</span>
+                                    <span class="font-red-thunderbird">Giao dư</span>
                                 <% end %>
                             </td>
                             <td class="text-right">
                                 <% if order_detail.delivered_delivery_details.count > 0 %>
                                     <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
-                                        <%= link_to delivery_detail.delivery.code,
-                                                    erp_qdeliveries.edit_backend_delivery_path(delivery_detail.delivery),
-                                                    title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
+                                        <% if can? :print, delivery_detail.delivery %>
+                                            <%= qdelivery_link(delivery_detail.delivery) %>
+                                        <% else %>
+                                            <%= delivery_detail.delivery.code %>
+                                        <% end %>
+                                        <br>
                                     <% end %>
                                 <% end %>
                             </td>

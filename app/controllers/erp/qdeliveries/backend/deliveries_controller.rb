@@ -2,16 +2,23 @@ module Erp
   module Qdeliveries
     module Backend
       class DeliveriesController < Erp::Backend::BackendController
-        before_action :set_delivery, only: [:xlsx, :delivery_details, :archive, :unarchive, :status_delivered, :status_deleted,
-                                            :pdf, :show, :show_list, :edit, :update, :destroy]
-        before_action :set_deliveries, only: [:status_delivered_all, :status_deleted_all, :archive_all, :unarchive_all]
+        before_action :set_delivery, only: [:xlsx, :delivery_details, :archive, :unarchive, :set_delivered, :set_deleted,
+                                            :pdf, :show, :show_list, :edit, :update]
+        before_action :set_deliveries, only: [:set_delivered_all, :set_deleted_all, :archive_all, :unarchive_all]
 
         # GET /deliveries
         def index
+          if Erp::Core.available?("ortho_k")
+            authorize! :inventory_qdeliveries_deliveries_index, nil
+          end
         end
 
         # POST /deliveries/list
         def list
+          if Erp::Core.available?("ortho_k")
+            authorize! :inventory_qdeliveries_deliveries_index, nil
+          end
+          
           @deliveries = Delivery.search(params).paginate(:page => params[:page], :per_page => 20)
 
           render layout: nil
@@ -93,6 +100,8 @@ module Erp
               end
             end
           end
+          
+          authorize! :create, @delivery
         end
 
         # GET /deliveries/1/edit
@@ -105,6 +114,8 @@ module Erp
           @delivery = Delivery.new(delivery_params)
           @delivery.creator = current_user
           @delivery.delivery_type = params[:delivery][:delivery_type]
+          
+          authorize! :create, @delivery
 
           if @delivery.save
             @delivery.update_details(params.to_unsafe_hash[:details])
@@ -134,6 +145,8 @@ module Erp
 
         # PATCH/PUT /deliveries/1
         def update
+          authorize! :update, @delivery
+          
           if @delivery.update(delivery_params)
             # destroy detals not in form
             @delivery.update_details(params.to_unsafe_hash[:details])
@@ -160,19 +173,19 @@ module Erp
         end
 
         # DELETE /deliveries/1
-        def destroy
-          @delivery.destroy
-
-          respond_to do |format|
-            format.html { redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success') }
-            format.json {
-              render json: {
-                'message': t('.success'),
-                'type': 'success'
-              }
-            }
-          end
-        end
+        #def destroy
+        #  @delivery.destroy
+        #
+        #  respond_to do |format|
+        #    format.html { redirect_to erp_qdeliveries.backend_deliveries_path, notice: t('.success') }
+        #    format.json {
+        #      render json: {
+        #        'message': t('.success'),
+        #        'type': 'success'
+        #      }
+        #    }
+        #  end
+        #end
 
         # ARCHIVE /deliveries/archive?id=1
         def archive
@@ -204,11 +217,11 @@ module Erp
           end
         end
 
-        # STATUS DELIVERED /deliveries/status_delivered?id=1
-        def status_delivered
+        # STATUS DELIVERED /deliveries/set_delivered?id=1
+        def set_delivered
           authorize! :set_delivered, @delivery
           
-          @delivery.status_delivered
+          @delivery.set_delivered
           respond_to do |format|
             format.json {
               render json: {
@@ -219,9 +232,9 @@ module Erp
           end
         end
 
-        # STATUS DELIVERED ALL /deliveries/status_delivered_all?ids=1,2,3
-        def status_delivered_all
-          @deliveries.status_delivered_all
+        # STATUS DELIVERED ALL /deliveries/set_delivered_all?ids=1,2,3
+        def set_delivered_all
+          @deliveries.set_delivered_all
 
           respond_to do |format|
             format.json {
@@ -233,11 +246,11 @@ module Erp
           end
         end
 
-        # STATUS DELETED /deliveries/status_deleted?id=1
-        def status_deleted
+        # STATUS DELETED /deliveries/set_deleted?id=1
+        def set_deleted
           authorize! :set_deleted, @delivery
           
-          @delivery.status_deleted
+          @delivery.set_deleted
           respond_to do |format|
             format.json {
               render json: {
@@ -248,9 +261,9 @@ module Erp
           end
         end
 
-        # STATUS DELETED ALL /deliveries/status_deleted_all?ids=1,2,3
-        def status_deleted_all
-          @deliveries.status_deleted_all
+        # STATUS DELETED ALL /deliveries/set_deleted_all?ids=1,2,3
+        def set_deleted_all
+          @deliveries.set_deleted_all
 
           respond_to do |format|
             format.json {
@@ -263,18 +276,18 @@ module Erp
         end
 
         # DELETE ALL /deliveries/delete_all?ids=1,2,3
-        def delete_all
-          @deliveries.destroy_all
-
-          respond_to do |format|
-            format.json {
-              render json: {
-                'message': t('.success'),
-                'type': 'success'
-              }
-            }
-          end
-        end
+        #def delete_all
+        #  @deliveries.destroy_all
+        #
+        #  respond_to do |format|
+        #    format.json {
+        #      render json: {
+        #        'message': t('.success'),
+        #        'type': 'success'
+        #      }
+        #    }
+        #  end
+        #end
 
         # ARCHIVE ALL /deliveries/archive_all?ids=1,2,3
         def archive_all

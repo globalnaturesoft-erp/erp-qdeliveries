@@ -1,12 +1,14 @@
 <table class="table table-bordered table-striped flip-content table-child-content">
     <thead class="flip-content">
         <tr>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap" width="20%"><%= t('.product_name') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.ordered_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.deliveried_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap"><%= t('.remain_quantity') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('status') %></th>
-            <th class="bg-green-jungle bg-font-green-jungle text-right"><%= t('.deliveries') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-center text-nowrap" width="20%"><%= t('.product_name') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.product_type') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center"><%= t('.unit') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-center text-nowrap"><%= t('.ordered_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-center text-nowrap"><%= t('.deliveried_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-center text-nowrap"><%= t('.remain_quantity') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-center text-nowrap"><%= t('status') %></th>
+            <th class="bg-green-jungle bg-font-green-jungle text-right text-nowrap"><%= t('.deliveries') %></th>
         </tr>
     </thead>
     <tbody>
@@ -16,32 +18,41 @@
             <% else %>
                 <tr>
             <% end %>
-                <td class="text-left font-yellow-gold sbold">
-                    <%= order_detail.product_name %>
-                </td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.quantity) %></strong></td>
-                <td class="numeric text-center">
+                <td class="text-left">
                     <% if order_detail.delivered_delivery_details.count > 0 %>
                         <i class="fa fa-plus expand tr-expand-button child-tr-expand-button"></i>
                     <% end %>
-                    <strong><%= format_number(order_detail.delivered_quantity) %></strong>
+                    <%= backend_product_link(order_detail.product, order_detail.product_name) %>
                 </td>
-                <td class="numeric text-center"><strong><%= format_number(order_detail.not_delivered_quantity) %></strong></td>
-                <td class="text-right">
+                <td class="text-center"><%= order_detail.product_category_name %></td>
+                <td class="text-center"><%= order_detail.product_unit_name %></td>
+                <td class="numeric text-center">
+                    <%= format_number(order_detail.quantity) %></strong>
+                </td>
+                <td class="numeric text-center">
+                    <%= format_number(order_detail.delivered_quantity) %>
+                </td>
+                <td class="numeric text-center">
+                    <%= format_number(order_detail.not_delivered_quantity) %>
+                </td>
+                <td class="text-center">
                     <% if order_detail.not_delivered_quantity > 0 %>
-                        <span class="font-yellow-gold bold">Chưa giao</span>
+                        <span class="font-yellow-gold">Chưa giao</span>
                     <% elsif order_detail.not_delivered_quantity == 0 %>
-                        <span class="font-green-meadow bold">Giao xong</span>
+                        <span class="font-green-meadow">Giao xong</span>
                     <% else %>
-                        <span class="font-red-thunderbird bold">Giao dư</span>
+                        <span class="font-red-thunderbird">Giao dư</span>
                     <% end %>
                 </td>
-                <td class="text-right">
+                <td class="font-blue text-right">
                     <% if order_detail.delivered_delivery_details.count > 0 %>
                         <% order_detail.delivered_delivery_details.each do |delivery_detail| %>
-                            <%= link_to delivery_detail.delivery.code,
-                                erp_qdeliveries.backend_delivery_path(delivery_detail.delivery),
-                                title: delivery_detail.delivery.code, class: "font-blue sbold", target: "_blank" %><br>
+                            <% if can? :print, delivery_detail.delivery %>
+                                <%= qdelivery_link(delivery_detail.delivery) %>
+                            <% else %>
+                                <%= delivery_detail.delivery.code %>
+                            <% end %>
+                            <br>
                         <% end %>
                     <% end %>
                 </td>

@@ -56,11 +56,11 @@
                 <% if get_columns(params).include?("order_code") %>
                 <td>
                     <i class="fa fa-plus expand tr-expand-button"></i>
-                    <strong><%= link_to order.code, erp_orders.edit_backend_order_path(order), class: "font-yellow-gold sbold", target: "_blank", title: order.code %></strong>
+                    <span class="font-yellow-gold sbold"><%= order.code %></span>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("customer") %>
-                <td><%= order.supplier_name %></td>
+                <td><%= contact_link(order.supplier, order.supplier_name) %></td>
                 <% end %>
                 <% if get_columns(params).include?("quantity") %>
                 <td><strong><%= order.total_delivered_quantity %>/<%= order.items_count %></strong></td>
@@ -74,13 +74,7 @@
                 <% if get_columns(params).include?("status") %>
                 <td>
                     <%= status_label(order.status) %><br>
-                    <% if order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_NOT_DELIVERY %>
-                        <span class="label label-sm label-not-delivery"><%= t('.'+order.cache_delivery_status) %></span>
-                    <% elsif order.cache_delivery_status == Erp::Orders::Order::DELIVERY_STATUS_DELIVERED %>
-                        <span class="label label-sm label-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
-                    <% else %>
-                        <span class="label label-sm label-over-deliveried"><%= t('.'+order.cache_delivery_status) %></span>
-                    <% end %>
+                    <%= status_label(order.cache_delivery_status) %>
                 </td>
                 <% end %>
                 <% if get_columns(params).include?("creator") %>
@@ -101,7 +95,7 @@
     </tbody>
 </table>
 <% if @orders.empty? %>
-    <div class="datalist-empty-line"><%= t('.no_matching_records_found') %></div>
+    <div class="datalist-empty-line"><%= t('no_matching_records_found') %></div>
 <% end %>
 
 <%= erp_datalist_pagination(@orders) %>

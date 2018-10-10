@@ -291,11 +291,12 @@ module Erp::Qdeliveries
 			update_attributes(archived: false)
 		end
 
-    def status_delivered
+    def set_delivered
 			update_attributes(status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED)
+      self.update_confirmed_at # update confirmed at if set delivered for delivery
 		end
 
-    def status_deleted
+    def set_deleted
 			update_attributes(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
 
@@ -307,11 +308,11 @@ module Erp::Qdeliveries
 			update_all(archived: false)
 		end
 
-    def self.status_delivered_all
+    def self.set_delivered_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED)
 		end
 
-    def self.status_deleted_all
+    def self.set_deleted_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
     
@@ -728,6 +729,45 @@ module Erp::Qdeliveries
         end
       end
       return order_id.nil? ? nil : Erp::Orders::Order.find(order_id)
+    end
+    
+    # update confirmed at
+    def update_confirmed_at
+      self.update_columns(confirmed_at: Time.now)
+    end
+    
+    # check delivery type: true/false
+    def is_sales_export?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT
+    end
+    
+    def is_sales_import?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
+    end
+    
+    def is_purchase_import?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT
+    end
+    
+    def is_purchase_export?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
+    end
+    
+    def is_custom_import?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT
+    end
+    
+    def is_custom_export?
+      return self.delivery_type == Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
+    end
+    
+    # check payment for: true/false
+    def payment_for_order?
+      return self.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_ORDER
+    end
+    
+    def payment_for_contact?
+      return self.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT
     end
   end
 end

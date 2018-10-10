@@ -44,20 +44,25 @@
     </thead>
     <tbody>
         <% @deliveries.each do |delivery| %>
-            <tr class="odd gradeX has-child-table" data-url="<%= erp_qdeliveries.delivery_details_backend_deliveries_path(id: delivery.id) %>">
+            <tr class="<%= 'blurred' if delivery.is_deleted? %> odd gradeX has-child-table"
+                data-url="<%= erp_qdeliveries.delivery_details_backend_deliveries_path(id: delivery.id) %>">
                 <td>
                     <%= erp_datalist_check_row(id: delivery.id) %>
                 </td>
                 <% if get_columns(params).include?("code") %>
                     <td>
                         <i class="fa fa-plus expand tr-expand-button"></i>
-                        <span class="font-yellow-gold sbold"><%= delivery.code %></span>
+                        <span class="<%= 'font-yellow-gold' if !delivery.is_deleted? %> sbold"><%= delivery.code %></span>
                     </td>
                 <% end %>
                 <% if get_columns(params).include?("related_orders") %>
                     <td>
                         <% if delivery.get_related_order.present? %>
-                            <%= order_link(delivery.get_related_order) %>
+                            <% if can? :print, delivery.get_related_order %>
+                                <%= order_link(delivery.get_related_order) %>
+                            <% else %>
+                                <%= delivery.get_related_order.code %>
+                            <% end %>
                         <% end %>
                     </td>
                 <% end %>

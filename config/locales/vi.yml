@@ -43,6 +43,9 @@ vi:
             not_delivery: "Chưa giao xong"
             delivered: "Đã giao xong"
             over_delivered: "Giao bị dư"
+            stock_checking: "Đang chờ kiểm tra"
+            stock_checked: "Đã kiểm tra hàng"
+            stock_approved: "Đã duyệt đủ hàng"
             view: "Xem chi tiết"
             warehouse: "Kho xuất bán"
           sales_order_details:
@@ -51,7 +54,7 @@ vi:
             sales_order_details: "Chi tiết mua hàng"
             deliveries_order_details: "Chi tiết giao hàng"
             product_code: "Mã sản phẩm"
-            product_name: "Tên sản phẩm"
+            product_name: "Tên sản phẩm/hàng hóa"
             product_type: "Loại hàng"
             unit: "ĐVT"
             ordered_quantity: "SL đặt"
@@ -87,12 +90,13 @@ vi:
             purchases_order_details: "Chi tiết mua hàng"
             deliveries_order_details: "Chi tiết giao hàng"
             product_code: "Mã sản phẩm"
-            product_name: "Tên sản phẩm"
-            product_type: "Loại sản phẩm"
-            ordered_quantity: "Số lượng đặt"
-            deliveried_quantity: "Số lượng đã giao"
-            remain_quantity: "Số lượng còn lại"
-            deliveries: "Mã phiếu giao hàng"            
+            product_name: "Tên sản phẩm/hàng hóa"
+            product_type: "Loại hàng"
+            unit: "ĐVT"
+            ordered_quantity: "SL đặt"
+            deliveried_quantity: "SL đã giao"
+            remain_quantity: "SL chưa giao"
+            deliveries: "Ch.từ liên quan"
           purchases_orders_listing:
             order_code: "Mã đơn hàng"
             order_date: "Ngày đặt hàng"
@@ -105,6 +109,9 @@ vi:
             not_delivery: "Chưa giao xong"
             delivered: "Đã giao xong"
             over_delivered: "Giao bị dư"
+            stock_checking: "Đang chờ kiểm tra"
+            stock_checked: "Đã kiểm tra hàng"
+            stock_approved: "Đã duyệt đủ hàng"
             view: "Xem chi tiết"
             warehouse: "Kho nhập hàng"
         deliveries:
@@ -124,13 +131,13 @@ vi:
             success: "Ẩn xuất/nhập kho được chọn thành công."
           unarchive_all:
             success: "Hiện xuất/nhập kho được chọn thành công."
-          status_delivered:
+          set_delivered:
             success: "Phiếu đã được giao thành công."
-          status_deleted:
+          set_deleted:
             success: "Phiếu đã được hủy."
-          status_delivered_all:
+          set_delivered_all:
             success: "Phiếu được chọn đã giao thành công."
-          status_deleted_all:
+          set_deleted_all:
             success: "Phiếu được chọn đã hủy thành công."
           index:
             create_export: "Tạo phiếu xuất kho"
@@ -143,7 +150,7 @@ vi:
             custom_import: "Nhập kho tùy chỉnh"
             deliveries: "Nhập - xuất kho"
             is_delivered: "Đã xác nhận"
-            is_deleted: "Đã xóa"
+            is_deleted: "Đã bị hủy"
             code: "Mã phiếu xuất/nhập"
             related_orders: "Chứng từ liên quan"
             customer_supplier: "Khách hàng/Nhà cung cấp"
@@ -163,7 +170,7 @@ vi:
             delivery_date: "Ngày chứng từ"
             delivery_type: "Loại phiếu"
             delivered: "Đã xác nhận"
-            deleted: "Đã xóa"
+            deleted: "Đã bị hủy"
             view_print: "Xem và In"
             edit: "Chỉnh sửa"
             set_delivered: "Xác nhận"

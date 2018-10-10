@@ -1,22 +1,26 @@
 <table class="table table-bordered table-striped flip-content table-child-content">
     <thead class="flip-content">
         <tr>
-            <th width="15%" class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Mã giao hàng</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Thời gian</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-left">Chg.từ liên quan</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">SL đặt</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">SL giao</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">Kho xuất</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">Tình trạng</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">Số lô/Sê-ri</th>
-            <th class="bg-green-jungle bg-font-green-jungle text-nowrap text-center">Ghi chú</th>
+            <th width="15%" class="bg-green-dark bg-font-green-dark text-nowrap text-left">Mã giao hàng</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-left">Thời gian</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-left">Chg.từ liên quan</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">SL đặt</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">SL giao</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">Kho xuất</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">Tình trạng</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">Số lô/Sê-ri</th>
+            <th class="bg-green-dark bg-font-green-dark text-nowrap text-center">Ghi chú</th>
         </tr>
     </thead>
     <tbody>
         <% @order_detail.delivered_delivery_details.each do |delivery_detail| %>
             <tr>
                 <td width="15%" class="text-left">
-                  <%= link_to qdelivery_link(delivery_detail.delivery) %>
+                    <% if can? :print, delivery_detail.delivery %>
+                        <%= link_to qdelivery_link(delivery_detail.delivery) %>
+                    <% else %>
+                        <%= delivery_detail.delivery.present? ? delivery_detail.delivery.code : '' %>
+                    <% end %>
                 </td>
                 <td class="text-left">
                     <%= format_date(delivery_detail.delivery.date) %>
@@ -25,7 +29,11 @@
                     <% if delivery_detail.order_detail_id.nil? %>
                         Không chứng từ
                     <% else %>
-                        <%= order_link(delivery_detail.get_order) %>
+                        <% if can? :print, delivery_detail.get_order %>
+                            <%= order_link(delivery_detail.get_order) %>
+                        <% else %>
+                            <%= delivery_detail.get_order_code %>
+                        <% end %>
                     <% end %>
                 </td>
                 <td class="numeric text-center">

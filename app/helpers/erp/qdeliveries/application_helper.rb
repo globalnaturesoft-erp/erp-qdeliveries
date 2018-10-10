@@ -17,16 +17,20 @@ module Erp
         
         actions << {
           text: '<i class="fa fa-trash"></i> '+t('.set_delivered'),
-          url: erp_qdeliveries.status_delivered_backend_deliveries_path(id: delivery),
+          url: erp_qdeliveries.set_delivered_backend_deliveries_path(id: delivery),
           data_method: 'PUT',
           class: 'ajax-link'
         } if can? :set_delivered, delivery
         
-        actions << { divider: true } if can? :set_deleted, delivery
+        if can? :set_deleted, delivery
+          if (can? :print, delivery) or (can? :update, delivery) or (can? :set_delivered, delivery)
+            actions << { divider: true }
+          end
+        end
         
         actions << {
           text: '<i class="fa fa-trash"></i> '+t('.set_deleted'),
-          url: erp_qdeliveries.status_deleted_backend_deliveries_path(id: delivery),
+          url: erp_qdeliveries.set_deleted_backend_deliveries_path(id: delivery),
           data_method: 'PUT',
           class: 'ajax-link',
           data_confirm: t('delete_confirm')
@@ -59,15 +63,19 @@ module Erp
           class: 'modal-link'
         } if can? :update_tam_thoi_an_khong_cho_nvkho_su_dung, order
         
-        actions << { divider: true }  if ((can? :sales_export, order) or (can? :purchase_import, order))
+        if (can? :sales_export, order) or (can? :purchase_import, order)
+          if (can? :print, order) or (can? :xlsx_export, order)
+            actions << { divider: true }
+          end
+        end
         
         actions << {
-          text: '<i class="icon-action-redo"></i> Xuất kho',
+          text: '<i class="fa fa-upload"></i> Xuất kho',
           url: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT, order_id: order.id),
         } if can? :sales_export, order
         
         actions << {
-          text: '<i class="icon-action-redo"></i> Nhập kho',
+          text: '<i class="fa fa-download"></i> Nhập kho',
           url: erp_qdeliveries.new_backend_delivery_path(delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, order_id: order.id),
         } if can? :purchase_import, order
         

@@ -1,44 +1,54 @@
 <table class="table table-bordered table-striped flip-content table-child-content">
-  <thead class="flip-content">
-      <tr>
-          <th width="15%" class="bg-yellow bg-font-yellow text-nowrap text-left">Phiếu giao hàng</th>
-          <th class="bg-yellow bg-font-yellow text-nowrap text-left">Chứng từ</th>
-          <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng đặt</th>
-          <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lượng giao</th>
-          <th class="bg-yellow bg-font-yellow text-nowrap">Tình trạng</th>
-          <th class="bg-yellow bg-font-yellow text-nowrap">Kho</th>
-      </tr>
-  </thead>
-  <tbody>
-      <% @order_detail.delivered_delivery_details.each do |delivery_detail| %>
-          <tr>
-              <td width="15%" class="text-left">
-                <%= link_to delivery_detail.get_delivery_code,
-                            erp_qdeliveries.backend_delivery_path(delivery_detail.delivery),
-                            target: "_blank", title: delivery_detail.get_delivery_code,
-                            class: "font-blue sbold" %>
-              </td>
-              <td class="text-left">
-                <% if delivery_detail.order_detail_id.nil? %>
-                    Không chứng từ
-                <% else %>
-                    <%= link_to delivery_detail.get_order_code,
-                                erp_orders.backend_order_path(delivery_detail.get_order),
-                                target: "_blank", title: delivery_detail.get_order_code,
-                                class: "font-red-thunderbird sbold" %>
-                <% end %>
-              </td>
-              <td class="numeric text-center">
-                <% if delivery_detail.order_detail_id.nil? %>
-                    Không chứng từ
-                <% else %>
-                    <strong><%= delivery_detail.ordered_quantity %></strong>
-                <% end %>
-              </td>
-              <td class="numeric text-center"><strong><%= delivery_detail.quantity %></strong></td>
-              <td><%= delivery_detail.state_name %></td>
-              <td><%= delivery_detail.warehouse_name %></td>
-          </tr>
-      <% end %>
-  </tbody>
+    <thead class="flip-content">
+        <tr>
+            <th width="15%" class="bg-yellow bg-font-yellow text-nowrap text-left">Mã giao hàng</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-left">Thời gian</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-left">Chg.từ liên quan</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL đặt</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">SL giao</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Kho nhập</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Tình trạng</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Số lô/Sê-ri</th>
+            <th class="bg-yellow bg-font-yellow text-nowrap text-center">Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @order_detail.delivered_delivery_details.each do |delivery_detail| %>
+            <tr>
+                <td width="15%" class="text-left">
+                    <% if can? :print, delivery_detail.delivery %>
+                        <%= link_to qdelivery_link(delivery_detail.delivery) %>
+                    <% else %>
+                        <%= delivery_detail.get_delivery_code %>
+                    <% end %>
+                </td>
+                <td class="text-left">
+                    <%= format_date(delivery_detail.delivery.date) %>
+                </td>
+                <td class="font-red-thunderbird text-left">
+                    <% if delivery_detail.order_detail_id.nil? %>
+                        Không chứng từ
+                    <% else %>
+                        <% if can? :print, delivery_detail.get_order %>
+                            <%= order_link(delivery_detail.get_order) %>
+                        <% else %>
+                            <%= delivery_detail.get_order_code %>
+                        <% end %>
+                    <% end %>
+                </td>
+                <td class="numeric text-center">
+                    <% if delivery_detail.order_detail_id.nil? %>
+                        Không chứng từ
+                    <% else %>
+                        <%= delivery_detail.ordered_quantity %>
+                    <% end %>
+                </td>
+                <td class="numeric text-center"><%= delivery_detail.quantity %></td>
+                <td><%= delivery_detail.warehouse_name %></td>
+                <td><%= delivery_detail.state_name %></td>
+                <td><%= delivery_detail.serials %></td>
+                <td><%= delivery_detail.note %></td>
+            </tr>
+        <% end %>
+    </tbody>
 </table>

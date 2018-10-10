@@ -13,60 +13,79 @@
     <!-- create export -->
     <%=
         actions = []
+        
         actions << {
             text: t('.sales_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT
             )
-        }
+        } if can? :inventory_qdeliveries_sales_export_create, nil
+        
         actions << {
             text: t('.purchase_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT
             )
-        }
-        actions << {divider: true}
+        } if can? :inventory_qdeliveries_purchase_export_create, nil
+        
+        if can? :inventory_qdeliveries_custom_export_create, nil
+            if (can? :inventory_qdeliveries_sales_export_create, nil) or (can? :inventory_qdeliveries_purchase_export_create, nil)
+                actions << { divider: true }
+            end
+        end
+        
         actions << {
             text: t('.custom_export'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOM_EXPORT
             )
-        }
+        } if can? :inventory_qdeliveries_custom_export_create, nil
+        
         erp_component('button/actions', {
-        actions: actions,
-        text: t('.create_export'),
-        class: 'btn-noborder btn-sm',
-        icon: 'glyphicon glyphicon-export'
-    }) %>
+            actions: actions,
+            text: t('.create_export'),
+            class: 'btn-noborder btn-sm',
+            icon: 'glyphicon glyphicon-export'
+        }) if !actions.empty?
+    %>
     
     <!-- create import -->
     <%=
         actions = []
+        
         actions << {
             text: t('.sales_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT
             )
-        }
+        } if can? :inventory_qdeliveries_sales_import_create, nil
+        
         actions << {
             text: t('.purchase_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT
             )
-        }
-        actions << {divider: true}
+        } if can? :inventory_qdeliveries_purchase_import_create, nil
+        
+        if can? :inventory_qdeliveries_custom_import_create, nil
+            if (can? :inventory_qdeliveries_sales_import_create, nil) or (can? :inventory_qdeliveries_purchase_import_create, nil)
+                actions << { divider: true }
+            end
+        end
+        
         actions << {
             text: t('.custom_import'),
             url: erp_qdeliveries.new_backend_delivery_path(
                 delivery_type: Erp::Qdeliveries::Delivery::TYPE_CUSTOM_IMPORT
             )
-        }
+        } if can? :inventory_qdeliveries_custom_import_create, nil
+        
         erp_component('button/actions', {
             actions: actions,
             text: t('.create_import'),
             class: 'btn-noborder btn-sm',
             icon: 'glyphicon glyphicon-import'
-        })
+        }) if !actions.empty?
     %>
     
 <% end %>

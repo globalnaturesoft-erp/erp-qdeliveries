@@ -4,10 +4,17 @@ module Erp
       class SalesController < Erp::Backend::BackendController
 
         def sales_orders
+          if Erp::Core.available?("ortho_k")
+            authorize! :inventory_qdeliveries_orders_sales_orders, nil
+          end
         end
 
         # POST /orders/list
         def sales_orders_listing
+          if Erp::Core.available?("ortho_k")
+            authorize! :inventory_qdeliveries_orders_sales_orders, nil
+          end
+          
           @orders = Erp::Orders::Order.sales_orders.search(params).paginate(:page => params[:page], :per_page => 50)
 
           if params.to_unsafe_hash[:global_filter].present? and params.to_unsafe_hash[:global_filter][:order_from_date].present?

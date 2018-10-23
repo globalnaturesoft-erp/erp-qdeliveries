@@ -123,6 +123,7 @@ module Erp
             # udpate cache
             @delivery.save
             @delivery.update_cache_total
+            @delivery.order_update_cache_delivery_status
 
             if request.xhr?
               render json: {
@@ -153,6 +154,7 @@ module Erp
             
             # udpate cache
             @delivery.update_cache_total
+            @delivery.order_update_cache_delivery_status
 
             if request.xhr?
               render json: {

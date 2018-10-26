@@ -123,6 +123,9 @@ module Erp
             # udpate cache
             @delivery.save
             @delivery.update_cache_total
+            @delivery.delivery_details.each do |dd|
+              dd.update_order_detail_cache_delivery_status
+            end
             @delivery.order_update_cache_delivery_status
 
             if request.xhr?
@@ -160,6 +163,9 @@ module Erp
             
             # udpate cache
             @delivery.update_cache_total
+            @delivery.delivery_details.each do |dd|
+              dd.update_order_detail_cache_delivery_status
+            end
             @delivery.order_update_cache_delivery_status
             
             # update cache for old contact

@@ -148,6 +148,12 @@ module Erp
         def update
           authorize! :update, @delivery
           
+          # store old contact for updating cache
+          prev_customer = nil
+          prev_supplier = nil
+          prev_customer = @delivery.customer if @delivery.is_sales_import? #hang ban bi tra lai
+          prev_supplier = @delivery.supplier if @delivery.is_purchase_export? #hang mua tra lai cho ncc
+          
           if @delivery.update(delivery_params)
             # destroy detals not in form
             @delivery.update_details(params.to_unsafe_hash[:details])
@@ -155,6 +161,10 @@ module Erp
             # udpate cache
             @delivery.update_cache_total
             @delivery.order_update_cache_delivery_status
+            
+            # update cache for old contact
+            prev_customer.update_cache_sales_debt_amount if (prev_customer.present? and @delivery.customer != prev_customer)
+            prev_supplier.update_cache_purchase_debt_amount if (prev_supplier.present? and @delivery.supplier != prev_supplier)
 
             if request.xhr?
               render json: {

@@ -223,9 +223,10 @@
     </div>
     <br>
     <%= erp_component('button/save', {
-        text: t('submit')
+        text: t('submit'),
+        class: 'one_click_btn'
     }) %>
-    <input type="submit" name="save_print" value="LƯU & IN PHIẾU" class="btn green-seagreen" />
+    <input type="submit" name="save_print" value="LƯU & IN PHIẾU" class="btn green-seagreen one_click_btn" />
     <%= erp_component('button/cancel', {
         text: t('cancel'),
         href: erp_qdeliveries.backend_deliveries_path

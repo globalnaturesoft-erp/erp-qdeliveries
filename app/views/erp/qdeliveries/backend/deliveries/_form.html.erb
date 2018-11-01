@@ -1,5 +1,12 @@
 <%= form_for([erp_qdeliveries, :backend, delivery], html: {multipart: true}) do |f| %>
     <input type="hidden" name="delivery[delivery_type]" value="<%= delivery.delivery_type %>">
+    
+    <% if delivery.errors.full_messages_for(:delivery_details).present? %>
+        <span class="help-block alert">
+            <%= delivery.errors.full_messages_for(:delivery_details).join('').html_safe %>
+        </span>
+    <% end %>
+    
     <div class="form-body">
         <div class="row mb-10">
             <div class="col-md-12">

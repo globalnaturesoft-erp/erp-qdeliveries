@@ -769,5 +769,10 @@ module Erp::Qdeliveries
     def payment_for_contact?
       return self.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT
     end
+    
+    validate :must_have_delivery_details
+    def must_have_delivery_details
+      errors.add(:delivery_details, :message_must_have_delivery_details) if delivery_details.empty?
+    end
   end
 end

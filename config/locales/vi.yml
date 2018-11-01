@@ -318,10 +318,13 @@ vi:
               blank: "không được để trống"
             employee_id:
               blank:  "không được để trống"
+            delivery_details:
+              message_must_have_delivery_details: "bắt buộc không được để trống."
     attributes:
       erp/qdeliveries/delivery:
         code: "Mã phiếu"
         date: "Ngày tạo phiếu"
         contact_id: "Khách hàng"
         supplier_id: "Đơn vị cung cấp"
-        employee_id: "Nhân viên phụ trách"        
+        employee_id: "Nhân viên phụ trách"
+        delivery_details: "Chi tiết phiếu xuất/nhập"

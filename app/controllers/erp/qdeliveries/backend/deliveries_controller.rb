@@ -116,10 +116,10 @@ module Erp
           @delivery.delivery_type = params[:delivery][:delivery_type]
           
           authorize! :create, @delivery
-
+          
+          @delivery.update_details(params.to_unsafe_hash[:details])
+          
           if @delivery.save
-            @delivery.update_details(params.to_unsafe_hash[:details])
-
             # udpate cache
             @delivery.save
             @delivery.update_cache_total

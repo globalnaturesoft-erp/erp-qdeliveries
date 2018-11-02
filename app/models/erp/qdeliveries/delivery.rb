@@ -384,7 +384,7 @@ module Erp::Qdeliveries
               patient_state_id: data["patient_state_id"],
             )
           elsif !data["id"].present? and data["_destroy"] != 'true'
-            self.delivery_details.create(
+            self.delivery_details.build(
               order_detail_id: data["order_detail_id"],
               quantity: data["quantity"],
               state_id: data["state_id"],

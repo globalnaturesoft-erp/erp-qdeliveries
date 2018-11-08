@@ -772,7 +772,7 @@ module Erp::Qdeliveries
     
     validate :must_have_delivery_details
     def must_have_delivery_details
-      errors.add(:delivery_details, :message_must_have_delivery_details) if delivery_details.empty?
+      #errors.add(:delivery_details, :message_must_have_delivery_details) if delivery_details.empty?
     end
   end
 end

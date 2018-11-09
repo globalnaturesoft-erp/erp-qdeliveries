@@ -257,6 +257,9 @@ module Erp::Qdeliveries
 			if !self.get_related_order.nil?
         str << get_related_order.code.to_s.downcase.strip
       end
+			delivery_details.each do |dd|
+        str << dd.product_name.to_s.downcase.strip
+			end
 
 			self.update_column(:cache_search, str.join(" ") + " " + str.join(" ").to_ascii)
 		end

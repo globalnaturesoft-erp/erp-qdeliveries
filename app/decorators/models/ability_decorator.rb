@@ -102,7 +102,7 @@ Erp::Ability.class_eval do
     end
 
     can :set_delivered, Erp::Qdeliveries::Delivery do |delivery|
-      delivery.is_deleted? and
+      (!delivery.is_deleted? and !delivery.is_delivered?) and
       (
         (delivery.is_sales_export? and true) or
         (delivery.is_sales_import? and true) or

@@ -359,7 +359,7 @@ module Erp::Qdeliveries
       end
     end
 
-    def update_details(details)
+    def build_details(details)
       return false if !details.present?
 
       details.each do |row|
@@ -385,6 +385,51 @@ module Erp::Qdeliveries
             )
           elsif !data["id"].present? and data["_destroy"] != 'true'
             self.delivery_details.build(
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+              discount_amount: data["discount_amount"],
+              discount_percent: data["discount_percent"],
+              tax_id: data["tax_id"],
+              serials: data["serials"],
+              note: data["note"],
+              patient_id: data["patient_id"],
+              patient_state_id: data["patient_state_id"],
+            )
+          end
+        end
+      end
+    end
+    
+    def update_details(details)
+      return false if !details.present?
+
+      details.each do |row|
+        data = row[1]
+        if data['_ignore'] != 'true'
+          if data["id"].present? and data["_destroy"].present?
+            self.delivery_details.find(data["id"]).destroy
+          elsif data["id"].present?
+            self.delivery_details.find(data["id"]).update(
+              order_detail_id: data["order_detail_id"],
+              quantity: data["quantity"],
+              state_id: data["state_id"],
+              warehouse_id: data["warehouse_id"],
+              product_id: data["product_id"],
+              price: data["price"],
+              discount_amount: data["discount_amount"],
+              discount_percent: data["discount_percent"],
+              tax_id: data["tax_id"],
+              serials: data["serials"],
+              note: data["note"],
+              patient_id: data["patient_id"],
+              patient_state_id: data["patient_state_id"],
+            )
+          elsif !data["id"].present? and data["_destroy"] != 'true'
+            self.delivery_details.create(
               order_detail_id: data["order_detail_id"],
               quantity: data["quantity"],
               state_id: data["state_id"],
@@ -770,9 +815,9 @@ module Erp::Qdeliveries
       return self.payment_for == Erp::Qdeliveries::Delivery::PAYMENT_FOR_CONTACT
     end
     
-    validate :must_have_delivery_details
+    validate :must_have_delivery_details, :on => :create
     def must_have_delivery_details
-      #errors.add(:delivery_details, :message_must_have_delivery_details) if delivery_details.empty?
+      errors.add(:delivery_details, :message_must_have_delivery_details) if delivery_details.empty?
     end
   end
 end

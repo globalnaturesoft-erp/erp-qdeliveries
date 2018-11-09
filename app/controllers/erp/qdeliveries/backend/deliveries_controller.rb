@@ -117,7 +117,7 @@ module Erp
           
           authorize! :create, @delivery
           
-          @delivery.update_details(params.to_unsafe_hash[:details])
+          @delivery.build_details(params.to_unsafe_hash[:details])
           
           if @delivery.save
             # udpate cache

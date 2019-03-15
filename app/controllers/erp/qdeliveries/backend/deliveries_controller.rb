@@ -347,7 +347,7 @@ module Erp
         def xlsx
           respond_to do |format|
             format.xlsx {
-              response.headers['Content-Disposition'] = "attachment; filename='Phieu xuat nhap #{@delivery.code}.xlsx'"
+              response.headers['Content-Disposition'] = "attachment; filename=\"Phieu xuat nhap #{@delivery.code}.xlsx\""
             }
           end
         end

@@ -19,7 +19,21 @@ module Erp
             authorize! :inventory_qdeliveries_deliveries_index, nil
           end
           
-          @deliveries = Delivery.search(params).paginate(:page => params[:page], :per_page => 20)
+          @deliveries = Delivery.search(params)
+          
+          if Erp::Core.available?("ortho_k")
+            # nhan vien kinh doanh co the xem danh sach cua tat ca nhan vien kinh doanh
+            if can? :inventory_qdeliveries_deliveries_list_all, nil
+              @deliveries = @deliveries
+            end
+            
+            # nhan vien kinh doanh nao chi xem duoc danh sach cua nhan vien kinh doanh do
+            if can? :inventory_qdeliveries_deliveries_list_own, nil
+              @deliveries = @deliveries.where(employee_id: current_user.id)
+            end
+          end
+          
+          @deliveries = @deliveries.paginate(:page => params[:page], :per_page => 20)
 
           render layout: nil
         end

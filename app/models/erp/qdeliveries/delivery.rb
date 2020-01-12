@@ -13,6 +13,7 @@ module Erp::Qdeliveries
     # class const
     TYPE_IMPORT = 'import'
     TYPE_EXPORT = 'export'
+    STATUS_PENDING = 'pending'
     STATUS_DELIVERED = 'delivered'
     STATUS_DELETED = 'deleted'
 
@@ -294,6 +295,10 @@ module Erp::Qdeliveries
 			update_attributes(archived: false)
 		end
 
+    def set_pending
+			update_attributes(status: Erp::Qdeliveries::Delivery::STATUS_PENDING)
+		end
+
     def set_delivered
 			update_attributes(status: Erp::Qdeliveries::Delivery::STATUS_DELIVERED)
       self.update_confirmed_at # update confirmed at if set delivered for delivery
@@ -318,6 +323,11 @@ module Erp::Qdeliveries
     def self.set_deleted_all
 			update_all(status: Erp::Qdeliveries::Delivery::STATUS_DELETED)
 		end
+    
+    # check if status if pending
+    def is_pending?
+      return self.status == Erp::Qdeliveries::Delivery::STATUS_PENDING
+    end
     
     # check if status if delivered
     def is_delivered?

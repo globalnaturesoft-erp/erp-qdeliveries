@@ -134,6 +134,9 @@ module Erp
           @delivery.build_details(params.to_unsafe_hash[:details])
           
           if @delivery.save
+            # Set status is pending (delivery_type: Hoàn Kho)
+            @delivery.set_pending if @delivery.sales_import?
+            
             # udpate cache
             @delivery.save
             @delivery.update_cache_total

@@ -16,7 +16,7 @@ module Erp
         } if can? :update, delivery
         
         actions << {
-          text: '<i class="fa fa-trash"></i> '+t('.set_delivered'),
+          text: '<i class="fa fa-check-circle"></i> '+t('.set_delivered'),
           url: erp_qdeliveries.set_delivered_backend_deliveries_path(id: delivery),
           data_method: 'PUT',
           class: 'ajax-link'

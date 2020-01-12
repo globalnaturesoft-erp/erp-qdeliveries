@@ -102,14 +102,15 @@ Erp::Ability.class_eval do
     end
 
     can :set_delivered, Erp::Qdeliveries::Delivery do |delivery|
-      (!delivery.is_deleted? and !delivery.is_delivered?) and
+      delivery.is_pending? and
       (
-        (delivery.is_sales_export? and true) or
-        (delivery.is_sales_import? and true) or
-        (delivery.is_purchase_import? and true) or
-        (delivery.is_purchase_export? and true) or
-        (delivery.is_custom_import? and true) or
-        (delivery.is_custom_export? and true)
+        #(delivery.is_sales_export? and user.get_permission(:inventory, :qdeliveries, :sales_export, :approve) == 'yes') or
+        (delivery.is_sales_import? and user.get_permission(:inventory, :qdeliveries, :sales_import, :approve) == 'yes')
+        #or
+        #(delivery.is_purchase_import? and user.get_permission(:inventory, :qdeliveries, :purchase_import, :approve) == 'yes') or
+        #(delivery.is_purchase_export? and user.get_permission(:inventory, :qdeliveries, :purchase_export, :approve) == 'yes') or
+        #(delivery.is_custom_import? and user.get_permission(:inventory, :qdeliveries, :custom_import, :approve) == 'yes') or
+        #(delivery.is_custom_export? and user.get_permission(:inventory, :qdeliveries, :custom_export, :approve) == 'yes')
       )
     end
 

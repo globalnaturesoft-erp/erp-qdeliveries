@@ -147,6 +147,9 @@
     ],
     filters: [
         {
+            text: t('.is_pending'), name: 'erp_qdeliveries_deliveries.status', value: Erp::Qdeliveries::Delivery::STATUS_PENDING, checked: true
+        },
+        {
             text: t('.is_delivered'), name: 'erp_qdeliveries_deliveries.status', value: Erp::Qdeliveries::Delivery::STATUS_DELIVERED, checked: true
         },
         {

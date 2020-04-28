@@ -120,7 +120,14 @@
                 name: 'customer_id',
                 label: 'Khách hàng',
                 placeholder: 'Tìm theo khách hàng',
-                url: erp_contacts.dataselect_backend_contacts_path(format: 'json')
+                url: erp_contacts.dataselect_backend_contacts_path(format: 'json', is_customer: true,
+                    contact_group_id: [Erp::Contacts::ContactGroup::GROUP_HOSPITAL,
+                    Erp::Contacts::ContactGroup::GROUP_COMPANY,
+                    Erp::Contacts::ContactGroup::GROUP_CLINIC,
+                    Erp::Contacts::ContactGroup::GROUP_PHARMACY,
+                    Erp::Contacts::ContactGroup::GROUP_RETAIL_CUSTOMER,
+                    Erp::Contacts::ContactGroup::GROUP_STAFF]
+                )
             }) %>
         </div>
         <div class="col-md-3">
@@ -128,7 +135,14 @@
                 name: 'supplier_id',
                 label: 'Nhà cung cấp',
                 placeholder: 'Tìm theo nhà cung cấp',
-                url: erp_contacts.dataselect_backend_contacts_path(format: 'json')
+                url: erp_contacts.dataselect_backend_contacts_path(format: 'json', is_supplier: true,
+                    contact_group_id: [Erp::Contacts::ContactGroup::GROUP_HOSPITAL,
+                    Erp::Contacts::ContactGroup::GROUP_COMPANY,
+                    Erp::Contacts::ContactGroup::GROUP_CLINIC,
+                    Erp::Contacts::ContactGroup::GROUP_PHARMACY,
+                    Erp::Contacts::ContactGroup::GROUP_RETAIL_CUSTOMER,
+                    Erp::Contacts::ContactGroup::GROUP_STAFF]
+                )
             }) %>
         </div>
     </div>

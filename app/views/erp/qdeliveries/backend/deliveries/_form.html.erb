@@ -52,7 +52,14 @@
                                     text: delivery.customer_name,
                                     placeholder: t('.choose_customer'),
                                     label: t('.customer'),
-                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json'),
+                                    url: erp_contacts.dataselect_backend_contacts_path(format: 'json', is_customer: true,
+                                        contact_group_id: [Erp::Contacts::ContactGroup::GROUP_HOSPITAL,
+                                        Erp::Contacts::ContactGroup::GROUP_COMPANY,
+                                        Erp::Contacts::ContactGroup::GROUP_CLINIC,
+                                        Erp::Contacts::ContactGroup::GROUP_PHARMACY,
+                                        Erp::Contacts::ContactGroup::GROUP_RETAIL_CUSTOMER,
+                                        Erp::Contacts::ContactGroup::GROUP_STAFF]
+                                    ),
                                     create: {
                                         url: erp_contacts.new_backend_contact_path,
                                         title: t('.create_customer'),

@@ -67,7 +67,12 @@ module Erp::Qdeliveries
 
       if order_detail_id.present?
         if [Erp::Qdeliveries::Delivery::TYPE_SALES_IMPORT, Erp::Qdeliveries::Delivery::TYPE_PURCHASE_EXPORT].include?(delivery.delivery_type)
-          max = self.id.nil? ? order_detail.delivered_quantity : order_detail.delivered_quantity + DeliveryDetail.find(self.id).quantity
+          # max = self.id.nil? ? order_detail.virtual_delivered_quantity : order_detail.virtual_delivered_quantity + DeliveryDetail.find(self.id).quantity
+          max = if self.id.nil? # Luc tao moi
+            order_detail.virtual_delivered_quantity
+          else # Luc edit
+            order_detail.virtual_delivered_quantity + DeliveryDetail.find(self.id).quantity
+          end
         elsif [Erp::Qdeliveries::Delivery::TYPE_PURCHASE_IMPORT, Erp::Qdeliveries::Delivery::TYPE_SALES_EXPORT].include?(delivery.delivery_type)
           max = self.id.nil? ? order_detail.not_delivered_quantity : order_detail.not_delivered_quantity + DeliveryDetail.find(self.id).quantity
         end

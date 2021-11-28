@@ -123,7 +123,8 @@
                 <% if !delivery_detail.order_detail.id.nil? and delivery_detail.order_detail.order_id.to_s != '-1' and delivery_detail.id.nil? %>
                     <% if max_quantity < 1 %>
                         <div class="form-group">
-                            <input type="text" readonly style="width: 100%" placeholder="Hết hàng" class="bg-danger form-control required" />
+                            <input type="text" readonly style="width: 100%" placeholder="Not available!" class="bg-danger form-control required" />
+                            <span class="font-red text-small"><small> <abbr style="border:none" title="Có vẻ như hàng chưa xuất hoặc đã hoàn lại đủ SL. Hãy kiểm tra lại chứng từ và kho liên quan.">Rê chuột xem chi tiết</abbr></small></span>
                         </div>
                     <% else %>
                         <%= erp_form_control("select", {

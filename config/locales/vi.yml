@@ -315,6 +315,7 @@ vi:
           attributes:
             code:
               blank: "không được để trống"
+              taken: "đã tồn tại, vui lòng cung cấp một mã khác"
             date:
               blank: "không được để trống"
             contact_id:
